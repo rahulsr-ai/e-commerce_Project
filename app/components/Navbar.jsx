@@ -19,8 +19,10 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { useAuth } from "@/context/Authcontext";
 
 const Navbar = () => {
+  const { user, setUser } = useAuth();
   const [Loading, setIsLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +65,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between  h-16">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center space-x-2">
-              <ShoppingBag className="text-[#fecb6b]" size={24} />
+              <ShoppingBag className="text-[#9747ff]" size={24} />
               <span className="text-white font-bold text-xl tracking-tight">
                 StoreX
               </span>
@@ -181,22 +183,24 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <Link href="/sign-in">
-                <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
-                  <User
-                    size={18}
-                    className="group-hover:scale-110 transition-transform duration-200"
-                  />
-                  Sign in
-                </button>
-              </Link>
-              <Link href="/sign-up">
-                <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
-                  Sign up
-                </button>
-              </Link>
-            </div>
+            {!user.token && (
+              <div className="hidden lg:flex items-center space-x-4">
+                <Link href="/sign-in">
+                  <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
+                    <User
+                      size={18}
+                      className="group-hover:scale-110 transition-transform duration-200"
+                    />
+                    Sign in
+                  </button>
+                </Link>
+                <Link href="/sign-up">
+                  <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+                    Sign up
+                  </button>
+                </Link>
+              </div>
+            )}
 
             {/* Mobile menu button */}
             <div className="lg:hidden">
@@ -235,13 +239,13 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Links */}
-            <a
-              href="#"
+            <Link
+              href="/"
               className="flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200"
             >
               {/* <Home size={18} /> */}
               <span>Home</span>
-            </a>
+            </Link>
 
             {/* Mobile Categories */}
             <div className="px-3 py-2">

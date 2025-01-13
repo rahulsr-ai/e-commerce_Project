@@ -33,7 +33,7 @@ export async function POST(req) {
     await newUser.save();
 
     return NextResponse.json(
-      { message: "User created successfully", user: newUser },
+      { message: "User created successfully", user: newUser, success: true },
       { status: 200 }
     );
 
