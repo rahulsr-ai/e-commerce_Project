@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -19,7 +20,7 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@/context/Authcontext";
+import { useAuth } from "../../context/Authcontext";
 
 const Navbar = () => {
   const { user, setUser } = useAuth();
@@ -36,7 +37,18 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+    useAuth();
   }, []);
+
+  function logout() {
+    setUser({
+      token: "",
+      user: {},
+    });
+  }
+
+  console.log("user details");
+  console.log(user);
 
   const categories = [
     { name: "Electronics", icon: <Laptop size={18} /> },
@@ -183,7 +195,7 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Auth Buttons */}
-            {!user.token && (
+            {!user.token ? (
               <div className="hidden lg:flex items-center space-x-4">
                 <Link href="/sign-in">
                   <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
@@ -200,6 +212,15 @@ const Navbar = () => {
                   </button>
                 </Link>
               </div>
+            ) : (
+              <Link href="/sign-in">
+                <button
+                  onClick={logout}
+                  className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                >
+                  LogOut
+                </button>
+              </Link>
             )}
 
             {/* Mobile menu button */}

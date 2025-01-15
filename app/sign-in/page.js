@@ -1,10 +1,12 @@
+// @ts-nocheck
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { Mail, Lock, User, ArrowRight, ShoppingBag } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/Authcontext";
+import { useAuth } from "../../context/Authcontext";
+
 import toast from "react-hot-toast";
 
 const SignIn = () => {
@@ -15,7 +17,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect((e) => {
+  useEffect(() => {
     setisLoading(true);
   }, []);
 

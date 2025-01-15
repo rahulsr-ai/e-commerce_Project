@@ -1,10 +1,9 @@
-"use server";
-
+//@ts-nocheck
 import User from "@/models/UserSchema";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { dbConnect } from "@/lib/db";
+import { dbConnect } from "../../../../lib/db.js";
 import { redirect } from "next/navigation";
 
 /// Sing in the User
@@ -43,7 +42,7 @@ export async function POST(req) {
 
     response.cookies.set("auth_token", token, {
       httpOnly: true, // Prevent client-side JavaScript access
-      secure: process.env.NODE_ENV === "production", // Only send cookies over HTTPS in production
+      secure: process.env.NODE_ENV !== "production", // Only send cookies over HTTPS in production
       sameSite: "Strict", // CSRF protection
       maxAge: 60 * 60 * 6, // Token expires in 6 hours (same as JWT expiration)
       path: "/", // Cookie available for the whole domain

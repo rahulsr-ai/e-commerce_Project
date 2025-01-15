@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Hero from "./components/Hero";
 
+
 const featuredProducts = [
   {
     id: 1,
@@ -98,6 +99,9 @@ const Landing = () => {
 
   useEffect(() => {
     setloading(true);
+
+    
+
   }, []);
   return (
     loading && (

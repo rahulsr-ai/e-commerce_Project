@@ -1,10 +1,13 @@
+//@ts-nocheck
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
-import { AuthProvider } from "@/context/Authcontext";
+import { AuthProvider } from "../context/Authcontext";
 import { Toaster } from "react-hot-toast";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

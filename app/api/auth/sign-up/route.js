@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { dbConnect } from "@/lib/db";
 import user from "@/models/UserSchema";
 import bcrypt from "bcryptjs";

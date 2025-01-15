@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 
 const { dbConnect } = require("@/lib/db");
 
