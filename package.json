@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.9.10",
+    "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",

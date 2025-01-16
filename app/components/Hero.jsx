@@ -66,7 +66,7 @@ const Hero = () => {
   };
 
   return ( loading &&
-    <div className="relative h-[85vh] mt-16 overflow-hidden  bg-gray-900">
+    <div className="relative h-[85vh] overflow-hidden  bg-gray-900">
       {/* Slides */}
       <div className="relative h-full ">
         {slides.map((slide, index) => (

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 // Define the User Schema
 const userSchema = new mongoose.Schema(
@@ -23,16 +23,20 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    clerkId: {
+      type: String,
+      unique: true, // Clerk ke unique ID ko store karne ke liye
+    },
     cart: [
       {
-        productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         quantity: { type: Number, default: 1 },
       },
     ],
     orders: [
       {
-        orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
-        status: { type: String, default: 'Pending' },
+        orderId: { type: mongoose.Schema.Types.ObjectId, ref: "Order" },
+        status: { type: String, default: "Pending" },
       },
     ],
   },
@@ -42,9 +46,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Export the User model, checking if it already exists
-const User = mongoose.models.user || mongoose.model('user', userSchema);
+const User = mongoose.models.user || mongoose.model("user", userSchema);
 
 export default User;
-
-
-

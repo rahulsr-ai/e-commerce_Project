@@ -18,12 +18,28 @@ import {
   BookOpen,
   Home,
   User,
+  Heart,
 } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "../../context/Authcontext";
+// import { useAuth } from "../../context/Authcontext";
+import { UserButton, useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/clerk-react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const { user, setUser } = useAuth();
+  const router = useRouter();
+  let isCategoryPage = router.pathname === "/category";
+  // const { user, setUser } = useAuth();
+  const { isSignedIn } = useUser();
+  const { sessionId } = useAuth();
+
+  if (isSignedIn) {
+    console.log("user details");
+
+    console.log(isSignedIn);
+    console.log(sessionId);
+  }
+
   const [Loading, setIsLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,6 +47,7 @@ const Navbar = () => {
   const [brandsOpen, setBrandsOpen] = useState(false);
 
   useEffect(() => {
+    isCategoryPage = router.pathname === "/category";
     setIsLoading(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
@@ -46,9 +63,6 @@ const Navbar = () => {
       user: {},
     });
   }
-
-  console.log("user details");
-  console.log(user);
 
   const categories = [
     { name: "Electronics", icon: <Laptop size={18} /> },
@@ -96,6 +110,17 @@ const Navbar = () => {
                 <span className="mr-4">Home</span>
               </Link>
 
+              <Link
+                href="/trending"
+                className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-3 group"
+              >
+                {/* <Home
+                size={18}
+                className="group-hover:scale-110 transition-transform duration-200"
+              /> */}
+                <span className="mr-4">Trending</span>
+              </Link>
+
               {/* Categories Dropdown */}
               <div className="relative group">
                 <button
@@ -119,15 +144,16 @@ const Navbar = () => {
                     onMouseLeave={() => {
                       setTimeout(() => {
                         setCategoryOpen(false);
-                      }, 2000);
+                      }, 7000);
                     }}
                     className="absolute top-full left-0 mt-1 w-56 rounded-lg shadow-lg bg-white/95 backdrop-blur-sm ring-1 ring-black/5 transform opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200"
                   >
                     <div className="py-1">
-                      {categories.map((category) => (
+                      {categories.map((category, i) => (
                         <Link
                           key={category.name}
-                          href="/category/dynamicName"
+                          // onClick={() => setCategoryOpen(false)}
+                          href={`/category/${category.name}`}
                           className="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 transition-colors duration-200"
                         >
                           <span className="text-indigo-500 group-hover:text-indigo-600 transition-colors duration-200">
@@ -179,23 +205,80 @@ const Navbar = () => {
               </div>
 
               {/* Search Bar */}
-              <div className="flex-1 max-w-xs">
-                <div className="relative group">
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-1.5 pr-8 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
-                  />
-                  <Search
-                    className="absolute right-3 top-1.5 text-white/60 group-hover:text-white/80 transition-colors duration-200"
-                    size={20}
-                  />
+              {!isCategoryPage && (
+                <div className={`flex-1 max-w-xs`}>
+                  <div className="relative group">
+                    <input
+                      type="text"
+                      placeholder="Search products..."
+                      className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-1.5 pr-8 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
+                    />
+                    <Search
+                      className="absolute right-3 top-1.5 text-white/60 group-hover:text-white/80 transition-colors duration-200"
+                      size={20}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Desktop Auth Buttons */}
-            {!user.token ? (
+            {isSignedIn ? (
+              // <div className="hidden lg:flex items-center space-x-4">
+              //   <Link href="/sign-in">
+              //     <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
+              //       <User
+              //         size={18}
+              //         className="group-hover:scale-110 transition-transform duration-200"
+              //       />
+              //       Sign in
+              //     </button>
+              //   </Link>
+              //   <Link href="/sign-up">
+              //     <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+              //       Sign up
+              //     </button>
+              //   </Link>
+              // </div>
+              <div className="flex items-center gap-x-6  ">
+                <Link
+                  href={"/sign-in"}
+                  className="relative hover:text-indigo-400 mt-1 "
+                >
+                  <Heart />
+                </Link>
+
+                <Link
+                  href="/cart"
+                  className="relative hover:text-indigo-400 mt-2"
+                >
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 7M7 13L5 17m4-4h6m-6 0L7 17m6-4l1.6 4m4-4h2"></path>
+                  </svg>
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
+                    3
+                  </span>
+                </Link>
+
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            ) : (
+              // <Link href="/sign-in">
+              //   <button
+              //     onClick={logout}
+              //     className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+              //   >
+              //     LogOut
+              //   </button>
+              // </Link>
+
+              ///
+
               <div className="hidden lg:flex items-center space-x-4">
                 <Link href="/sign-in">
                   <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
@@ -212,15 +295,6 @@ const Navbar = () => {
                   </button>
                 </Link>
               </div>
-            ) : (
-              <Link href="/sign-in">
-                <button
-                  onClick={logout}
-                  className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
-                >
-                  LogOut
-                </button>
-              </Link>
             )}
 
             {/* Mobile menu button */}

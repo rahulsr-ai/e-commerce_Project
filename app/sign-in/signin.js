@@ -2,16 +2,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Mail, Lock, User, ArrowRight, ShoppingBag } from "lucide-react";
+import { Mail, Lock, ArrowRight, ShoppingBag } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../context/Authcontext";
-
+import Image from "next/image";
 import toast from "react-hot-toast";
+import { GoogleLogin } from "@react-oauth/google";
+
+
 
 const SignIn = () => {
+ 
   const { user, setUser } = useAuth();
-
   const router = useRouter();
   const [isLoading, setisLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -23,15 +26,11 @@ const SignIn = () => {
 
   const handleform = async (e) => {
     e.preventDefault();
-    console.log(email, password);
     try {
-      const { data } = await axios.post("/api/auth/sign-in", {
+      const { data } = await axios.post("/api/Auth/sign-in", {
         email,
         password,
       });
-      // console.log(data);
-
-      console.log(user);
 
       setUser({
         token: data.token,
@@ -39,15 +38,12 @@ const SignIn = () => {
       });
       toast.success("Welcome Back");
       router.push("/");
-
-      // localStorage.setItem('auth_token', data.token);
     } catch (error) {
       console.log("error while login the user ");
       console.log(error);
+      toast.error("Failed to sign in");
     }
   };
-
-  console.log(user);
 
   return (
     isLoading && (
@@ -56,7 +52,6 @@ const SignIn = () => {
           <div className="sm:mx-auto sm:w-full sm:max-w-md mb-8 mt-8">
             <div className="flex justify-center">
               <div className="flex items-center space-x-2">
-                {/* <ShoppingBag className="text-[#f5deb3]" size={32} /> */}
                 <span className="text-2xl font-bold text-white">StoreX</span>
               </div>
             </div>
@@ -72,7 +67,6 @@ const SignIn = () => {
               </div>
 
               <form className="space-y-6" onSubmit={handleform}>
-                {/* Email */}
                 <div>
                   <label
                     htmlFor="email"
@@ -97,7 +91,6 @@ const SignIn = () => {
                   </div>
                 </div>
 
-                {/* Password */}
                 <div>
                   <label
                     htmlFor="password"
@@ -122,7 +115,6 @@ const SignIn = () => {
                   </div>
                 </div>
 
-                {/* Remember me & Forgot password */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
                     <input
@@ -147,16 +139,53 @@ const SignIn = () => {
                   </a>
                 </div>
 
-                {/* Sign in button */}
                 <button className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-indigo-500 transition-all duration-200">
                   <span className="absolute right-4 flex items-center">
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
                   </span>
                   Sign in
                 </button>
+              </form>
 
-                {/* Sign up link */}
-                <p className="mt-4 text-center text-sm text-white/60">
+              <div className="mt-6">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-white/10"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-black text-white/60">
+                      Or continue with
+                    </span>
+                  </div>
+                </div>
+
+
+                {/* <div className="mt-6">
+                  <button
+                    onClick={() => signIn("google")}
+                    className="w-full flex items-center justify-center gap-3 px-4 py-2.5 border border-white/20 rounded-lg text-white hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-indigo-500 transition-all duration-200"
+                  >
+                    <Image
+                      // src="https://www.google.com/favicon.ico"
+                      alt="Google"
+                      width={20}
+                      height={20}
+                    />
+                    <span>Sign in with Google</span>
+                  </button>
+                </div> */}
+
+
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    console.log(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+                
+                <p className="mt-6 text-center text-sm text-white/60">
                   Don't have an account?{" "}
                   <a
                     href="/signup"
@@ -165,7 +194,7 @@ const SignIn = () => {
                     Sign up
                   </a>
                 </p>
-              </form>
+              </div>
             </div>
           </div>
         </div>

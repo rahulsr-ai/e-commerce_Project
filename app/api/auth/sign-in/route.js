@@ -1,5 +1,5 @@
 //@ts-nocheck
-import User from "@/models/UserSchema";
+import User from "../../../../models/UserSchema";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
