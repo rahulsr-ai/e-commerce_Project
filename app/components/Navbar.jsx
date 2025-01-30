@@ -22,23 +22,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 // import { useAuth } from "../../context/Authcontext";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { useAuth } from "@clerk/clerk-react";
+
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  
   const router = useRouter();
   let isCategoryPage = router.pathname === "/category";
   // const { user, setUser } = useAuth();
-  const { isSignedIn } = useUser();
-  const { sessionId } = useAuth();
-
-  if (isSignedIn) {
-    console.log("user details");
-
-    console.log(isSignedIn);
-    console.log(sessionId);
-  }
 
   const [Loading, setIsLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -74,8 +65,9 @@ const Navbar = () => {
   ];
 
   const brands = [
-    { name: "Premium Brands", icon: <Gem size={18} /> },
-    { name: "New Collections", icon: <BookOpen size={18} /> },
+    { name: "Best Sellers", icon: <Gem size={18} /> },
+    { name: "New Arrivals", icon: <BookOpen size={18} /> },
+    { name: "Limited Edition", icon: <BookOpen size={18} /> },
   ];
 
   return (
@@ -118,7 +110,7 @@ const Navbar = () => {
                 size={18}
                 className="group-hover:scale-110 transition-transform duration-200"
               /> */}
-                <span className="mr-4">Trending</span>
+                <span className="mr-4">Deals</span>
               </Link>
 
               {/* Categories Dropdown */}
@@ -153,7 +145,7 @@ const Navbar = () => {
                         <Link
                           key={category.name}
                           // onClick={() => setCategoryOpen(false)}
-                          href={`/category/${category.name}`}
+                          href={`/category`}
                           className="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 transition-colors duration-200"
                         >
                           <span className="text-indigo-500 group-hover:text-indigo-600 transition-colors duration-200">
@@ -174,7 +166,7 @@ const Navbar = () => {
                   onMouseLeave={() => setBrandsOpen(false)}
                   className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-1"
                 >
-                  <span>Brands</span>
+                  <span>Shop</span>
                   <ChevronDown
                     size={16}
                     className="group-hover:rotate-180 transition-transform duration-300"
@@ -222,80 +214,22 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* Desktop Auth Buttons */}
-            {isSignedIn ? (
-              // <div className="hidden lg:flex items-center space-x-4">
-              //   <Link href="/sign-in">
-              //     <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
-              //       <User
-              //         size={18}
-              //         className="group-hover:scale-110 transition-transform duration-200"
-              //       />
-              //       Sign in
-              //     </button>
-              //   </Link>
-              //   <Link href="/sign-up">
-              //     <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
-              //       Sign up
-              //     </button>
-              //   </Link>
-              // </div>
-              <div className="flex items-center gap-x-6  ">
-                <Link
-                  href={"/sign-in"}
-                  className="relative hover:text-indigo-400 mt-1 "
-                >
-                  <Heart />
-                </Link>
-
-                <Link
-                  href="/cart"
-                  className="relative hover:text-indigo-400 mt-2"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 7M7 13L5 17m4-4h6m-6 0L7 17m6-4l1.6 4m4-4h2"></path>
-                  </svg>
-                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
-                    3
-                  </span>
-                </Link>
-
-                <UserButton afterSignOutUrl="/" />
-              </div>
-            ) : (
-              // <Link href="/sign-in">
-              //   <button
-              //     onClick={logout}
-              //     className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
-              //   >
-              //     LogOut
-              //   </button>
-              // </Link>
-
-              ///
-
-              <div className="hidden lg:flex items-center space-x-4">
-                <Link href="/sign-in">
-                  <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
-                    <User
-                      size={18}
-                      className="group-hover:scale-110 transition-transform duration-200"
-                    />
-                    Sign in
-                  </button>
-                </Link>
-                <Link href="/sign-up">
-                  <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
-                    Sign up
-                  </button>
-                </Link>
-              </div>
-            )}
+            <div className="hidden lg:flex items-center space-x-4">
+              <Link href="/sign-in">
+                <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
+                  <User
+                    size={18}
+                    className="group-hover:scale-110 transition-transform duration-200"
+                  />
+                  Sign in
+                </button>
+              </Link>
+              <Link href="/sign-up">
+                <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+                  Sign up
+                </button>
+              </Link>
+            </div>
 
             {/* Mobile menu button */}
             <div className="lg:hidden">
@@ -335,11 +269,20 @@ const Navbar = () => {
 
             {/* Mobile Links */}
             <Link
+            onClick={() => setIsOpen(false)}
               href="/"
               className="flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200"
             >
               {/* <Home size={18} /> */}
               <span>Home</span>
+            </Link>
+            <Link
+              onClick={() => setIsOpen(false)}
+              href="/trending"
+              className="flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200"
+            >
+              {/* <Home size={18} /> */}
+              <span>Deals</span>
             </Link>
 
             {/* Mobile Categories */}
@@ -363,8 +306,9 @@ const Navbar = () => {
               >
                 {categories.map((category) => (
                   <Link
+                    onClick={() => setIsOpen(false)}
                     key={category.name}
-                    href="category/byname"
+                    href={`/category`}
                     className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200"
                   >
                     {category.icon}
@@ -380,7 +324,7 @@ const Navbar = () => {
                 onClick={() => setBrandsOpen(!brandsOpen)}
                 className="w-full text-left flex justify-between items-center text-white/90 hover:text-white transition-colors duration-200"
               >
-                <span>Brands</span>
+                <span>Shop</span>
                 <ChevronDown
                   size={16}
                   className={`transform transition-transform duration-200 ${
@@ -412,10 +356,16 @@ const Navbar = () => {
               <User size={18} />
               <span className="text-center">Sign in</span>
             </button> */}
-              <button className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+              >
                 <Link href="/sign-in">Sign in</Link>
               </button>
-              <button className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+              >
                 <Link href="/sign-up">Sign up</Link>
               </button>
             </div>

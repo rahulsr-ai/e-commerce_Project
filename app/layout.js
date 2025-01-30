@@ -7,10 +7,7 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import { AuthProvider } from "../context/Authcontext";
 import { Toaster } from "react-hot-toast";
-import SessionWrapper from "../providers/SessionWrapper";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
-import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,24 +30,22 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <ClerkProvider
-        appearance="Dark"
-        >
+      
 
 
           <AuthProvider>
             <Navbar />
-            <GoogleOAuthProvider clientId={process.env.GOOGLE_ID}>
+          
 
-              <div className="pt-14">
+              <div className="">
               {children}
               </div>
               <Toaster position="top-center" reverseOrder={false} />
-            </GoogleOAuthProvider>
+            
           </AuthProvider>
 
 
-        </ClerkProvider>
+       
       </body>
     </html>
   );

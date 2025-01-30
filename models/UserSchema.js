@@ -19,13 +19,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isAdmin: {
+   role: {
+      type: String,
+      default: "user",
+    },
+    isVerified: { 
       type: Boolean,
+      required: true,
       default: false,
     },
-    clerkId: {
+    authProviderId: { 
       type: String,
-      unique: true, // Clerk ke unique ID ko store karne ke liye
     },
     cart: [
       {
@@ -46,6 +50,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Export the User model, checking if it already exists
-const User = mongoose.models.user || mongoose.model("user", userSchema);
+const User = mongoose.models?.user || mongoose.model("user", userSchema);
 
 export default User;

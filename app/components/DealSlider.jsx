@@ -33,19 +33,19 @@ const DEALS = [
 
 export function DealsSlider() {
   return (
-    <div className="overflow-hidden py-8 mx-32">
+    <div className="overflow-hidden py-8 lg:mx-12">
       <div className="relative">
-        <div className="flex gap-10 animate-marquee">
+        <div className="flex gap-10 animate-marquee ">
           {DEALS.map((deal) => (
             <div key={deal.id} className="relative rounded-xl mx-10 flex-none w-[300px] group cursor-pointer inline-block">
-              <div className="relative aspect-[4/3] overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
                 <img
                   src={deal.image}
                   alt={deal.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl"  />
+                <div className="absolute bottom-0 left-0 right-0 p-4 rounded-xl">
                   <div className="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium inline-block mb-2">
                     Save {deal.discount}%
                   </div>
@@ -60,13 +60,13 @@ export function DealsSlider() {
           ))}
           {DEALS.map((deal) => (
             <div key={deal.id + '2'} className="relative rounded-xl mx-10 flex-none w-[300px] group cursor-pointer inline-block">
-              <div className="relative aspect-[4/3] overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
                 <img
                   src={deal.image}
                   alt={deal.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-xl" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <div className="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium inline-block mb-2">
                     Save {deal.discount}%
@@ -76,7 +76,7 @@ export function DealsSlider() {
                     ${deal.price.toFixed(2)}
                   </p>
                 </div>
-                <div className="absolute inset-0 bg-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="rounded-xl absolute inset-0 bg-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
             </div>
           ))}

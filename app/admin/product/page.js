@@ -1,26 +1,23 @@
 "use client";
-import React, { useState } from 'react';
-import { Upload, Package, FileSpreadsheet, HelpCircle, Download } from 'lucide-react';
-
-
+import React, { useEffect, useState } from "react";
+import { Upload, Package, FileSpreadsheet, HelpCircle, Download } from "lucide-react";
 
 const CATEGORIES = [
-  'Electronics',
-  'Clothing',
-  'Books',
-  'Home & Garden',
-  'Sports',
-  'Toys',
+  "Electronics",
+  "Clothing",
+  "Books",
+  "Home & Garden",
+  "Sports",
+  "Toys",
 ];
 
 function ManageProducts() {
-  const [mode, setMode] = useState('single');
-  const [product, setProduct] = useState();
+    const [isloading, setIsloading] = useState(false);
+  const [mode, setMode] = useState("single");
+  const [product, setProduct] = useState({});
   const [csvFile, setCsvFile] = useState(null);
 
-  const handleProductChange = (
-    e
-  ) => {
+  const handleProductChange = (e) => {
     const { name, value } = e.target;
     setProduct((prev) => ({ ...prev, [name]: value }));
   };
@@ -33,17 +30,17 @@ function ManageProducts() {
 
   const handleSingleUpload = (e) => {
     e.preventDefault();
-    console.log('Uploading single product:', product);
+    console.log("Uploading single product:", product);
     // Add your API call here
   };
 
-  const handleBulkUpload = (e ) => {
+  const handleBulkUpload = (e) => {
     e.preventDefault();
-    console.log('Uploading CSV file:', csvFile);
+    console.log("Uploading CSV file:", csvFile);
     // Add your API call here
   };
 
-  const handleCsvChange = (e  ) => {
+  const handleCsvChange = (e) => {
     if (e.target.files?.[0]) {
       setCsvFile(e.target.files[0]);
     }
@@ -51,15 +48,19 @@ function ManageProducts() {
 
   const downloadTemplate = () => {
     // In a real app, this would download a CSV template
-    console.log('Downloading CSV template');
+    console.log("Downloading CSV template");
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
+  useEffect(() => { 
+    setIsloading(true);
+  })
+
+  return ( isloading && 
+    <div className="min-h-screen bg-black pt-28">
       {/* Header */}
-      <div className="bg-white shadow-sm">
+      <div className="bg-black shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Manage Products</h1>
+          <h1 className="text-3xl font-bold text-white">Manage Products</h1>
         </div>
       </div>
 
@@ -68,22 +69,22 @@ function ManageProducts() {
         {/* Tabs */}
         <div className="flex space-x-4 mb-8">
           <button
-            onClick={() => setMode('single')}
+            onClick={() => setMode("single")}
             className={`flex items-center px-4 py-2 rounded-lg font-medium ${
-              mode === 'single'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+              mode === "single"
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-600 hover:bg-gray-50"
             } transition-colors duration-200 shadow-sm`}
           >
             <Package className="w-5 h-5 mr-2" />
             Single Product Upload
           </button>
           <button
-            onClick={() => setMode('bulk')}
+            onClick={() => setMode("bulk")}
             className={`flex items-center px-4 py-2 rounded-lg font-medium ${
-              mode === 'bulk'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-50'
+              mode === "bulk"
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-600 hover:bg-gray-50"
             } transition-colors duration-200 shadow-sm`}
           >
             <FileSpreadsheet className="w-5 h-5 mr-2" />
@@ -93,30 +94,26 @@ function ManageProducts() {
 
         {/* Content Area */}
         <div className="bg-white rounded-lg shadow-sm p-6">
-          {mode === 'single' ? (
+          {mode === "single" ? (
             <form onSubmit={handleSingleUpload} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Product Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Product Name
-                    <span className="text-red-500">*</span>
+                    Product Name<span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     name="name"
                     required
-                    value={product.name}
+                    value={product.name || ""}
                     onChange={handleProductChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
 
-                {/* Price */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Price
-                    <span className="text-red-500">*</span>
+                    Price<span className="text-red-500">*</span>
                   </label>
                   <div className="mt-1 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -128,40 +125,36 @@ function ManageProducts() {
                       required
                       min="0"
                       step="0.01"
-                      value={product.price}
+                      value={product.price || ""}
                       onChange={handleProductChange}
                       className="block w-full pl-7 rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                 </div>
 
-                {/* Stock */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Stock Quantity
-                    <span className="text-red-500">*</span>
+                    Stock Quantity<span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
                     name="stock"
                     required
                     min="0"
-                    value={product.stock}
+                    value={product.stock || ""}
                     onChange={handleProductChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
 
-                {/* Category */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Category
-                    <span className="text-red-500">*</span>
+                    Category<span className="text-red-500">*</span>
                   </label>
                   <select
                     name="category"
                     required
-                    value={product.category}
+                    value={product.category || ""}
                     onChange={handleProductChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   >
@@ -175,23 +168,20 @@ function ManageProducts() {
                 </div>
               </div>
 
-              {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Description
-                  <span className="text-red-500">*</span>
+                  Description<span className="text-red-500">*</span>
                 </label>
                 <textarea
                   name="description"
                   required
                   rows={4}
-                  value={product.description}
+                  value={product.description || ""}
                   onChange={handleProductChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
 
-              {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Product Image
@@ -200,7 +190,7 @@ function ManageProducts() {
                   <div className="space-y-1 text-center">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     <div className="flex text-sm text-gray-600">
-                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
                         <span>Upload a file</span>
                         <input
                           type="file"
@@ -220,7 +210,7 @@ function ManageProducts() {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
                 >
                   Add Product
                 </button>
@@ -244,7 +234,7 @@ function ManageProducts() {
 
               <button
                 onClick={downloadTemplate}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 <Download className="mr-2 h-5 w-5 text-gray-500" />
                 Download Template
@@ -255,7 +245,7 @@ function ManageProducts() {
                   <div className="space-y-1 text-center">
                     <FileSpreadsheet className="mx-auto h-12 w-12 text-gray-400" />
                     <div className="flex text-sm text-gray-600">
-                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                      <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
                         <span>Upload a file</span>
                         <input
                           type="file"
@@ -274,7 +264,7 @@ function ManageProducts() {
                   <button
                     type="submit"
                     disabled={!csvFile}
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300 disabled:cursor-not-allowed"
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed"
                   >
                     Upload Products
                   </button>
