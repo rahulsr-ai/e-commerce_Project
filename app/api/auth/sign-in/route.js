@@ -4,14 +4,14 @@ import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { dbConnect } from "../../../../lib/db.js";
-import { redirect } from "next/navigation";
 
-/// Sing in the User
+/// Sign in the User
 export async function POST(req) {
   try {
-    const { email, password } = await req.json();
+    const { email, password } = await req.json(); // Get email & password from request
 
-    await dbConnect();
+    await dbConnect(); // Connect to database
+
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
@@ -30,25 +30,24 @@ export async function POST(req) {
       );
     }
 
-    // Generate a JWT token
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "6h" }
-    );
-
-    // Return the token and user information
-    const response = NextResponse.json({ token, user }, { status: 200 });
-
-    response.cookies.set("auth_token", token, {
-      httpOnly: true, // Prevent client-side JavaScript access
-      secure: process.env.NODE_ENV !== "production", // Only send cookies over HTTPS in production
-      sameSite: "Strict", // CSRF protection
-      maxAge: 60 * 60 * 6, // Token expires in 6 hours (same as JWT expiration)
-      path: "/", // Cookie available for the whole domain
+    // Generate a JWT token with the user's ID and expiration time (7 days)
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { 
+      expiresIn: "7d",
     });
 
-    return response;
+    // Create a response object
+    const response = NextResponse.json({ message: "Login successful" }, { status: 200 });
+
+    // Set the cookie securely
+    response.cookies.set("authToken", token, {
+      httpOnly: true, // 🛡️ Prevents JavaScript access (XSS protection)
+      secure: process.env.NODE_ENV === "production", // ✅ Use HTTPS only in production
+      sameSite: "strict", // 🛡️ CSRF protection (prevents cross-site cookie sending)
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 🕒 Expires in 7 days
+      path: "/", // ✅ Available for the whole domain
+    });
+
+    return response; // Return the response with the token stored in cookies
   } catch (error) {
     return NextResponse.json(
       { message: "Error logging in", error: error.message },

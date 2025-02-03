@@ -26,7 +26,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  
   const router = useRouter();
   let isCategoryPage = router.pathname === "/category";
   // const { user, setUser } = useAuth();
@@ -36,6 +35,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   useEffect(() => {
     isCategoryPage = router.pathname === "/category";
@@ -269,7 +269,7 @@ const Navbar = () => {
 
             {/* Mobile Links */}
             <Link
-            onClick={() => setIsOpen(false)}
+              onClick={() => setIsOpen(false)}
               href="/"
               className="flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200"
             >
@@ -284,6 +284,46 @@ const Navbar = () => {
               {/* <Home size={18} /> */}
               <span>Deals</span>
             </Link>
+            <Link
+              onClick={() => setIsOpen(false)}
+              href="/profile"
+              className="flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200"
+            >
+              {/* <Home size={18} /> */}
+              <span>Profile</span>
+            </Link>
+
+            <div className="px-3 py-2">
+              <button
+                onClick={() => setIsAdminOpen(!isAdminOpen)}
+                className="w-full text-left flex justify-between items-center text-white/90 hover:text-white transition-colors duration-200"
+              >
+                <span>Admin</span>
+                <ChevronDown
+                  size={16}
+                  className={`transform transition-transform duration-200 ${
+                    isAdminOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <div
+                className={`mt-2 space-y-1 transition-all duration-200 ${
+                  brandsOpen ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                {["admin/Product", "admin/dashboard/Order", "admin/dashboard/product"].map((brand) => (
+                  <Link
+                    key={brand}
+                    href={brand}
+                    className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200"
+                  >
+                    
+                    <span>{brand}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+           
 
             {/* Mobile Categories */}
             <div className="px-3 py-2">
@@ -349,6 +389,7 @@ const Navbar = () => {
                 ))}
               </div>
             </div>
+           
 
             {/* Mobile Auth Buttons */}
             <div className="px-3 py-2 space-y-2">

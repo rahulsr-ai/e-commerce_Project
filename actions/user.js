@@ -45,20 +45,22 @@ export const RegisterUser = async (FormData) => {
   const name = FormData.get("name");
   const email = FormData.get("email");
   const password = FormData.get("password");
-  const confirmPassword = FormData.get("confirmPassword");
 
-  console.log(name, email, password, confirmPassword);
 
-  if (!name || !email || !password || !confirmPassword) {
+  console.log(name, email, password);
+
+  if (!name || !email || !password ) {
     throw new Error("Please fill all the fields");
   }
 
-  const { data } = await axios.post("/api/auth/verifyemail/sendotp", {
-    name,
-    email,
-  });
+  // const { data } = await axios.post("/api/auth/verifyemail/sendotp", {
+  //   name,
+  //   email,
+  // });
 
-  console.log(data);
+  // console.log(data);
+
+  
 };
 
 

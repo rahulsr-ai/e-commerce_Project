@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import { AuthProvider } from "../context/Authcontext";
 import { Toaster } from "react-hot-toast";
-
+import { TempProvider } from "@/context/TempStore";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,22 +30,14 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-      
-
-
+        
           <AuthProvider>
             <Navbar />
-          
 
-              <div className="">
-              {children}
-              </div>
-              <Toaster position="top-center" reverseOrder={false} />
-            
+            <div className="">{children}</div>
+            <Toaster position="top-center" reverseOrder={false} />
           </AuthProvider>
-
-
-       
+        
       </body>
     </html>
   );

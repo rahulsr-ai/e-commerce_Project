@@ -1,38 +1,121 @@
 import { NextResponse } from "next/server";
-import crypto from "crypto";
-import { sendEmail } from "@/lib/Resend"; // Send email using Resend
+import { sendEmail } from "@/helpers/NodeMailer";
+import { dbConnect } from "@/lib/db";
+import TemporaryUser from "@/models/TemporaryScema";
+import User from "@/models/UserSchema";
 
-let otpStorage = {}; // In-memory storage for OTPs (temporary)
-
-export async function POST(request) {
-  const { name, email } = await request.json();
-
-  // Step 1: Rate-limiting check (optional)
-//   const lastRequest = otpStorage[email];
-//   if (lastRequest && Date.now() - lastRequest.timestamp < 5 * 60 * 1000) {
-//     return NextResponse.json(
-//       { error: "Too many requests. Please try again after 5 minutes." },
-//       { status: 429 }
-//     );
-//   }
-
-  // Step 2: Generate OTP (6 digit)
-  const otp = crypto.randomInt(100000, 999999);
-
-  // Step 3: Store OTP and expiration time (10 minutes expiry)
-  otpStorage[email] = {
-    otp,
-    expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes expiry
-    timestamp: Date.now(), // Track when OTP was generated
-  };
-
-  // Step 4: Send OTP via email using Resend
+export async function POST(req) {
   try {
-    await sendEmail(name, email, otp); // Send OTP
+    const { email, name } = await req.json();
+    const verificationCode = Math.floor(100000 + Math.random() * 900000); // 6-digit code
+    
 
-    return NextResponse.json({ message: "OTP sent successfully." });
+    // Convert email to lowercase for searching
+    const normalizedEmail = email.trim().toLowerCase(); 
+
+    // Email content
+    const subject = "Verify Your Email for StoreX";
+    const htmlContent = `
+      <p>Hello ${name},</p>
+      <p>Your verification code is:</p>
+      <h2>${verificationCode}</h2>
+      <p>This code is valid for 10 minutes.</p>
+    `;
+
+    await dbConnect();
+
+    // Check if user already exists (case-insensitive check)
+    const isUserInUserCollection = await User.findOne({ email: normalizedEmail });
+    const existingUser = await TemporaryUser.findOne({ email: normalizedEmail });
+
+     // Rate limiting constants
+     const MAX_RESEND_ATTEMPTS = 10;
+     const RESEND_WINDOW = 60 * 60 * 1000; // 1 hour window for resends
+
+    if (isUserInUserCollection) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User already has a verified account",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (existingUser?.isVerified) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User already has a verified account in temporary collection",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (existingUser) {
+      // Check if the previous code is still valid
+      const codeExpiryTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+      const currentTime = Date.now();
+      const timeDifference = currentTime - existingUser.codeGeneratedAt;
+
+      if (timeDifference < codeExpiryTime) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Your verification code is still valid. Please check your email.",
+          },
+          { status: 400 }
+        );
+      } else {
+        // Update the existing user's verification code and set the isVerified flag to false
+        await TemporaryUser.updateOne(
+          { email: normalizedEmail }, 
+          {
+            $set: {
+              verificationCode,
+              isVerified: false,
+              codeGeneratedAt: Date.now(),
+            },
+          }
+        );
+
+        await sendEmail(email, subject, htmlContent);
+        return NextResponse.json(
+          {
+            success: true,
+            code: verificationCode,
+            message: "Welcome back! Trying again to verify. Check your email for the code.",
+          },
+          { status: 200 }
+        );
+      }
+    }
+
+    // Send the email if the user is not in the database nor in the temporary database
+    await sendEmail(email, subject, htmlContent);
+
+    // Save to temporary collection (store the original email format)
+    const newUser = new TemporaryUser({
+      name,
+      email, // Store as user entered
+      verificationCode,
+      isVerified: false,
+      codeGeneratedAt: Date.now(),
+    });
+
+    await newUser.save();
+
+    return NextResponse.json({
+      success: true,
+      message: "Verification email sent",
+      code: verificationCode,
+    });
+
   } catch (error) {
-    console.error('Error while sending OTP:', error);
-    return NextResponse.json({ error: "Failed to send OTP." }, { status: 500 });
+    console.error("Error sending email:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to send email" },
+      { status: 500 }
+    );
   }
 }
