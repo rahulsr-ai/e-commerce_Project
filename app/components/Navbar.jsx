@@ -21,14 +21,15 @@ import {
   Heart,
 } from "lucide-react";
 import Link from "next/link";
-// import { useAuth } from "../../context/Authcontext";
-
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/Authcontext";
+import axios from "axios";
 
 const Navbar = () => {
   const router = useRouter();
   let isCategoryPage = router.pathname === "/category";
-  // const { user, setUser } = useAuth();
+
+  const { user, setUser } = useAuth();
 
   const [Loading, setIsLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,6 +37,15 @@ const Navbar = () => {
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
+
+  const handleLogout = async () => {
+    alert("Logging out");
+    const { data } = await axios.post("/api/auth/logout");
+    console.log(data);
+    if (data.message === "Logged out successfully") {
+      router.push("/sign-in");
+    }
+  };
 
   useEffect(() => {
     isCategoryPage = router.pathname === "/category";
@@ -103,7 +113,7 @@ const Navbar = () => {
               </Link>
 
               <Link
-                href="/trending"
+                href="/deals"
                 className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-3 group"
               >
                 {/* <Home
@@ -278,7 +288,7 @@ const Navbar = () => {
             </Link>
             <Link
               onClick={() => setIsOpen(false)}
-              href="/trending"
+              href="/deals"
               className="flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200"
             >
               {/* <Home size={18} /> */}
@@ -293,7 +303,7 @@ const Navbar = () => {
               <span>Profile</span>
             </Link>
 
-            <div className="px-3 py-2">
+            {/* <div className="px-3 py-2">
               <button
                 onClick={() => setIsAdminOpen(!isAdminOpen)}
                 className="w-full text-left flex justify-between items-center text-white/90 hover:text-white transition-colors duration-200"
@@ -311,19 +321,21 @@ const Navbar = () => {
                   brandsOpen ? "opacity-100" : "opacity-0"
                 }`}
               >
-                {["admin/Product", "admin/dashboard/Order", "admin/dashboard/product"].map((brand) => (
+                {[
+                  "admin/Product",
+                  "admin/dashboard/Order",
+                  "admin/dashboard/product",
+                ].map((brand) => (
                   <Link
                     key={brand}
                     href={brand}
                     className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200"
                   >
-                    
                     <span>{brand}</span>
                   </Link>
                 ))}
               </div>
-            </div>
-           
+            </div> */}
 
             {/* Mobile Categories */}
             <div className="px-3 py-2">
@@ -389,7 +401,6 @@ const Navbar = () => {
                 ))}
               </div>
             </div>
-           
 
             {/* Mobile Auth Buttons */}
             <div className="px-3 py-2 space-y-2">
@@ -397,18 +408,34 @@ const Navbar = () => {
               <User size={18} />
               <span className="text-center">Sign in</span>
             </button> */}
-              <button
-                onClick={() => setIsOpen(false)}
-                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
-              >
-                <Link href="/sign-in">Sign in</Link>
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
-              >
-                <Link href="/sign-up">Sign up</Link>
-              </button>
+
+              {!user.token ? (
+                <>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Link href="/sign-in">Sign in</Link>
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                  >
+                    <Link href="/sign-up">Sign up</Link>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    handleLogout();
+
+                    setIsOpen(false);
+                  }}
+                  className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                >
+                  LogOut
+                </button>
+              )}
             </div>
           </div>
         </div>

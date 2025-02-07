@@ -1,8 +1,8 @@
 "use client";
 
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // Import Next.js router hook
 
 import {
   PanelLeftClose,
@@ -16,38 +16,24 @@ import {
 } from "lucide-react";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const pathname = usePathname(); // Get the current route
+
+  // Define menu items with links
   const menuItems = [
-    {
-      icon: BarChart3,
-      label: "Dashboard",
-      active: false,
-      link: "/admin/dashboard",
-    },
-    {
-      icon: ShoppingCart,
-      label: "Orders",
-      active: true,
-      link: "/admin/dashboard/order",
-    },
-    {
-      icon: Users,
-      label: "Customers",
-      active: false,
-      link: "/admin/dashboard/customer",
-    },
-    {
-      icon: Package,
-      label: "Products",
-      active: false,
-      link: "/admin/dashboard/product",
-    },
-    {
-      icon: Settings,
-      label: "Settings",
-      active: false,
-      link: "/admin/dashboard/settings",
-    },
+    { icon: BarChart3, label: "Inventory", link: "/admin/dashboard/Inventory" },
+    { icon: ShoppingCart, label: "Orders", link: "/admin/dashboard/order" },
+    { icon: Users, label: "Customers", link: "/admin/dashboard/customer" },
+    { icon: Package, label: "Products", link: "/admin/dashboard/product" },
+    { icon: Settings, label: "Settings", link: "/admin/dashboard/settings" },
   ];
+
+  // State to track active menu
+  const [activeItem, setActiveItem] = useState(pathname);
+
+  // Update active state when pathname changes (e.g., manual navigation)
+  useEffect(() => {
+    setActiveItem(pathname);
+  }, [pathname]);
 
   return (
     <div
@@ -87,18 +73,19 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <li key={index}>
                 <Link
                   href={item.link}
+                  onClick={() => setActiveItem(item.link)} // Update active state on click
                   className={`flex items-center ${
                     isOpen ? "px-4" : "justify-center px-2"
                   } py-3 text-sm rounded-lg transition-all duration-200 ${
-                    item.active
-                      ? "bg-violet-600/10 text-violet-400 font-medium"
-                      : "text-gray-400 hover:bg-violet-600/5 hover:text-violet-400"
+                    activeItem === item.link
+                      ? "bg-violet-600/50 text-violet-100 font-medium"
+                      : "text-gray-400 hover:bg-violet-100/5 hover:text-violet-200"
                   }`}
                   title={!isOpen ? item.label : undefined}
                 >
                   <item.icon
                     className={`w-5 h-5 ${isOpen ? "mr-3" : ""} ${
-                      item.active ? "text-violet-400" : "text-violet-500"
+                      activeItem === item.link ? "text-violet-400" : "text-violet-500"
                     }`}
                   />
                   {isOpen && item.label}

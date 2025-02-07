@@ -7,6 +7,7 @@ const TemporaryUserSchema = new mongoose.Schema(
     verificationCode: { type: Number, required: true },
     isVerified: { type: Boolean, default: false },
     codeGeneratedAt: { type: Date, default: Date.now },
+
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

@@ -1,7 +1,7 @@
 //@ts-nocheck
 "use client";
 
-import React, { useState, Suspense, lazy } from "react";
+import React, { useState, Suspense, lazy, useEffect } from "react";
 import {
   User,
   ShoppingBag,
@@ -14,6 +14,9 @@ import {
 import ProfileSkeleton from "./Skeleton";
 import TabButton from "./tabsButton.jsx";
 import ErrorState from "./ErrorState";
+import { useAuth } from "@/context/Authcontext";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 // Lazy loaded tab contents
 const ProfileOverview = lazy(() => import("./ProfileOverView"));
@@ -50,7 +53,27 @@ const tabs = [
 ];
 
 const Profile = () => {
+  const { user , setUser} = useAuth();
+  console.log(user);
+  const router = useRouter();
+  
 
+  const getUserData = async () => {
+    try {
+      const { data } = await axios.get("/api/User");
+      console.log(data);
+      // if(data.user.code === "0001") {
+      //   router.push("/");
+      // }
+    } catch (error) {
+      console.log("Error fetching user data");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   // <ErrorState message="Please sign in to view your profile" />;
 
@@ -58,7 +81,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(true); // Replace with actual auth check
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Simulate loading
     const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
@@ -86,8 +109,8 @@ const Profile = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h1 className="text-2xl font-bold mb-2">{ ""}</h1>
-              <p className="text-indigo-400"> { ""}</p>
+              <h1 className="text-2xl font-bold mb-2">{""}</h1>
+              <p className="text-indigo-400"> {""}</p>
             </div>
 
             {/* Tabs Navigation */}
@@ -110,9 +133,7 @@ const Profile = () => {
             <div className="bg-zinc-800 rounded-lg p-4 md:p-6">
               <Suspense fallback={<ProfileSkeleton />}>
                 {activeTab === "edit" ? (
-                  <div className="flex flex-col items-center justify-center">
-                   
-                  </div>
+                  <div className="flex flex-col items-center justify-center"></div>
                 ) : (
                   ActiveComponent && <ActiveComponent />
                 )}

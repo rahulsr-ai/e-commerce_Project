@@ -1,31 +1,36 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import slugify from "slugify";
 
-// Define the Category Schema
-const categorySchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true, // Category name is required
-      trim: true, // Removes extra spaces
-      unique: true, // Category name must be unique
-    },
-    description: {
-      type: String,
-      trim: true, // Removes extra spaces
-    },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product', // Reference to the Product model
-      },
-    ],
-  },
-  {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+
+// **Category Schema**
+const categorySchema = new mongoose.Schema({
+  name: { type: String, required: true, unique: true },
+  slug: { type: String, unique: true, lowercase: true },
+});
+
+// Generate slug before saving category
+categorySchema.pre("save", function (next) {
+  if (this.isModified("name")) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
   }
-);
+  next();
+});
 
-// Check if the model is already defined to avoid the "OverwriteModelError"
-const Category = mongoose.models.Category || mongoose.model('Category', categorySchema);
+// **Subcategory Schema**
+const subcategorySchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  slug: { type: String, unique: true, lowercase: true },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+});
 
-export default Category;
+// Generate slug before saving subcategory
+subcategorySchema.pre("save", function (next) {
+  if (this.isModified("name")) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
+  }
+  next();
+});
+
+// Export models
+export const Category = mongoose.model("Category", categorySchema);
+export const Subcategory = mongoose.model("Subcategory", subcategorySchema);

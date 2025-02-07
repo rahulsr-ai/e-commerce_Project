@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  Star,
-  TrendingUp,
-  Shield,
-  Truck,
-  Clock,
-  ArrowRight,
-  BadgeCheck,
-} from "lucide-react";
+// import {
+//   Star,
+//   TrendingUp,
+//   Shield,
+//   Truck,
+//   Clock,
+//   ArrowRight,
+//   BadgeCheck,
+// } from "lucide-react";
 import { motion } from "framer-motion";
 
 import ProductGrid from "@/app/components/ProductGrid";
@@ -22,10 +22,27 @@ import { HomeProductData } from "./data/products";
 import FAQSection from "./components/FAQSection";
 import Testimonials from "./components/Testimonials";
 
+import axios from "axios";
+import { useAuth } from "@/context/Authcontext";
+
 const Landing = () => {
+  const { user, setUser } = useAuth();
   const [loading, setloading] = useState(false);
 
+  const GetProductData = async () => {
+    try {
+      const { data } = await axios.get("/api/Products");
+      console.log(data);
+
+      setUser({ token: data.token });
+    } catch (error) {
+      console.log("frontend error while fetching products");
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    GetProductData();
     setloading(true);
   }, []);
 

@@ -3,13 +3,15 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import "@/app/components.css";
+import { useRouter } from "next/router";
 
 const Model = ({ isOpen, setmodel, password, email, username }) => {
+  const router = useRouter();
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [ResendCounter, setResendCounter] = useState(0);
 
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(180); // 5 minutes in seconds
   const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
     if (timeLeft > 0) {
       const timer = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
-      }, 1000);
+      }, 950);
 
       // Clean up timer when component unmounts or timer reaches 0
       return () => clearInterval(timer);
@@ -45,7 +47,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
       if (data.status === 200) {
         toast.success("Account verified successfully!");
         setmodel(false);
-        r;
+        router.push("/");
       } else {
         setMessage("Failed to send code");
       }
@@ -58,7 +60,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
   const handleResend = async () => {
     setResendCounter(ResendCounter + 1); // Increment the resend number counter
     alert("Requesting new code...");
-    setTimeLeft(300); // Reset the timer
+    setTimeLeft(180); // Reset the timer
     setCanResend(false); // Disable resend button
 
     if (ResendCounter > 10) {
@@ -68,7 +70,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
       return;
     }
 
-    
+
 
     try {
       const { data } = await axios.post("/api/auth/verifyemail/sendotp", {

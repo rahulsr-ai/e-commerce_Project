@@ -1,10 +1,12 @@
 import React from 'react'
 import ManageProducts from './ProductManage'
+import AddProduct from './AddProduct'
 
 const page = () => {
   return (
        <div>
-        <ManageProducts/>
+        {/* <ManageProducts/> */}
+        <AddProduct/>
        </div>
   )
 }

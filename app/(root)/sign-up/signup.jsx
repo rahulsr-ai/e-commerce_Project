@@ -20,6 +20,7 @@ import Model from "@/app/components/Model";
 import { once } from "events";
 import Loader from "@/app/components/Loader";
 
+
 function Signup() {
   const [isLoading, setisLoading] = useState(false);
   const [modelOpen, setmodelopen] = useState(false);
@@ -39,20 +40,25 @@ function Signup() {
   const [passwordError, setPasswordError] = useState("");
 
   const handleForm = async (e) => {
-  
     e.preventDefault();
 
     setmodelopen(true);
 
-    console.log(name, email, password);
+    // console.log(name, email, password);
+
+   
 
     try {
-      if (oneClick === false ) {
-        const { data } = await axios.post("/api/auth/verifyemail/sendotp", {
-          name,
-          email,
-          password,
-        });
+      if (oneClick === false) {
+        const { data } = await axios.post(
+          "/api/auth/verifyemail/sendotp",
+          {
+            name,
+            email,
+            password,
+          },
+        );
+
         console.log(data);
 
         if (data.status === 200) {

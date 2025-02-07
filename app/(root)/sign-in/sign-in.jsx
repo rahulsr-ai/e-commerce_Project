@@ -6,22 +6,24 @@ import { FcGoogle } from "react-icons/fc";
 import { Mail, Lock, ArrowRight, ShoppingBag } from "lucide-react";
 
 import axios from "axios";
+import axiosInstance from "@/helpers/AxiosHelper";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { getSession } from "next-auth/react";
-
 import toast from "react-hot-toast";
-
 import { GoogleSignIn } from "@/actions/SignIn";
+import { useAuth } from "@/context/Authcontext";
 
 const SignIn = () => {
+  const { user, setUser } = useAuth();
+
   const router = useRouter();
   const [isLoading, setisLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isProcessing, setisProcessing] = useState(false);
 
   useEffect(() => {
     setisLoading(true);
@@ -29,6 +31,11 @@ const SignIn = () => {
 
   const handleform = async (e) => {
     e.preventDefault();
+
+    if (!isProcessing) {
+      return;
+    }
+
     try {
       const { data } = await axios.post("/api/auth/sign-in", {
         email,
@@ -57,6 +64,7 @@ const SignIn = () => {
     isLoading && (
       <div className="relative lg:top-14 top-14">
         <div className=" flex flex-col justify-center min-h-[calc(100vh-64px)] ">
+          
           {/* <div className="sm:mx-auto sm:w-full sm:max-w-md mb-8 mt-8">
             <div className="flex justify-center">
               <div className="flex items-center space-x-2">
@@ -147,11 +155,18 @@ const SignIn = () => {
                   </a>
                 </div>
 
-                <button className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-indigo-500 transition-all duration-200">
+                <button
+                  type="submit"
+                  onClick={() => {
+                    alert("Signing in");
+                    setisProcessing(true);
+                  }}
+                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-indigo-500 transition-all duration-200"
+                >
                   <span className="absolute right-4 flex items-center">
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
                   </span>
-                  Sign in
+                  {isProcessing ? "Processing" : "Sign-in"}
                 </button>
               </form>
 

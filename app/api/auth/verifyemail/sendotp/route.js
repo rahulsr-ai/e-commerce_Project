@@ -28,10 +28,6 @@ export async function POST(req) {
     const isUserInUserCollection = await User.findOne({ email: normalizedEmail });
     const existingUser = await TemporaryUser.findOne({ email: normalizedEmail });
 
-     // Rate limiting constants
-     const MAX_RESEND_ATTEMPTS = 10;
-     const RESEND_WINDOW = 60 * 60 * 1000; // 1 hour window for resends
-
     if (isUserInUserCollection) {
       return NextResponse.json(
         {
@@ -54,7 +50,7 @@ export async function POST(req) {
 
     if (existingUser) {
       // Check if the previous code is still valid
-      const codeExpiryTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+      const codeExpiryTime = 3 * 60 * 1000; // 5 minutes in milliseconds
       const currentTime = Date.now();
       const timeDifference = currentTime - existingUser.codeGeneratedAt;
 

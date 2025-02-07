@@ -6,10 +6,7 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState({
-    token: "",
-    user: {},
-  });
+  const [user, setUser] = useState({});
 
   // Logic to fetch user data or handle authentication
 

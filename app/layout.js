@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       >
         
           <AuthProvider>
-            <Navbar />
+            {/* <Navbar /> */}
 
             <div className="">{children}</div>
             <Toaster position="top-center" reverseOrder={false} />

@@ -1,44 +1,52 @@
 //@ts-nocheck
 
-import connectToDatabase from "@/lib/db";
-import UserSchema from "@/models/UserSchema";
-import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import { dbConnect } from "@/lib/db";
+import User from "@/models/UserSchema";
 
-// POST request - Create a new user
-export async function POST(req, res) {
-  const { name, email, password } = req.body;
+export async function GET(req) {
+  let token = req.cookies.get("authToken")?.value;
+  console.log("Raw token:", token);
 
   try {
-    // Ensure MongoDB is connected
-    await connectToDatabase();
-
-    // Check if the user already exists by email
-    const existingUser = await UserSchema.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+    if (!token) {
+      return NextResponse.json(
+        { message: "No token provided" },
+        { status: 401 }
+      );
     }
 
-    // Hash the password before saving it
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded token:", decoded);
+    
+    const userId = decoded.id;
+    await dbConnect();
 
-    // Create a new user with the hashed password
-    const newUser = new UserSchema({
-      name,
-      email,
-      password: hashedPassword,
-    });
+    // Fetch the user from the database
+    const user = await User.findById(userId);
 
-    // Save the new user to the database
-    await newUser.save();
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
 
-    return res
-      .status(201)
-      .json({ message: "User created successfully", user: newUser });
+   
+
+    // Remove sensitive information
+    const userWithoutPassword = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      code: "0001"
+    };
+
+    return NextResponse.json({ user: userWithoutPassword }, { status: 200 });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error creating user", error: error.message });
+    console.error("Error fetching user:", error);
+    return NextResponse.json(
+      { message: "Error fetching user", error: error.message },
+      { status: 401 }
+    );
   }
 }
-
-
