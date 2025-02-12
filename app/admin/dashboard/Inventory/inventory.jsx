@@ -2,7 +2,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Edit2, X, Save, Package, Search, ChevronLeft, ChevronRight,
   AlertTriangle, Download, Upload, RefreshCw, Filter
@@ -37,6 +37,8 @@ function InventoryPage() {
   const [itemsPerPage] = useState(5);
   const [stockFilter, setStockFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(false);
+
+  const [Skeleton, setSkeleton] = useState(true);
 
   // Filter products based on search and stock level
   const filteredProducts = products.filter(product => {
@@ -127,14 +129,32 @@ function InventoryPage() {
     }
   };
 
+  useEffect(() => {
+    // Simulate loading data
+    const timer = setTimeout(() => {
+      setSkeleton(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  if (Skeleton) {
+    return (
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-violet-500"></div>
+      </div>
+    );
+  }
+
+
   return (
     <div className="min-h-screen bg-black border-r border-violet-800/20 p-4 sm:p-6 lg:p-8 ">
-      <div className={`bg-zinc-950 rounded-lg shadow-lg overflow-hidden ${isSidebarOpen ? 'w-full' : 'ml-14'}`}>
+      <div className={`bg-neutral-950 rounded-lg shadow-lg overflow-hidden ${isSidebarOpen ? 'w-full' : 'ml-12'}`}>
         {/* Header */}
         <div className="p-4 sm:p-6 border-b border-violet-600">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
             <div className="flex items-center space-x-3">
-              <Package className="h-6 w-6 text-purple-600" />
+              <Package className="h-6 w-6 text-violet-600" />
               <h1 className="text-xl font-semibold text-white">Inventory Management</h1>
             </div>
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
@@ -151,7 +171,7 @@ function InventoryPage() {
               <select
                 value={stockFilter}
                 onChange={(e) => setStockFilter(e.target.value)}
-                className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500
+                className="w-full sm:w-auto px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500
                 text-black"
               >
                 <option value="all">All Stock Levels</option>
@@ -168,7 +188,7 @@ function InventoryPage() {
               onClick={refreshInventory}
               disabled={isLoading}
               className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white
-               bg-purple-600 hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+               bg-violet-600 hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
               <RefreshCw className={`h-4 w-4 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
               Refresh
@@ -211,31 +231,31 @@ function InventoryPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-black">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-violet-500 uppercase tracking-wider">
                   Product Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-violet-500 uppercase tracking-wider">
                   SKU
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-violet-500 uppercase tracking-wider">
                   Price
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-purple-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-violet-500 uppercase tracking-wider">
                   Stock
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-purple-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-violet-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-zinc-90 divide-y divide-gray-200">
+            <tbody className="bg-neutral-90 divide-y divide-gray-200">
               {currentItems.map((product) => (
                 <tr key={product.id} className="hover:bg-black/50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-white">{product.name}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-purple-200">{product.sku}</div>
+                    <div className="text-sm text-violet-200">{product.sku}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-white">${product.price.toFixed(2)}</div>
@@ -253,7 +273,7 @@ function InventoryPage() {
                     <button
                       onClick={() => handleEditClick(product)}
                       className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs 
-                      font-medium rounded-md text-white  bg-purple-500 hover:bg-white hover:text-black focus:outline-none focus:ring-2 
+                      font-medium rounded-md text-white  bg-violet-500 hover:bg-white hover:text-black focus:outline-none focus:ring-2 
                       focus:ring-offset-2 focus:ring-blue-500"
                     >
                       <Edit2 className="h-4 w-4 mr-1" />
@@ -268,7 +288,7 @@ function InventoryPage() {
 
         {/* Pagination */}
         <div className="bg-black px-4 py-3 flex items-center justify-between border-t border-violet-600 sm:px-6">
-          <div className="flex-1 flex justify-between sm:hidden">
+          <div className="flex-1 flex justify-end sm:hidden">
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
@@ -286,7 +306,7 @@ function InventoryPage() {
           </div>
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div className=''>
-              <p className="text-sm text-purple-600">
+              <p className="text-sm text-violet-600">
                 Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
                 <span className="font-medium">
                   {Math.min(indexOfLastItem, filteredProducts.length)}
@@ -380,7 +400,7 @@ function InventoryPage() {
                   </div>
                 </div>
               </div>
-              <div className="bg-zinc-950 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="bg-neutral-950 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   onClick={handleSave}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   Upload,
   X,
@@ -17,16 +17,15 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 
-const categories = {
-  electronics: ["Phones", "Laptops", "Accessories"],
-  clothing: ["Men", "Women", "Kids"],
-  home: ["Furniture", "Decor", "Kitchen"],
-};
-
+import { useSidebar } from "@/helpers/SidebarContext";
+import { createCategory, fetchProducts } from "@/lib/apiCalls";
 
 function AddProduct() {
+  const { issidebarOpen, setIsSidebarOpen } = useSidebar();
 
-
+  const [categoryName, setCategoryName] = useState("");
+  const [subcategoryName, setSubcategoryName] = useState("");
+  const [photo, setPhoto] = useState(null);
   const [activeTab, setActiveTab] = useState("single");
   const [formData, setFormData] = useState({
     name: "",
@@ -38,139 +37,215 @@ function AddProduct() {
     attributes: {
       newArrival: false,
       bestSeller: false,
-      featured: false,
+      trending: false,
     },
     images: [],
   });
 
+  const [RealCategory, setRealCategory] = useState([]);
+  const [RealsubCategory, setRealsubCategory] = useState([]);
 
-  
-  const [dragActive, setDragActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [csvFile, setCsvFile] = useState(null);
   const fileInputRef = useRef(null);
 
+  const removeImage = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: [],
+    }));
+  };
 
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const newPhotoURL = URL.createObjectURL(file);
+      setPhoto(file);
 
-  const handleDrag = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  }, []);
-
-
-  const handleDrop = useCallback(() => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-
-    const files = Array.from(e.dataTransfer.files);
-    if (files.length) {
-      setFormData((prev) => ({
-        ...prev,
-        images: [...prev.images, ...files],
-      }));
-    }
-  }, []);
-
-
-
-  const handleImageUpload = (e) => {
-    if (e.target.files?.length) {
-
-      const files = Array.from(e.target.files);
-      // setFormData((prev) => ({
-      //   ...prev,
-      //   images: [...prev.images, ...files],
-      // }));
-
+      const files = Array.from(event.target.files);
       setFormData((prev) => ({
         ...prev,
         images: [...files],
       }));
 
-     
+      // Clean up the URL when no longer needed
+      return () => URL.revokeObjectURL(newPhotoURL);
     }
   };
-
- 
-
-
-  const removeImage = (index) => {
-
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   images: prev.images.filter((_, i) => i !== index),
-    // }));
-
-    setFormData((prev) => ({
-      ...prev,
-      images: [],
-    }));
-
-  };
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Product Data:", formData);
+
+    const formDataObj = {
+      name: formData.name,
+      description: formData.description,
+      price: formData.price,
+      stock: formData.stock,
+      category: formData.category,
+      subcategory: formData.subcategory,
+      attributes: formData.attributes,
+    };
+
+    const formDataToSend = new FormData();
+    formDataToSend.append("formData", JSON.stringify(formDataObj));
+
+    if (photo) {
+      formDataToSend.append("photo", photo);
+    }
+
+    //  const yejodatahai = await fetchProducts(formDataObj)
+
     try {
-      const { data } = await axios.post("/api/product", formData);
-      console.log("Data:", data);
+      const { data } = await axios.post("/api/product", formDataToSend, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (data?.status == 200 || data?.message == "Image uploaded successfully & product added to database") {
+       
+        console.log("Data:", data);
+
+        setFormData({
+          name: "",
+          description: "",
+          price: "",
+          stock: "",
+          category: "",
+          subcategory: "",
+          attributes: {
+            newArrival: false,
+            bestSeller: false,
+            trending: false,
+          },
+          images: [],
+        });  
+      }
+
+      toast.success("Product added successfully!");
+
+
     } catch (error) {
-      toast.error("Frontend Error adding product!");
+      toast.error("Failed to add product");
       console.log("Error:", error);
     }
 
-    // Handle form submission
-    console.log("Form submitted:", formData);
-
-    toast.success("Product added successfully!");
-
-    // setFormData({
-    //   name: "",
-    //   description: "",
-    //   price: "",
-    //   stock: "",
-    //   category: "",
-    //   subcategory: "",
-    //   attributes: {
-    //     newArrival: false,
-    //     bestSeller: false,
-    //     featured: false,
-    //   },
-    //   images: [],
-    // });
-
+   
 
   };
 
 
 
   const handleCsvUpload = (e) => {
-
     if (e.target.files?.[0]) {
       setCsvFile(e.target.files[0]);
     }
-
   };
 
   const ProcessCsvUplaod = () => {
-
     toast.success("CSV file uploaded successfully!");
     setCsvFile(null);
-
   };
 
-  return (
+  const GetallCategory = async () => {
+    const { data } = await axios.get("/api/category");
+    const response = await axios.get("/api/category/subcategory");
 
-    <div className="min-h-screen bg-black border-r border-violet-800/20">
+    console.log("Data:", data);
+    console.log("Response:", response);
+
+    if (
+      data?.message === "Category fetched successfully" &&
+      response?.data.message === "Subcategory fetched successfully"
+    ) {
+      setRealCategory((prev) => [...data.category]);
+      setRealsubCategory((prev) => [...response?.data.GetSubcategory]);
+    }
+  };
+
+  const handleCreateCategory = async (e) => {
+    e.preventDefault();
+
+    if (!categoryName.trim() || !subcategoryName.trim()) {
+      toast.error("Both category and subcategory names are required");
+      return
+
+    }
+
+
+
+    const category = {
+      categoryName: categoryName,
+      subcategory: subcategoryName,
+    };
+
+    const data = await createCategory()
+
+    console.log("Data:", data);
+
+      if (
+        data?.message == "Category created successfully" ||
+        data?.status == 201
+      ) {
+        setCategoryName("");
+        setSubcategoryName("");
+    
+        toast.success("Category created successfully!");
+      }
+
+
+
+    // try {
+    //   // const { data } = await axios.post("/api/category", {
+    //   //   categoryName,
+    //   //   subcategoryName,
+    //   // });
+
+    //   console.log("Data:", data);
+
+    //   if (
+    //     data?.message == "Category created successfully" ||
+    //     data?.status == 201
+    //   ) {
+    //     setCategoryName("");
+    //     setSubcategoryName("");
+    
+    //     toast.success("Category created successfully!");
+    //   }
+    // } catch (error) {
+    //   toast.error("Failed to create category.");
+    //   console.log("Error:", error);
+    // }
+
+  
+  };
+
+  useEffect(() => {
+    GetallCategory();
+    // Simulate loading data
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-violet-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`min-h-screen bg-black border-r border-violet-800/20 ${
+        issidebarOpen ? "ml-0" : "ml-14"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-zinc-950 border-r  border-violet-800/20 rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-neutral-950 border-r  border-violet-800/20 rounded-lg shadow-lg overflow-hidden">
           {/* Tabs */}
           <div className="border-b border-gray-200">
             <div className="flex">
@@ -178,7 +253,7 @@ function AddProduct() {
                 onClick={() => setActiveTab("single")}
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "single"
-                    ? "border-b-2 border-purple-800 text-violet-600"
+                    ? "border-b-2 border-violet-800 text-violet-600"
                     : "text-gray-500 hover:text-white"
                 }`}
               >
@@ -188,11 +263,22 @@ function AddProduct() {
                 onClick={() => setActiveTab("bulk")}
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "bulk"
-                    ? "border-b-2 border-purple-800 text-violet-600"
+                    ? "border-b-2 border-violet-800 text-violet-600"
                     : "text-gray-500 hover:text-white"
                 }`}
               >
                 Bulk Upload
+              </button>
+
+              <button
+                onClick={() => setActiveTab("createCategory")}
+                className={`px-6 py-4 text-sm font-medium ${
+                  activeTab === "createCategory"
+                    ? "border-b-2 border-violet-800 text-violet-600"
+                    : "text-gray-500 hover:text-white"
+                }`}
+              >
+                Create Category
               </button>
             </div>
           </div>
@@ -207,6 +293,7 @@ function AddProduct() {
                       Product Name
                     </label>
                     <input
+                      name="name"
                       type="text"
                       value={formData.name}
                       onChange={(e) =>
@@ -215,7 +302,7 @@ function AddProduct() {
                           name: e.target.value,
                         }))
                       }
-                      className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-purple-800 focus:ring-violet-500"
+                      className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
                       required
                     />
                   </div>
@@ -225,6 +312,7 @@ function AddProduct() {
                       Description
                     </label>
                     <textarea
+                      name="description"
                       value={formData.description}
                       onChange={(e) =>
                         setFormData((prev) => ({
@@ -233,7 +321,7 @@ function AddProduct() {
                         }))
                       }
                       rows={4}
-                      className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-purple-800 focus:ring-violet-500"
+                      className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
                       required
                     />
                   </div>
@@ -245,9 +333,10 @@ function AddProduct() {
                       </label>
                       <div className="mt-1 relative rounded-md shadow-sm">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <span className="text-purple-900 sm:text-sm">$</span>
+                          <span className="text-violet-900 sm:text-sm">$</span>
                         </div>
                         <input
+                          name="price"
                           type="number"
                           step="0.01"
                           value={formData.price}
@@ -257,7 +346,7 @@ function AddProduct() {
                               price: e.target.value,
                             }))
                           }
-                          className="pl-7 block w-full rounded px-2 py-2 text-black border-gray-300 focus:border-purple-800 focus:ring-violet-500"
+                          className="pl-7 block w-full rounded px-2 py-2 text-black border-gray-300 focus:border-violet-800 focus:ring-violet-500"
                           required
                         />
                       </div>
@@ -268,6 +357,7 @@ function AddProduct() {
                         Stock
                       </label>
                       <input
+                        name="stock"
                         type="number"
                         value={formData.stock}
                         onChange={(e) =>
@@ -276,7 +366,7 @@ function AddProduct() {
                             stock: e.target.value,
                           }))
                         }
-                        className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-purple-800 focus:ring-violet-500"
+                        className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
                         required
                       />
                     </div>
@@ -288,22 +378,23 @@ function AddProduct() {
                         Category
                       </label>
                       <select
+                        name="category"
                         value={formData.category}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setFormData((prev) => ({
                             ...prev,
                             category: e.target.value,
                             subcategory: "",
-                          }))
-                        }
-                        className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-purple-800 focus:ring-violet-500"
+                          }));
+                        }}
+                        className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
                         required
                       >
                         <option value="">Select Category</option>
-                        {Object.keys(categories).map((category) => (
-                          <option key={category} value={category}>
-                            {category.charAt(0).toUpperCase() +
-                              category.slice(1)}
+
+                        {RealCategory.map((category) => (
+                          <option key={category.name} value={category._id}>
+                            {category.name}
                           </option>
                         ))}
                       </select>
@@ -314,6 +405,7 @@ function AddProduct() {
                         Subcategory
                       </label>
                       <select
+                        name="subcategory"
                         value={formData.subcategory}
                         onChange={(e) =>
                           setFormData((prev) => ({
@@ -321,17 +413,19 @@ function AddProduct() {
                             subcategory: e.target.value,
                           }))
                         }
-                        className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-purple-800 focus:ring-violet-500"
+                        className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
                         required
                         disabled={!formData.category}
                       >
                         <option value="">Select Subcategory</option>
-                        {formData.category &&
-                          categories[formData.category].map((sub) => (
-                            <option key={sub} value={sub}>
-                              {sub}
-                            </option>
-                          ))}
+
+                        {RealsubCategory.filter(
+                          (sub) => sub.category === formData.category
+                        ).map((sub) => (
+                          <option key={sub.name} value={sub._id}>
+                            {sub.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -393,12 +487,12 @@ function AddProduct() {
                           attributes: {
                             newArrival: false,
                             bestSeller: false,
-                            featured: false,
+                            trending: false,
                           },
                           images: [],
                         })
                       }
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-purple-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
                     >
                       <RefreshCcw className="h-4 w-4 mr-2" />
                       Reset Form
@@ -409,17 +503,7 @@ function AddProduct() {
 
               {/* Image Upload Section */}
               <div>
-                <div
-                  className={`border-2 border-dashed rounded-lg p-6 ${
-                    dragActive
-                      ? "border-purple-800 bg-violet-50"
-                      : "border-gray-300 hover:border-gray-400"
-                  }`}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
-                >
+                <div className="border-2 border-dashed rounded-lg p-6  border-gray-300 hover:border-gray-400 ">
                   <div className="text-center">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     <div className="mt-4">
@@ -434,18 +518,15 @@ function AddProduct() {
                       <input
                         type="file"
                         ref={fileInputRef}
-                        onChange={handleImageUpload}
+                        onChange={onImageChange}
+                        // onChange={handleImageUpload}
                         accept="image/*"
                         multiple
                         className="hidden"
                       />
                     </div>
-                    <p className="mt-2 text-sm text-gray-500">
-                      or drag and drop images here
-                    </p>
                   </div>
                 </div>
-
 
                 {/* Image Preview */}
                 {formData.images.length > 0 && (
@@ -453,7 +534,7 @@ function AddProduct() {
                     <h4 className="text-sm font-medium text-white mb-4">
                       Selected Images
                     </h4>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                       {formData.images.map((file, index) => (
                         <div
                           key={index}
@@ -461,8 +542,9 @@ function AddProduct() {
                         >
                           <img
                             src={URL.createObjectURL(file)}
+                            // src={photo[0].name}
                             alt={`Preview ${index + 1}`}
-                            className="w-full h-32 object-cover"
+                            className="w-full h-48 object-cover"
                           />
                           <button
                             onClick={() => removeImage(index)}
@@ -477,8 +559,7 @@ function AddProduct() {
                 )}
               </div>
             </div>
-
-          ) : (
+          ) : activeTab === "bulk" ? (
             // Bulk Upload Section
             <div className="p-6">
               <div className="max-w-3xl mx-auto">
@@ -488,7 +569,7 @@ function AddProduct() {
                     <h3 className="mt-2 text-sm font-medium text-white">
                       Bulk Product Upload
                     </h3>
-                    <p className="mt-1 text-sm text-purple-500">
+                    <p className="mt-1 text-sm text-violet-500">
                       Upload a CSV file containing multiple products
                     </p>
                   </div>
@@ -561,10 +642,69 @@ function AddProduct() {
                   </div>
                 </div>
               </div>
+            </div> // if active tab is create category
+          ) : (
+            <div className="p-6">
+              <div className="max-w-3xl mx-auto">
+                <div className="bg-black border-r border-violet-800/20 p-6 rounded-lg border border-gray-200">
+                  <div className="text-center mb-6">
+                    {/* <FileSpreadsheet className="mx-auto h-12 w-12 text-gray-400" /> */}
+                    <h1 className="mt-2 text-xl font-medium text-white">
+                      Create category
+                    </h1>
+                    <p className="mt-1 text-sm text-violet-500">
+                      Create a new category and subcategory
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleCreateCategory}>
+                    <div className="grid grid-cols-1 gap-4">
+                      <div>
+                        <label className="block text-sm  font-medium text-white">
+                          Category Name
+                        </label>
+                        <input
+                          value={categoryName}
+                          onChange={(e) => setCategoryName(e.target.value)}
+                          type="text"
+                          className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-white">
+                          Subcategory Name
+                        </label>
+                        <input
+                          value={subcategoryName}
+                          onChange={(e) => setSubcategoryName(e.target.value)}
+                          type="text"
+                          className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-col lg:flex-row gap-4 justify-between mt-4">
+                      <button
+                        type="submit"
+                        className="inline-flex items-center py-2 px-4  border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+                      >
+                        <Save className="h-4 w-4 mr-2" />
+                        Create Category
+                      </button>
+                      <button
+                        type="reset"
+                        className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-600 hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+                      >
+                        <RefreshCcw className="h-4 w-4 mr-2" />
+                        Reset Form
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
-
           )}
-
         </div>
       </div>
     </div>

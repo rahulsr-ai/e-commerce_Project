@@ -15,6 +15,7 @@ async function GoogleSignIn() {
   await signIn("google", {
     redirectTo: "/",
   });
+  
   return true;
 }
 

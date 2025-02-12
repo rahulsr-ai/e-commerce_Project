@@ -19,7 +19,7 @@ export async function POST(req) {
       <p>Hello ${name},</p>
       <p>Your verification code is:</p>
       <h2>${verificationCode}</h2>
-      <p>This code is valid for 10 minutes.</p>
+      <p>This code is valid for 3 minutes.</p>
     `;
 
     await dbConnect();
@@ -32,9 +32,9 @@ export async function POST(req) {
       return NextResponse.json(
         {
           success: false,
-          message: "User already has a verified account",
+          message: "email is already in use",
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
@@ -42,15 +42,15 @@ export async function POST(req) {
       return NextResponse.json(
         {
           success: false,
-          message: "User already has a verified account in temporary collection",
+          message: "email is already verified",
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
     if (existingUser) {
       // Check if the previous code is still valid
-      const codeExpiryTime = 3 * 60 * 1000; // 5 minutes in milliseconds
+      const codeExpiryTime = 3 * 60 * 1000; // 3 minutes in milliseconds
       const currentTime = Date.now();
       const timeDifference = currentTime - existingUser.codeGeneratedAt;
 
@@ -58,9 +58,9 @@ export async function POST(req) {
         return NextResponse.json(
           {
             success: false,
-            message: "Your verification code is still valid. Please check your email.",
+            message: "Previous code is still valid",
           },
-          { status: 400 }
+          { status: 200 }
         );
       } else {
         // Update the existing user's verification code and set the isVerified flag to false
@@ -80,7 +80,7 @@ export async function POST(req) {
           {
             success: true,
             code: verificationCode,
-            message: "Welcome back! Trying again to verify. Check your email for the code.",
+            message: "Verification code sent successfully",
           },
           { status: 200 }
         );
@@ -103,7 +103,7 @@ export async function POST(req) {
 
     return NextResponse.json({
       success: true,
-      message: "Verification email sent",
+      message: "Verification code sent successfully",
       code: verificationCode,
     });
 

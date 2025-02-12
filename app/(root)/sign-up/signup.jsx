@@ -20,7 +20,6 @@ import Model from "@/app/components/Model";
 import { once } from "events";
 import Loader from "@/app/components/Loader";
 
-
 function Signup() {
   const [isLoading, setisLoading] = useState(false);
   const [modelOpen, setmodelopen] = useState(false);
@@ -36,60 +35,43 @@ function Signup() {
   // cosnt [temporayEmail, setTemporaryEmail] = useState(email);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
   const [passwordError, setPasswordError] = useState("");
 
   const handleForm = async (e) => {
     e.preventDefault();
 
-    setmodelopen(true);
-
-    // console.log(name, email, password);
-
-   
-
     try {
-      if (oneClick === false) {
-        const { data } = await axios.post(
-          "/api/auth/verifyemail/sendotp",
-          {
-            name,
-            email,
-            password,
-          },
-        );
+      const { data } = await axios.post("/api/auth/verifyemail/sendotp", {
+        name,
+        email,
+        password,
+      });
 
-        console.log(data);
+      console.log(data);
 
-        if (data.status === 200) {
-          alert("OTP sent successfully");
-          setOneClick(true);
-          setmodelopen(true);
-        }
+      if (
+        data?.success ||
+        data?.message === "Verification code sent successfully"
+      ) {
+        toast.success(data?.message);
+        setmodelopen(true);
+      } else {
+        toast.error(data?.message);
+        alert("random message");
       }
-      alert("set click is true ");
-      setOneClick(true);
     } catch (error) {
-      console.log("frontend error while sign upping the user ");
+      console.log("Failed to sign up");
       console.log(error);
     }
 
-    // alert("form submit");
+    setmodelopen(true);
   };
 
   return (
     isLoading && (
       <div className="relative lg:top-12 top-16 ">
         <div className="lg:py-16 pb-8  flex flex-col justify-center min-h-[calc(100vh-64px)] ">
-          {/* <div className="sm:mx-auto sm:w-full sm:max-w-md mb-8 mt-8">
-            <div className="flex justify-center">
-              <div className="flex items-center space-x-2">
-                <ShoppingBag className="text-[#f5deb3]" size={32} />
-                <span className="text-2xl font-bold text-white">StoreX</span>
-              </div>
-            </div>
-          </div> */}
-
           <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
             <div className="bg-black py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">
               <div className="text-center mb-6">
@@ -100,7 +82,7 @@ function Signup() {
                   Already have an account?{" "}
                   <Link
                     href="/sign-in"
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
+                    className="font-medium text-violet-600 hover:text-violet-500 transition-colors duration-200"
                   >
                     Sign in
                   </Link>
@@ -130,7 +112,7 @@ function Signup() {
                       type="text"
                       autoComplete="name"
                       required
-                      className="Signupearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      className="Signupearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -155,7 +137,7 @@ function Signup() {
                       type="email"
                       autoComplete="email"
                       required
-                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -181,7 +163,7 @@ function Signup() {
                       name="password"
                       type={showPassword ? "text" : "password"}
                       required
-                      className="appearance-none block w-full pl-10 pr-10 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-10 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
                       placeholder="••••••••"
                       minLength={8}
                     />
@@ -190,7 +172,7 @@ function Signup() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/40 hover:text-white/60 transition-colors"
                     >
-                      {showPassword ? (
+                      {!showPassword ? (
                         <EyeOff className="size-5" />
                       ) : (
                         <Eye className="size-5" />
@@ -199,36 +181,6 @@ function Signup() {
                   </div>
                 </div>
 
-                {/* Confirm Password */}
-                {/* <div>
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm font-medium text-white/80"
-                >
-                  Verify
-                </label>
-                <div className="mt-1 relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="size-5 text-white/40" />
-                  </div>
-                  <input
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                    }}
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    required
-                    className="appearance-none block w-full pl-10 pr-10 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-                    placeholder="••••••••"
-                    minLength={8}
-                  />
-                  <button
-                    type="button"
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/40 hover:text-white/60 transition-colors"
-                  ></button>
-                </div>
-              </div> */}
-
                 {/* Terms and Conditions */}
                 <div className="flex items-center">
                   <input
@@ -236,7 +188,7 @@ function Signup() {
                     name="terms"
                     type="checkbox"
                     required
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-white/20 rounded bg-black "
+                    className="h-4 w-4 text-violet-600 focus:ring-violet-500 border-white/20 rounded bg-black "
                   />
                   <label
                     htmlFor="terms"
@@ -245,14 +197,14 @@ function Signup() {
                     I agree to the{" "}
                     <a
                       href="#"
-                      className="text-indigo-600 hover:text-indigo-500"
+                      className="text-violet-600 hover:text-violet-500"
                     >
                       Terms
                     </a>{" "}
                     and{" "}
                     <a
                       href="#"
-                      className="text-indigo-600 hover:text-indigo-500"
+                      className="text-violet-600 hover:text-violet-500"
                     >
                       Privacy Policy
                     </a>
@@ -262,7 +214,7 @@ function Signup() {
                 {/* Sign up button */}
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-indigo-500 transition-all duration-200"
+                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-violet-500 transition-all duration-200"
                 >
                   {oneClick ? (
                     // <Loader />
@@ -281,20 +233,9 @@ function Signup() {
                     </>
                   )}
                 </button>
-
-                {/* Sign in link */}
-                {/* <p className="mt-4 text-center text-sm text-white/60">
-                  Already have an account?{" "}
-                  <Link
-                    href="/sign-in"
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
-                  >
-                    Sign in
-                  </Link>
-                </p> */}
               </form>
 
-              {oneClick && (
+             
                 <Model
                   isOpen={modelOpen}
                   setmodel={setmodelopen}
@@ -302,7 +243,7 @@ function Signup() {
                   email={email}
                   username={name}
                 />
-              )}
+            
             </div>
           </div>
         </div>

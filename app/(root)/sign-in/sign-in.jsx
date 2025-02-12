@@ -24,6 +24,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isProcessing, setisProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     setisLoading(true);
@@ -42,10 +43,21 @@ const SignIn = () => {
         password,
       });
 
-      if (data.message === "Login successful") {
-        toast.success("Welcome Back");
+      console.log(data);
+
+      if (!data?.token) {
+        setErrorMessage(data?.message);
+      }
+
+      if (data?.code === "2637") {
+        router.push("/admin/dashboard/product");
+      }
+      if (data?.code === "0001") {
         router.push("/");
       }
+      if (data?.token) toast.success(data?.message);
+
+      setUser(() => data);
     } catch (error) {
       console.log("error while login the user ");
       console.log(error);
@@ -60,19 +72,13 @@ const SignIn = () => {
     }
   };
 
+  console.log("user =============================");
+  console.log(user?.role);
+
   return (
     isLoading && (
       <div className="relative lg:top-14 top-14">
-        <div className=" flex flex-col justify-center min-h-[calc(100vh-64px)] ">
-          
-          {/* <div className="sm:mx-auto sm:w-full sm:max-w-md mb-8 mt-8">
-            <div className="flex justify-center">
-              <div className="flex items-center space-x-2">
-                <span className="text-2xl font-bold text-white">StoreX</span>
-              </div>
-            </div>
-          </div> */}
-
+        <div className=" flex flex-col justify-center min-h-[calc(100vh-64px)]">
           <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
             <div className="bg-black py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">
               <div className="text-center mb-6">
@@ -101,7 +107,7 @@ const SignIn = () => {
                       type="email"
                       autoComplete="email"
                       required
-                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -125,10 +131,13 @@ const SignIn = () => {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
                       placeholder="••••••••"
                     />
                   </div>
+                  <p className="text-red-500 text-sm mt-2 ml-2">
+                    {errorMessage}
+                  </p>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -137,7 +146,7 @@ const SignIn = () => {
                       id="remember-me"
                       name="remember-me"
                       type="checkbox"
-                      className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-white/20 rounded bg-black"
+                      className="h-4 w-4 text-violet-600 focus:ring-violet-500 border-white/20 rounded bg-black"
                     />
                     <label
                       htmlFor="remember-me"
@@ -149,7 +158,7 @@ const SignIn = () => {
 
                   <a
                     href="#"
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
+                    className="text-sm font-medium text-violet-600 hover:text-violet-500 transition-colors duration-200"
                   >
                     Forgot password?
                   </a>
@@ -161,7 +170,7 @@ const SignIn = () => {
                     alert("Signing in");
                     setisProcessing(true);
                   }}
-                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-indigo-500 transition-all duration-200"
+                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-violet-500 transition-all duration-200"
                 >
                   <span className="absolute right-4 flex items-center">
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -186,13 +195,14 @@ const SignIn = () => {
                   onClick={() => {
                     handleGoogleSignIn();
                   }}
-                  className="border-2 border-indigo-600 w-full flex py-2 itmes-center justify-center gap-2 
-                    hover:scale-95 transition-all duration-300 ease-linear"
+                  className="border-2 border-violet-600 w-full flex py-2 itmes-center justify-center gap-2 
+                    transition-all duration-300 ease-linear hover:bg-violet-600"
                   type="submit"
                 >
                   <FcGoogle
                     size={22}
-                    className=" text-neutral-800 dark:text-neutral-300"
+                    className=" text-
+                    -800 dark:text-neutral-300"
                   />
                   <span className="text-neutral-700 dark:text-neutral-300 text-md text-center mt-1.2">
                     Google
@@ -204,7 +214,7 @@ const SignIn = () => {
                   Don't have an account?{" "}
                   <Link
                     href="/sign-up"
-                    className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
+                    className="font-medium text-violet-600 hover:text-violet-500 transition-colors duration-200"
                   >
                     Sign up
                   </Link>

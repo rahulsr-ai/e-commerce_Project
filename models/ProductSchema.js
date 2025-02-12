@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
     images: { type: [String], default: [] }, // 🖼️ Image URLs array with default []
     isNewArrival: { type: Boolean, default: false },
     isBestSeller: { type: Boolean, default: false },
-    isLimitedEdition: { type: Boolean, default: false },
+    isTrending: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -1,10 +1,10 @@
 import React from 'react'
-import Manageorder from './Order'
+import OrderPage from './Order'
 
  const page = () => {
   return (
     <div>
-      <Manageorder/>
+    <OrderPage/>
     </div>
   )
 }

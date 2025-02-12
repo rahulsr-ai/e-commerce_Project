@@ -1,9 +1,10 @@
 "use client";
-import axios from "axios";
+
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import "@/app/components.css";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Model = ({ isOpen, setmodel, password, email, username }) => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
   const [message, setMessage] = useState("");
   const [ResendCounter, setResendCounter] = useState(0);
 
-  const [timeLeft, setTimeLeft] = useState(180); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
   const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
@@ -44,13 +45,17 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
         verifyOtp: parseInt(code),
       });
 
-      if (data.status === 200) {
+      if (data?.success) {
         toast.success("Account verified successfully!");
         setmodel(false);
-        router.push("/");
+        router.push("/sign-in");
       } else {
         setMessage("Failed to send code");
+        toast.error(data?.message);
+        setCode("");
       }
+      
+        
     } catch (error) {
       console.error("Error sending code:", error);
       setMessage("Failed to send code");
@@ -59,7 +64,6 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
 
   const handleResend = async () => {
     setResendCounter(ResendCounter + 1); // Increment the resend number counter
-    alert("Requesting new code...");
     setTimeLeft(180); // Reset the timer
     setCanResend(false); // Disable resend button
 
@@ -70,24 +74,25 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
       return;
     }
 
-
-
     try {
       const { data } = await axios.post("/api/auth/verifyemail/sendotp", {
-        name,
+        name: username,
         email,
         password,
       });
       console.log(data);
 
-      if (data.status === 200) {
-        alert("OTP request sent successfully");
+      if (data.success) {
+        toast.success(data?.message);
       }
     } catch (error) {
       console.log("frontend error while requesting for resend otp ");
       console.log(error);
     }
   };
+
+  console.log(isOpen);
+  
 
   return (
     <div
@@ -96,7 +101,11 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
       }`}
     >
       <div className="bg-neutral-900 p-4 rounded-lg shadow-lg">
-        <h3 className="text-lg font-bold">Enter 6-Digit Code</h3>
+        <h3 className="text-lg font-bold">
+          {" "}
+          Verification code has sent to
+          <p className="block">{email}</p>
+        </h3>
         <form onSubmit={handleSubmit} className="p-4 ">
           <div className="flex justify-center">
             {Array.from({ length: 6 }).map((_, index) => (
@@ -149,13 +158,13 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
           {canResend ? (
             <button
               onClick={handleResend}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
+              className="text-violet-200 text-sm hover:text-violet-600 transition-colors"
             >
-              Resend Code
+              Request new code
             </button>
           ) : (
             <p className="text-gray-500">
-              Resend available in{" "}
+              Code will expire in{" "}
               <span className="font-semibold">
                 {Math.floor(timeLeft / 60)}:
                 {String(timeLeft % 60).padStart(2, "0")} ⌛

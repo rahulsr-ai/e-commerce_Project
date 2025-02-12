@@ -17,32 +17,33 @@ export default function RootLayout({ children }) {
   }, []);
 
   return (
-       isloading && 
-    <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Desktop Toggle Button */}
-      
-      {/* Sidebar */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-      />
+    isloading && (
+      <div className="min-h-screen bg-[#0a0a0a]">
+        {/* Desktop Toggle Button */}
 
-      {/* Overlay for mobile */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-40 lg:hidden"
-          onClick={() => setIsSidebarOpen(false)}
+        {/* Sidebar */}
+        <Sidebar
+          isOpen={isSidebarOpen}
+          toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         />
-      )}
 
-      {/* Main Content */}
-      <div
-        className={`transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "lg:ml-64" : "lg:ml-0"
-        }`}
-      >
-        {children}
+        {/* Overlay for mobile */}
+        {isSidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        {/* Main Content */}
+        <div
+          className={`transition-all duration-300 ease-in-out ${
+            isSidebarOpen ? "lg:ml-64" : "lg:ml-0"
+          }`}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    )
   );
 }

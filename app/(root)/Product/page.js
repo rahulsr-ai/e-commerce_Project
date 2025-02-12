@@ -1,10 +1,18 @@
-import React from 'react'
+"use client";
+
+import React, { use, useEffect, useState } from 'react'
 import ProductPage from './ProductPage'
-import ResponsiveProductPage from '@/app/components/CodeParrot'
+import ProductPageNew from './ProductPageNew'
 
 const page = () => {
-  return (
-    <ProductPage/>
+  const [isloading, setIsloading] = useState(false);
+
+  useEffect(() => { 
+    setIsloading(true);
+  }, []);
+  return ( isloading &&
+    <ProductPageNew/>
+    // <ProductPage/>
   )
 }
 

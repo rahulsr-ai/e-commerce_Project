@@ -26,10 +26,11 @@ import { useAuth } from "@/context/Authcontext";
 import axios from "axios";
 
 const Navbar = () => {
+  const { user, setUser } = useAuth();
+
   const router = useRouter();
   let isCategoryPage = router.pathname === "/category";
 
-  const { user, setUser } = useAuth();
 
   const [Loading, setIsLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,31 +40,32 @@ const Navbar = () => {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   const handleLogout = async () => {
+    setUser(null);
     alert("Logging out");
+
     const { data } = await axios.post("/api/auth/logout");
     console.log(data);
-    if (data.message === "Logged out successfully") {
+    if (data.success) {
       router.push("/sign-in");
     }
+
   };
 
-  useEffect(() => {
+  useEffect(() => {  
+
     isCategoryPage = router.pathname === "/category";
+
     setIsLoading(true);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-    useAuth();
+
+
   }, []);
 
-  function logout() {
-    setUser({
-      token: "",
-      user: {},
-    });
-  }
 
   const categories = [
     { name: "Electronics", icon: <Laptop size={18} /> },
@@ -80,6 +82,7 @@ const Navbar = () => {
     { name: "Limited Edition", icon: <BookOpen size={18} /> },
   ];
 
+  
   return (
     Loading && (
       <nav
@@ -87,13 +90,13 @@ const Navbar = () => {
           !isScrolled
             ? "bg-gradient-to-b from-neutral-900 to-transparent backdrop-blur-sm"
             : "bg-gradient-to-b from-black to-transparent backdrop-blur-sm"
-        }`}
+        }  `}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
           <div className="flex items-center justify-between  h-16">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center space-x-2">
-              <ShoppingBag className="text-[#9747ff]" size={24} />
+              <ShoppingBag className="text-violet-600" size={24} />
               <span className="text-white font-bold text-xl tracking-tight">
                 StoreX
               </span>
@@ -224,22 +227,31 @@ const Navbar = () => {
               )}
             </div>
 
-            <div className="hidden lg:flex items-center space-x-4">
-              <Link href="/sign-in">
-                <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
-                  <User
-                    size={18}
-                    className="group-hover:scale-110 transition-transform duration-200"
-                  />
-                  Sign in
-                </button>
-              </Link>
-              <Link href="/sign-up">
-                <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
-                  Sign up
-                </button>
-              </Link>
-            </div>
+           
+              <div className={`hidden lg:flex items-center space-x-4`}>
+                <Link href="/sign-in">
+                  <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
+                    <User
+                      size={18}
+                      className="group-hover:scale-110 transition-transform duration-200"
+                    />
+                    Sign in
+                  </button>
+                </Link>
+                <Link href="/sign-up">
+                  <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+                    Sign up
+                  </button>
+                </Link>
+              </div>
+            
+              {/* <button 
+              onClick={handleLogout}
+              
+              className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+                LogOut
+              </button>
+           */}
 
             {/* Mobile menu button */}
             <div className="lg:hidden">
@@ -303,40 +315,7 @@ const Navbar = () => {
               <span>Profile</span>
             </Link>
 
-            {/* <div className="px-3 py-2">
-              <button
-                onClick={() => setIsAdminOpen(!isAdminOpen)}
-                className="w-full text-left flex justify-between items-center text-white/90 hover:text-white transition-colors duration-200"
-              >
-                <span>Admin</span>
-                <ChevronDown
-                  size={16}
-                  className={`transform transition-transform duration-200 ${
-                    isAdminOpen ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-              <div
-                className={`mt-2 space-y-1 transition-all duration-200 ${
-                  brandsOpen ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                {[
-                  "admin/Product",
-                  "admin/dashboard/Order",
-                  "admin/dashboard/product",
-                ].map((brand) => (
-                  <Link
-                    key={brand}
-                    href={brand}
-                    className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200"
-                  >
-                    <span>{brand}</span>
-                  </Link>
-                ))}
-              </div>
-            </div> */}
-
+        
             {/* Mobile Categories */}
             <div className="px-3 py-2">
               <button
@@ -409,33 +388,30 @@ const Navbar = () => {
               <span className="text-center">Sign in</span>
             </button> */}
 
-              {!user.token ? (
+
                 <>
                   <button
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/sign-in");
+                    }}
                     className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
                   >
                     <Link href="/sign-in">Sign in</Link>
                   </button>
                   <button
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      router.push("/sign-up");
+                    }}
                     className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
                   >
                     <Link href="/sign-up">Sign up</Link>
                   </button>
                 </>
-              ) : (
-                <button
-                  onClick={() => {
-                    handleLogout();
-
-                    setIsOpen(false);
-                  }}
-                  className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
-                >
-                  LogOut
-                </button>
-              )}
+              
+             
+              
             </div>
           </div>
         </div>

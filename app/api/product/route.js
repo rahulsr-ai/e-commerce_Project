@@ -1,11 +1,8 @@
 import { dbConnect } from "@/lib/db";
 import ProductSchema from "@/models/ProductSchema";
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-
-
-
+import supabase from "@/lib/SupaBaseClient";
+import { Subcategory } from "@/models/CategorySchema";
 
 export async function GET(req) {
   let token = req.cookies.get("authToken")?.value;
@@ -14,64 +11,87 @@ export async function GET(req) {
   return NextResponse.json({ message: "Hello", token }, { status: 200 });
 }
 
-
-
-
-
-// Supabase Client Init
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
-
-
-
 // ✅ **POST Route to Upload Image & Save Product**
 export async function POST(req) {
   try {
-    await dbConnect(); // MongoDB connect karna
-    const formData = await req.json();
+    const formData = await req.formData();
 
-    console.log(formData);
-    
+    console.log("Form Data:", formData);
 
-    // 🖼️ Image File Extract karna
-    const imageFile = formData.get("image");
-    if (!imageFile) {
-      return NextResponse.json({ error: "Image is required" }, { status: 400 });
+    if (!formData.get("formData") || !formData.get("photo")) {
+      return NextResponse.json(
+        { message: "No form data or photo found" },
+        { status: 400 }
+      );
     }
 
-    // 🖼️ **Upload Image to Supabase Storage**
+    const file = JSON.parse(formData.get("formData")); // its a object with all the data without photo
+    const photo = formData.get("photo"); // here is the photo object
+
+    console.log("Photo", photo);
+    console.log("File", file);
+
+    const filePath = `Products/${Date.now()}-${photo.name.replace(/\s/g, "-")}`; // Unique file name
     const { data, error } = await supabase.storage
-      .from("StoreX-Bucket") // 🗂️ Storage bucket name
-      .upload(`products/${Date.now()}-${imageFile.name}`, imageFile, {
+      .from("StoreX-Bucket") // Your Supabase bucket name
+      .upload(filePath, photo, {
+        contentType: photo.type,
         cacheControl: "3600",
         upsert: false,
       });
 
-    if (error) {
-      return NextResponse.json({ error: "Image upload failed" }, { status: 500 });
+    if (data.error) {
+      console.log("Error uploading file:", data.error);
+      return NextResponse.json(
+        { message: "Failed to upload image" },
+        { status: 500 }
+      );
     }
 
-    // 🌍 **Get Image URL**
-    const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`;
+    const publicURL = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
+    console.log("publicURL", publicURL);
 
-    // 📦 **Save Product to MongoDB**
-    const newProduct = await ProductSchema.create({
-      name: formData.get("name"),
-      description: formData.get("description"),
-      price: formData.get("price"),
-      stock: formData.get("stock"),
-      category: formData.get("category"),
-      subcategory: formData.get("subcategory"),
-      isNewArrival: formData.get("isNewArrival") === "true",
-      isBestSeller: formData.get("isBestSeller") === "true",
-      isLimitedEdition: formData.get("isLimitedEdition") === "true",
-      images: [imageUrl], // 🖼️ Image URL store in array
+    if (error) {
+      console.error("Upload error:", error);
+      return NextResponse.json(
+        { message: "Failed to upload image" },
+        { status: 500 }
+      );
+    }
+
+    console.log("file attributes ", file.attributes.newArrival);
+    console.log("file attributes are ----------", file.attributes);
+
+    await dbConnect(); // MongoDB connect karna
+
+    const newProduct = new ProductSchema({
+      name: file.name,
+      description: file.description,
+      price: file.price,
+      stock: file.stock,
+      category: file.category,
+      subcategory: file.subcategory,
+      isBestSeller: file.attributes.bestSeller,
+      isNewArrival: file.attributes.newArrival,
+      isTrending: file.attributes.trending,
+      images: publicURL,
     });
 
-    return NextResponse.json({ message: "Product added!", product: newProduct });
+    
+
+    await newProduct.save();
+
+    return NextResponse.json(
+      {
+        message: "Image uploaded successfully & product added to database",
+        publicURL: publicURL,
+      },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message, message: "Error adding product!" },
+      { status: 500 }
+    );
   }
 }

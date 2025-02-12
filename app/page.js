@@ -1,15 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-// import {
-//   Star,
-//   TrendingUp,
-//   Shield,
-//   Truck,
-//   Clock,
-//   ArrowRight,
-//   BadgeCheck,
-// } from "lucide-react";
 import { motion } from "framer-motion";
 
 import ProductGrid from "@/app/components/ProductGrid";
@@ -24,6 +15,7 @@ import Testimonials from "./components/Testimonials";
 
 import axios from "axios";
 import { useAuth } from "@/context/Authcontext";
+import Image from "next/image";
 
 const Landing = () => {
   const { user, setUser } = useAuth();
@@ -93,10 +85,14 @@ const Landing = () => {
                   className="relative group overflow-hidden rounded-lg"
                 >
                   <div className="aspect-w-16 aspect-h-9">
-                    <img
-                      src={category.image}
+                    <Image
+                      src={category?.image}
                       alt={category.title}
-                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                      width={500} // Set a width for the image (adjust as per your requirement)
+                      height={300} // Set a height for the image (adjust as per your requirement)
+                      layout="responsive" // Specify the layout of the image
+                      objectFit="cover" // Specify the object fit of the image
+                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300" // Add class to the image
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-6">

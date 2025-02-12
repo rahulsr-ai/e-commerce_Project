@@ -25,6 +25,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
       <body
@@ -32,7 +33,7 @@ export default function RootLayout({ children }) {
       >
         
           <AuthProvider>
-            {/* <Navbar /> */}
+            <Navbar />
 
             <div className="">{children}</div>
             <Toaster position="top-center" reverseOrder={false} />

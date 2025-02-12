@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import User from "./models/UserSchema";
+import { dbConnect } from "./lib/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -18,7 +20,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           access_type: "offline",
           prompt: "consent",
           response_type: "code",
-          scope: "https://www.googleapis.com/auth/userinfo.email",
+          scope:
+            "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile", // Add profile scope
         },
       },
     }),
@@ -31,7 +34,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
+      console.log("user is ------------------");
+      console.log(user);
       if (user) {
+        await dbConnect();
+
+        const isUserExits = await User.findOne({ email: user.email });
+
+        if (isUserExits) {
+          console.log("user already exists");
+
+          return token;
+        }
+
+        const newUser = await User.create({
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          role: "user",
+          isVerified: true,
+          authProvider: "google",
+          authProviderId: user.id,
+          image : user.image,
+        });
+
+        console.log("token is  ------------------");
+        console.log(token);
         return {
           ...token,
           id: user.id,

@@ -21,39 +21,53 @@ export async function POST(request) {
     // If no temporary user exists, return error
     if (!existingTempUser) {
       return NextResponse.json(
-        { message: "Verification code not found for this email." },
-        { status: 400 }
+        { message: "Verification code not found for this email.", success: false},
+        { status: 200 }
       );
     }
 
+    if(existingTempUser.email !== email){
+      return NextResponse.json(
+        { message: "Please enter the correct email address.", success: false},
+        { status: 200 }
+      );
+    }
+
+    
+
+    // Step 4: Check if the user already exists in the User collection
+    const existingUser = await User.findOne({ email });
+
+
+
+    if (existingUser) {
+      return NextResponse.json(
+        { message: "this email is already in use" , success: false},
+        { status: 200 }
+      );
+    }
+
+
     // Step 3: Check if the OTP is correct and the code has not expired
     const currentTime = Date.now();
-    const codeExpiryTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+    const codeExpiryTime = 3 * 60 * 1000; // 3 minutes in milliseconds
     const timeDifference = currentTime - existingTempUser.codeGeneratedAt;
 
     if (existingTempUser?.verificationCode !== verifyOtp) {
       return NextResponse.json(
-        { message: "Invalid verification code." },
-        { status: 400 }
+        { message: "Invalid verification code." , success: false},
+        { status: 200 }
       );
     }
 
     if (timeDifference > codeExpiryTime) {
       return NextResponse.json(
-        { message: "Verification code has expired." },
-        { status: 400 }
+        { message: "Verification code has expired." , success: false},
+        { status: 200 }
       );
     }
 
-    // Step 4: Check if the user already exists in the User collection
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      return NextResponse.json(
-        { message: "User already exists." },
-        { status: 400 }
-      );
-    }
+    
 
     // Step 5: Hash the password for security
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -88,7 +102,8 @@ export async function POST(request) {
     
 
     return NextResponse.json(
-      { message: "User registered successfully." },
+
+      { message: "User registered successfully." , success: true},
       { status: 200 }
     );
   } catch (error) {

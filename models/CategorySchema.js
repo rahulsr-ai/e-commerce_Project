@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-
 // **Category Schema**
 const categorySchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+  },
   slug: { type: String, unique: true, lowercase: true },
 });
 
@@ -20,7 +25,11 @@ categorySchema.pre("save", function (next) {
 const subcategorySchema = new mongoose.Schema({
   name: { type: String, required: true },
   slug: { type: String, unique: true, lowercase: true },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true,
+  },
 });
 
 // Generate slug before saving subcategory
@@ -32,5 +41,9 @@ subcategorySchema.pre("save", function (next) {
 });
 
 // Export models
-export const Category = mongoose.model("Category", categorySchema);
-export const Subcategory = mongoose.model("Subcategory", subcategorySchema);
+export const Category =
+  mongoose.models?.Category || mongoose.model("Category", categorySchema);
+
+export const Subcategory =
+  mongoose.models?.Subcategory ||
+  mongoose.model("Subcategory", subcategorySchema);

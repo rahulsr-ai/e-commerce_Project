@@ -9,6 +9,7 @@ const SignUpPage = async () => {
   if (session?.user) {
     redirect("/");
   }
+
   return (
     <div>
       <Signup/>

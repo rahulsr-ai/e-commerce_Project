@@ -17,9 +17,11 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: function () {
+        return this.authProvider !== "google"; // Google login users ke liye required nahi hoga
+      },
     },
-   role: {
+    role: {
       type: String,
       default: "user",
     },
@@ -28,9 +30,16 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
-    authProviderId: { 
-      type: String,
+    authProvider: { 
+      type: String, // "local" ya "google"
+      default: "local",
     },
+    authProviderId: { 
+      type: String, // Google ke users ke liye unique ID
+    },
+    image: { type: [String], default: [] },
+
+    
     cart: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
@@ -50,6 +59,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Export the User model, checking if it already exists
-const User = mongoose.models?.user || mongoose.model("user", userSchema);
+const User = mongoose.models?.User || mongoose.model("User", userSchema);
 
 export default User;
