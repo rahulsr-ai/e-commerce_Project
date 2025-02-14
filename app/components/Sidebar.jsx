@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import Next.js router hook
 
 import {
   PanelLeftClose,
@@ -14,9 +13,15 @@ import {
   BarChart3,
   LogOut,
 } from "lucide-react";
+import { useAuth } from "@/context/Authcontext";
+import axios from "axios";
+
+import { useRouter } from "next/navigation";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
-  const pathname = usePathname(); // Get the current route
+  const { user, setUser } = useAuth();
+
+  const router = useRouter();
 
   // Define menu items with links
   const menuItems = [
@@ -28,12 +33,23 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   ];
 
   // State to track active menu
-  const [activeItem, setActiveItem] = useState(pathname);
+  const [activeItem, setActiveItem] = useState("Inventory");
 
-  // Update active state when pathname changes (e.g., manual navigation)
-  useEffect(() => {
-    setActiveItem(pathname);
-  }, [pathname]);
+
+
+  const handleLogout = async () => {
+
+    alert("Logging out");
+    setUser(null);
+    localStorage.removeItem("code");
+
+    const { data } = await axios.post("/api/auth/logout");
+    console.log(data);
+    if (data?.success) {
+      router.push("/sign-in");
+    }
+
+  };
 
   return (
     <div
@@ -73,11 +89,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <li key={index}>
                 <Link
                   href={item.link}
-                  onClick={() => setActiveItem(item.link)} // Update active state on click
+                  onClick={() => setActiveItem(item.label)} // Update active state on click
                   className={`flex items-center ${
                     isOpen ? "px-4" : "justify-center px-2"
                   } py-3 text-sm rounded-lg transition-all duration-200 ${
-                    activeItem === item.link
+                    activeItem === item.label
                       ? "bg-violet-600/50 text-violet-100 font-medium"
                       : "text-gray-400 hover:bg-violet-100/5 hover:text-violet-200"
                   }`}
@@ -96,7 +112,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-violet-800/20">
+        <div className="p-4 border-t border-violet-800/20"
+        onClick={handleLogout}>
           <button
             className={`flex items-center ${
               isOpen ? "w-full px-4" : "justify-center w-full px-2"

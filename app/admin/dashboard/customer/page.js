@@ -3,7 +3,7 @@ import Customer from './Customer'
 
 const page = () => {
   return (
-    <div><Customer/></div>
+    <Customer/>
   )
 }
 

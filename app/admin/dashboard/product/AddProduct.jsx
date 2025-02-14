@@ -16,9 +16,7 @@ import {
 import toast from "react-hot-toast";
 import axios from "axios";
 
-
 import { useSidebar } from "@/helpers/SidebarContext";
-import { createCategory, fetchProducts } from "@/lib/apiCalls";
 
 function AddProduct() {
   const { issidebarOpen, setIsSidebarOpen } = useSidebar();
@@ -77,8 +75,6 @@ function AddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Product Data:", formData);
-
     const formDataObj = {
       name: formData.name,
       description: formData.description,
@@ -96,17 +92,19 @@ function AddProduct() {
       formDataToSend.append("photo", photo);
     }
 
-    //  const yejodatahai = await fetchProducts(formDataObj)
-
     try {
-      const { data } = await axios.post("/api/product", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const { data } = await toast.promise(
+        axios.post("/api/product", formDataToSend, {
+          headers: { "Content-Type": "multipart/form-data" },
+        }),
+        {
+          loading: "Uploading Product...",
+          success: "Product added successfully!",
+          error: "Failed to add product",
+        }
+      );
 
-      if (data?.status == 200 || data?.message == "Image uploaded successfully & product added to database") {
-       
-        console.log("Data:", data);
-
+      if (data?.success) {
         setFormData({
           name: "",
           description: "",
@@ -120,22 +118,12 @@ function AddProduct() {
             trending: false,
           },
           images: [],
-        });  
+        });
       }
-
-      toast.success("Product added successfully!");
-
-
     } catch (error) {
-      toast.error("Failed to add product");
       console.log("Error:", error);
     }
-
-   
-
   };
-
-
 
   const handleCsvUpload = (e) => {
     if (e.target.files?.[0]) {
@@ -156,8 +144,8 @@ function AddProduct() {
     console.log("Response:", response);
 
     if (
-      data?.message === "Category fetched successfully" &&
-      response?.data.message === "Subcategory fetched successfully"
+      data?.success === "Category fetched successfully" &&
+      response?.data.success === "Subcategory fetched successfully"
     ) {
       setRealCategory((prev) => [...data.category]);
       setRealsubCategory((prev) => [...response?.data.GetSubcategory]);
@@ -168,58 +156,36 @@ function AddProduct() {
     e.preventDefault();
 
     if (!categoryName.trim() || !subcategoryName.trim()) {
-      toast.error("Both category and subcategory names are required");
-      return
-
+      toast.error("Both Fields are required");
+      return;
     }
 
+    try {
+      // Send request with toast notifications
+      const { data } = await toast.promise(
+        axios.post("/api/category", {
+          categoryName,
+          subcategoryName,
+        }),
+        {
+          loading: "Processing...",
+          success: "Success !",
+          error: "Failed",
+        }
+      );
 
+      console.log("Data:", data);
 
-    const category = {
-      categoryName: categoryName,
-      subcategory: subcategoryName,
-    };
-
-    const data = await createCategory()
-
-    console.log("Data:", data);
-
-      if (
-        data?.message == "Category created successfully" ||
-        data?.status == 201
-      ) {
+      // ✅ If category is successfully created, reset input fields
+      if (data?.success) {
         setCategoryName("");
         setSubcategoryName("");
-    
-        toast.success("Category created successfully!");
       }
-
-
-
-    // try {
-    //   // const { data } = await axios.post("/api/category", {
-    //   //   categoryName,
-    //   //   subcategoryName,
-    //   // });
-
-    //   console.log("Data:", data);
-
-    //   if (
-    //     data?.message == "Category created successfully" ||
-    //     data?.status == 201
-    //   ) {
-    //     setCategoryName("");
-    //     setSubcategoryName("");
-    
-    //     toast.success("Category created successfully!");
-    //   }
-    // } catch (error) {
-    //   toast.error("Failed to create category.");
-    //   console.log("Error:", error);
-    // }
-
-  
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
 
   useEffect(() => {
     GetallCategory();
@@ -227,8 +193,11 @@ function AddProduct() {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
+
     return () => clearTimeout(timer);
   }, []);
+
+
 
   if (isLoading) {
     return (
@@ -237,6 +206,8 @@ function AddProduct() {
       </div>
     );
   }
+
+
 
   return (
     <div
@@ -303,7 +274,7 @@ function AddProduct() {
                         }))
                       }
                       className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
-                      required
+                      // required
                     />
                   </div>
 
@@ -668,7 +639,7 @@ function AddProduct() {
                           onChange={(e) => setCategoryName(e.target.value)}
                           type="text"
                           className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
-                          required
+                          
                         />
                       </div>
                       <div>

@@ -11,6 +11,12 @@ export async function GET(req) {
   return NextResponse.json({ message: "Hello", token }, { status: 200 });
 }
 
+
+
+
+
+
+
 // ✅ **POST Route to Upload Image & Save Product**
 export async function POST(req) {
   try {
@@ -20,7 +26,7 @@ export async function POST(req) {
 
     if (!formData.get("formData") || !formData.get("photo")) {
       return NextResponse.json(
-        { message: "No form data or photo found" },
+        { message: "No form data or photo found", success: true },
         { status: 400 }
       );
     }
@@ -43,8 +49,8 @@ export async function POST(req) {
     if (data.error) {
       console.log("Error uploading file:", data.error);
       return NextResponse.json(
-        { message: "Failed to upload image" },
-        { status: 500 }
+        { message: "Failed to upload image", success: true },
+        { status: 400 }
       );
     }
 
@@ -54,8 +60,8 @@ export async function POST(req) {
     if (error) {
       console.error("Upload error:", error);
       return NextResponse.json(
-        { message: "Failed to upload image" },
-        { status: 500 }
+        { message: "Failed to upload image", success: true },
+        { status: 400 }
       );
     }
 
@@ -77,12 +83,11 @@ export async function POST(req) {
       images: publicURL,
     });
 
-    
-
     await newProduct.save();
 
     return NextResponse.json(
       {
+        success: true,
         message: "Image uploaded successfully & product added to database",
         publicURL: publicURL,
       },

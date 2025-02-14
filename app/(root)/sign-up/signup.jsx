@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { RegisterUser } from "@/actions/user";
 import Model from "@/app/components/Model";
 import { once } from "events";
-import Loader from "@/app/components/Loader";
+import Loader from "@/app/components/StickyProductGrid";
 
 function Signup() {
   const [isLoading, setisLoading] = useState(false);

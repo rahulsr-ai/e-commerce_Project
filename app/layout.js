@@ -36,7 +36,9 @@ export default function RootLayout({ children }) {
             <Navbar />
 
             <div className="">{children}</div>
-            <Toaster position="top-center" reverseOrder={false} />
+            <Toaster position="top-center" reverseOrder={false} 
+             
+            />
           </AuthProvider>
         
       </body>

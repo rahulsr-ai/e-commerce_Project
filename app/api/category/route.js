@@ -2,6 +2,29 @@ import { dbConnect } from "@/lib/db";
 import { Category, Subcategory } from "@/models/CategorySchema";
 import { NextResponse } from "next/server";
 
+// ✅ Get all categories
+export async function GET(req) {
+  try {
+    await dbConnect(); // ✅ MongoDB connect karna
+    const category = await Category.find();
+
+    return NextResponse.json(
+      { message: "Category fetched successfully", success: true, category },
+      { status: 200 }
+    );
+
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    return NextResponse.json(
+      { error: "Error fetching category" },
+      { status: 500 }
+    );
+  }
+}
+
+
+//-----------
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -9,8 +32,11 @@ export async function POST(req) {
 
     if (!categoryName || !subcategoryName) {
       return NextResponse.json(
-        { error: "Please provide a categoryName and subcategoryName" },
-        { status: 400 }
+        {
+          error: "Please provide a categoryName and subcategoryName",
+          success: false,
+        },
+        { status: 200 }
       );
     }
 
@@ -38,6 +64,7 @@ export async function POST(req) {
 
       return NextResponse.json(
         {
+          success: true,
           message: "Subcategory created successfully",
           category: existingCategory,
           subcategory: newSubcategory,
@@ -49,8 +76,8 @@ export async function POST(req) {
     // ✅ If category & subcategory already exist, return error
     if (existingCategory && existingSubcategory) {
       return NextResponse.json(
-        { error: "Category and Subcategory already exist" },
-        { status: 400 }
+        { error: "Category and Subcategory already exist", success: true },
+        { status: 200 }
       );
     }
 
@@ -72,6 +99,7 @@ export async function POST(req) {
     return NextResponse.json(
       {
         message: "Category and Subcategory created successfully",
+        success: true,
         category: existingCategory,
         subcategory: newSubcategory,
       },
@@ -80,28 +108,7 @@ export async function POST(req) {
   } catch (error) {
     console.error("Error creating category:", error);
     return NextResponse.json(
-      { error: "Error creating category" },
-      { status: 500 }
-    );
-  }
-}
-
-
-
-// ✅ Get all categories
-export async function GET(req) {
-  try {
-    await dbConnect(); // ✅ MongoDB connect karna
-    const category = await Category.find();
-
-    return NextResponse.json(
-      { message: "Category fetched successfully", category },
-      { status: 200 }
-    );
-  } catch (error) {
-    console.error("Error fetching category:", error);
-    return NextResponse.json(
-      { error: "Error fetching category" },
+      { error: "Error creating category", success: false },
       { status: 500 }
     );
   }

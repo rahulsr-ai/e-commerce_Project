@@ -17,10 +17,12 @@ export function ProductCard({ image, name, price, discount, id }) {
   };
 
   return (
+
     <div
       className="group relative 
     bg-zinc-900 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/20"
     >
+
       <div className="aspect-square overflow-hidden">
         <img
           src={image}
@@ -38,7 +40,9 @@ export function ProductCard({ image, name, price, discount, id }) {
             <Heart size={20} color={"white"} />
           </button>
         </div>
+        
       </div>
+
       {discount && (
         <div className="absolute top-4 right-4 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium">
           Save {discount}%

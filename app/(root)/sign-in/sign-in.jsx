@@ -50,12 +50,14 @@ const SignIn = () => {
       }
 
       if (data?.code === "2637") {
-        router.push("/admin/dashboard/product");
+        router.push("/admin/dashboard/Inventory");
       }
       if (data?.code === "0001") {
         router.push("/");
       }
       if (data?.token) toast.success(data?.message);
+
+      localStorage.setItem("code", data?.code);
 
       setUser(() => data);
     } catch (error) {
