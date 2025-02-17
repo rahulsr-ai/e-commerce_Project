@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+ 
   reactStrictMode: true, // Strict Mode Enable
   swcMinify: true, // SWC Minify Enable
   images: {

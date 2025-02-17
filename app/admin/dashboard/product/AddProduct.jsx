@@ -36,6 +36,7 @@ function AddProduct() {
       newArrival: false,
       bestSeller: false,
       trending: false,
+      deals: false,
     },
     images: [],
   });
@@ -137,20 +138,29 @@ function AddProduct() {
   };
 
   const GetallCategory = async () => {
-    const { data } = await axios.get("/api/category");
-    const response = await axios.get("/api/category/subcategory");
+    const { data } = await axios.get("/api/category", {
+      cache: "force-cache", // 🔥 Equivalent to getStaticProps
+    });
+    const response = await axios.get("/api/category/subcategory", { 
+      cache: "force-cache", // 🔥 Equivalent to getStaticProps
+    });
 
     console.log("Data:", data);
     console.log("Response:", response);
 
-    if (
-      data?.success === "Category fetched successfully" &&
-      response?.data.success === "Subcategory fetched successfully"
-    ) {
-      setRealCategory((prev) => [...data.category]);
-      setRealsubCategory((prev) => [...response?.data.GetSubcategory]);
+
+    if (data?.success && response?.data.success) {
+      setRealCategory(() =>  data.category);
+      setRealsubCategory(() => response?.data.GetSubcategory);
     }
+
+
   };
+
+
+  console.log(RealCategory);
+  console.log(RealsubCategory);
+  
 
   const handleCreateCategory = async (e) => {
     e.preventDefault();
@@ -186,7 +196,6 @@ function AddProduct() {
     }
   };
 
-
   useEffect(() => {
     GetallCategory();
     // Simulate loading data
@@ -197,8 +206,6 @@ function AddProduct() {
     return () => clearTimeout(timer);
   }, []);
 
-
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
@@ -206,8 +213,6 @@ function AddProduct() {
       </div>
     );
   }
-
-
 
   return (
     <div
@@ -639,7 +644,6 @@ function AddProduct() {
                           onChange={(e) => setCategoryName(e.target.value)}
                           type="text"
                           className="mt-1 block w-full rounded px-2 py-2 text-black border-gray-300 shadow-sm focus:border-violet-800 focus:ring-violet-500"
-                          
                         />
                       </div>
                       <div>

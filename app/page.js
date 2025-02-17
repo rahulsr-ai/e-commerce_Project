@@ -1,30 +1,62 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-
-import ProductGrid from "@/app/components/ProductGrid";
-import HeroCarousel from "./components/HeroCarousel";
-import BrandsMarquee from "./components/brandsMaruqee";
-import ResponsiveBanner from "./components/Tempo/ReponsiveBannaer";
-import NewFooter from "./components/NewFooter";
-
 import { HomeProductData } from "./data/products";
-import FAQSection from "./components/FAQSection";
-import Testimonials from "./components/Testimonials";
-
 import axios from "axios";
 import { useAuth } from "@/context/Authcontext";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import { ArrowUp, Home } from "lucide-react";
+import HomeProductGrid from "./components/skeletons/homeProductGrid";
+import ProductCard from "./components/useComponents/ProductCard";
+
+const HeroCarousel = dynamic(() => import("./components/HeroCarousel"), {
+  ssr: false,
+});
+const Testimonials = dynamic(() => import("./components/Testimonials"), {
+  ssr: false,
+});
+const FAQSection = dynamic(() => import("./components/FAQSection"), {
+  ssr: false,
+});
+const NewFooter = dynamic(() => import("./components/NewFooter"), {
+  ssr: false,
+});
+const BrandsMarquee = dynamic(() => import("./components/brandsMaruqee"), {
+  ssr: false,
+});
+const ResponsiveBanner = dynamic(
+  () => import("./components/Tempo/ReponsiveBannaer"),
+  { ssr: false }
+);
+
+const ProductGrid = dynamic(() => import("@/app/components/ProductGrid"));
+
+const Featured = dynamic(() => import("@/app/components/Featured"));
 
 const Landing = () => {
+  const router = useRouter();
   const { user, setUser } = useAuth();
+
+  
+  const [products, setProducts] = useState([]);
   const [loading, setloading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  
+
 
   const GetProductData = async () => {
     try {
-      const { data } = await axios.get("/api/Products");
+      const { data } = await axios.get("/api/product/getallproduct");
       console.log(data);
+
+      if (data?.success) {
+        setProducts(data.products);
+      }
+
+      console.log(data.products[0].images[0]);
 
       setUser({ token: data.token });
     } catch (error) {
@@ -36,83 +68,39 @@ const Landing = () => {
   useEffect(() => {
     GetProductData();
     setloading(true);
+
+
+    const toggleVisibility = () => {
+      setIsVisible(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", toggleVisibility);
+    return () => window.removeEventListener("scroll", toggleVisibility);
+
+
   }, []);
+
+
+
+  const scrollToFilter = () => {
+    const filterSection = document.getElementById("filter-section");
+    if (filterSection) {
+      const yOffset = filterSection.getBoundingClientRect().top + window.scrollY - 50; // 50px padding
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
+    }
+  };
 
   return (
     loading && (
-      <div className="bg-black min-h-screen w-full overflow-x-hidden">
+      <div className="bg-black min-h-screen w-full ">
         {/* Hero Carousel */}
+
         <HeroCarousel />
 
         {/* Brands Marquee */}
         <BrandsMarquee />
 
-        {/* Featured Products */}
-        <section className="py-16 bg-gradient-to-b from-black to-purple-900/20">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Featured Products
-              </h2>
-              <p className="text-gray-300 max-w-2xl mx-auto">
-                Discover our handpicked selection of premium products
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "New Arrivals",
-                  image:
-                    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=400",
-                },
-                {
-                  title: "Best Sellers",
-                  image:
-                    "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=400",
-                },
-                {
-                  title: "Limited Edition",
-                  image:
-                    "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=400",
-                },
-              ].map((category, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative group overflow-hidden rounded-lg"
-                >
-                  <div className="aspect-w-16 aspect-h-9">
-                    <Image
-                      src={category?.image}
-                      alt={category.title}
-                      width={500} // Set a width for the image (adjust as per your requirement)
-                      height={300} // Set a height for the image (adjust as per your requirement)
-                      layout="responsive" // Specify the layout of the image
-                      objectFit="cover" // Specify the object fit of the image
-                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300" // Add class to the image
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h3 className="text-xl font-semibold text-white mb-2">
-                        {category.title}
-                      </h3>
-                      <button
-                        title="Explore"
-                        className="px-3 py-1.5 rounded-md bg-violet-600"
-                      >
-                        {" "}
-                        Explore{" "}
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <Featured />
 
         {/* Special Offer Banner */}
 
@@ -121,17 +109,41 @@ const Landing = () => {
         </div>
 
         {/* Product Grid */}
-        <section className="py-16 bg-black">
-          <div className="max-w-7xl mx-auto px-4">
-            <ProductGrid products={HomeProductData} />
+        <section id="filter-section" className="mx-auto px-4 py-8 bg-black">
+          {/* <h2 className="text-2xl font-semibold text-white mb-4">
+            Featured Products
+          </h2> */}
+
+          <div className="grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {products.map((product, i) => (
+              <ProductCard
+                key={i}
+                id={product._id}
+                slug={product.slug}
+                imageUrl={product.images[0]}
+                title={product.name}
+                category={product.category}
+                description={product.description}
+                price={product.price}
+              />
+            ))}
           </div>
+          {isVisible && (
+        <button
+          onClick={scrollToFilter}
+          className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+        >
+          <ArrowUp className="w-6 h-6" />
+        </button>
+      )}
         </section>
 
-        <div>
+        {/* <div>
           <Testimonials />
-        </div>
+        </div> */}
+
         <div>
-          <FAQSection />
+           <FAQSection />
         </div>
 
         {/* Footer */}

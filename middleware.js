@@ -5,6 +5,8 @@ export async function middleware(req) {
   const token = req.cookies.get("authToken")?.value; // Token leke check kar
   const { pathname } = req.nextUrl;
 
+
+  
   console.log("token =============================");
   console.log(token);
   
@@ -18,6 +20,8 @@ export async function middleware(req) {
   if (!token && (pathname.startsWith("/admin") || pathname.startsWith("/profile"))) {
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
+
+
 
   // Token decode kar lo, but verify mat karo
   // let decoded;
@@ -39,9 +43,17 @@ export async function middleware(req) {
   //   );
   // }
 
+
   return NextResponse.next();
+
+
 }
 
+
+
+
+
+
 export const config = {
-  matcher: ["/sign-in", "/sign-up", "/profile", "/admin/:path*"],
+  matcher: ["/sign-in", "/sign-up", "/profile", "/admin/:path*",   "/",  ],
 };

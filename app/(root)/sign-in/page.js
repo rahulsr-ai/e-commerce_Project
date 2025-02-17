@@ -5,12 +5,11 @@ import { redirect } from 'next/navigation';
 
 const SignInPage = async () => {
 
-  const session = await auth();
+  // const session = await auth();
 
-
-  if (session?.user) {
-    redirect("/");
-  }
+  // if (session?.user) {
+  //   redirect("/");
+  // }
 
   return (
      <div>

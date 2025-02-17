@@ -1,6 +1,10 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import path from "path";
+import { permanentRedirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
-export async function POST() {
+export async function GET(request) {
   try {
     // Await the cookies function before setting a value
     const cookieStore = await cookies();
@@ -14,12 +18,16 @@ export async function POST() {
       secure: process.env.NODE_ENV === "production",
     });
 
-    return Response.json(
-      { message: "Logged out successfully", success: true },
+  
+    return NextResponse.json(
+      { message: "Logged out successfully", success: true, redirect: true },
       { status: 200 }
     );
+
+    
+
   } catch (error) {
     console.error("Logout Error:", error);
-    return Response.json({ error: "Something went wrong" }, { status: 500 });
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

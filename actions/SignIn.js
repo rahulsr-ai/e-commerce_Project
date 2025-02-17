@@ -1,6 +1,7 @@
 "use server";
 
 import { signIn } from "@/auth"; // Ensure the library is correct
+import { redirect } from "next/navigation";
 
 async function EmailSignIn(email) {
   console.log("Google sign-in initiated");
@@ -15,12 +16,9 @@ async function GoogleSignIn() {
   await signIn("google", {
     redirectTo: "/",
   });
-  
+
   return true;
 }
-
-
-
 
 const GithubSignIn = async () => {
   await signIn("github", {
@@ -28,4 +26,10 @@ const GithubSignIn = async () => {
   });
 };
 
-export { GoogleSignIn, GithubSignIn, EmailSignIn };
+const handleUserLogout = async (success) => {
+  console.log("logout");
+  redirect("/sign-in");
+  // return true;
+};
+
+export { GoogleSignIn, GithubSignIn, EmailSignIn, handleUserLogout };

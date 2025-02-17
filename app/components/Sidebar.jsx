@@ -16,12 +16,14 @@ import {
 import { useAuth } from "@/context/Authcontext";
 import axios from "axios";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { handleUserLogout } from "@/actions/SignIn";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { user, setUser } = useAuth();
-
   const router = useRouter();
+  const pathname = usePathname();
 
   // Define menu items with links
   const menuItems = [
@@ -35,21 +37,21 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   // State to track active menu
   const [activeItem, setActiveItem] = useState("Inventory");
 
-
-
   const handleLogout = async () => {
-
     alert("Logging out");
     setUser(null);
     localStorage.removeItem("code");
 
-    const { data } = await axios.post("/api/auth/logout");
+    const { data } = await axios.get("/api/auth/logout");
     console.log(data);
+
     if (data?.success) {
-      router.push("/sign-in");
+       router.push("/sign-in");
     }
 
   };
+
+
 
   return (
     <div
@@ -89,11 +91,14 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
               <li key={index}>
                 <Link
                   href={item.link}
-                  onClick={() => setActiveItem(item.label)} // Update active state on click
+                  onClick={() => {
+                    setActiveItem(item.label);
+                    router.push(item.link);
+                  }} // Update active state on click
                   className={`flex items-center ${
                     isOpen ? "px-4" : "justify-center px-2"
                   } py-3 text-sm rounded-lg transition-all duration-200 ${
-                    activeItem === item.label
+                    pathname === item?.link
                       ? "bg-violet-600/50 text-violet-100 font-medium"
                       : "text-gray-400 hover:bg-violet-100/5 hover:text-violet-200"
                   }`}
@@ -101,7 +106,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 >
                   <item.icon
                     className={`w-5 h-5 ${isOpen ? "mr-3" : ""} ${
-                      activeItem === item.link ? "text-violet-400" : "text-violet-500"
+                      activeItem === item.link
+                        ? "text-violet-400"
+                        : "text-violet-500"
                     }`}
                   />
                   {isOpen && item.label}
@@ -112,9 +119,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-violet-800/20"
-        onClick={handleLogout}>
+        <div className="p-4 border-t border-violet-800/20">
           <button
+            onClick={handleLogout}
             className={`flex items-center ${
               isOpen ? "w-full px-4" : "justify-center w-full px-2"
             } py-3 text-gray-400 hover:text-violet-400 hover:bg-violet-600/5 rounded-lg transition-all duration-200`}

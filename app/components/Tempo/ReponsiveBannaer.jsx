@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const ResponsiveBanner = ({
   title = "Special Offer",
   description = "Get 20% off on all premium items. Limited time offer!",
-  backgroundImage = "https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&q=80",
+  backgroundImage = "/",
 }) => {
   return (
     <motion.div
@@ -23,7 +23,7 @@ const ResponsiveBanner = ({
       </div>
 
       {/* Content container */}
-      <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="relative bottom-7 h-full max-w-7xl mx-auto px-4  sm:px-6 lg:px-8 flex items-center justify-between">
         <div className="space-y-4 max-w-2xl">
           <motion.h2
             initial={{ y: 20, opacity: 0 }}

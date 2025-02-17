@@ -1,69 +1,33 @@
 import React from "react";
+import Image from "next/image";
 
 const brands = [
-  {
-    name: "Nike",
-    logo: "https://assets.stickpng.com/images/580b57fcd9996e24bc43c4f3.png",
-  },
-  {
-    name: "Adidas",
-    logo: "https://assets.stickpng.com/images/580b57fcd9996e24bc43c486.png",
-  },
-  {
-    name: "Puma",
-    logo: "https://assets.stickpng.com/images/580b57fcd9996e24bc43c4c0.png",
-  },
-  {
-    name: "Under Armour",
-    logo: "https://assets.stickpng.com/images/584297c4a6515b1e0ad75aca.png",
-  },
-  {
-    name: "New Balance",
-    logo: "https://assets.stickpng.com/images/580b57fcd9996e24bc43c4ae.png",
-  },
+  { name: "Nike", logo: "/brandsLogo/nikeWithName.jpg" },
+  { name: "Adidas", logo: "/brandsLogo/adidasWithname.jpg" },
+  { name: "Puma", logo: "/brandsLogo/PumawithName.jpg" },
+  { name: "Rolex", logo: "/brandsLogo/rolexwithName.jpg" },
+  { name: "Sony", logo: "/brandsLogo/sonyWIthName.jpg" },
+  { name: "JBL", logo: "/brandsLogo/JBLwithName.jpg" },
 ];
 
 const BrandsMarquee = () => {
   return (
-    <div className="overflow-hidden py-8 mx-32">
-      <div className="relative">
-        <div className="flex gap-10 animate-marquee">
-          {brands.map((brand) => (
-            <div
-              key={brand.logo}
-              className="relative rounded-xl mx-10 flex-none w-[300px] group cursor-pointer inline-block"
-            >
-              <div>
-                <img
-                  src={brand.logo}
-                  alt={brand.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-1">
-                {brand.name}
-              </h3>
-            </div>
-          ))}
-
-          {brands.map((brand) => (
-            <div
-              key={brand.logo}
-              className="relative rounded-xl mx-10 flex-none w-[300px] group cursor-pointer inline-block"
-            >
-              <div>
-                <img
-                  src={brand.logo}
-                  alt={brand.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-1">
-                {brand.name}
-              </h3>
-            </div>
-          ))}
-        </div>
+    <div className="overflow-hidden py-8 mx-10">
+      <div className="relative flex gap-4 sm:gap-10 animate-marquee">
+        {[...brands, ...brands].map((brand, index) => (
+          <div
+            key={index}
+            className="relative w-[200px] h-[100px] flex-none rounded-xl cursor-pointer"
+          >
+            <Image
+              src={brand.logo}
+              alt={brand.name}
+              width={200}
+              height={100}
+              className="object-contain w-full h-full"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

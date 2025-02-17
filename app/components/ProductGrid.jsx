@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Heart, ShoppingCart, Eye, X, Filter } from "lucide-react";
+import { set } from "mongoose";
+import Image from "next/image";
 
 const categories = ["All", "Electronics", "Fashion", "Audio", "Watches"];
 const priceRanges = [
@@ -10,6 +12,10 @@ const priceRanges = [
 ];
 
 const ProductGrid = ({ products }) => {
+  const [RealProducts, setRealProducts] = useState([]);
+
+  const [categoryName, setcategoryName] = useState([]);
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPriceRange, setSelectedPriceRange] = useState([]);
@@ -37,6 +43,32 @@ const ProductGrid = ({ products }) => {
     setIsFilterOpen(false);
   };
 
+  const setCategoryName = (id) => {
+    switch (id) {
+      case "67af39a6666823df372a6770":
+        return "Electronics";
+        break;
+      case "67af977892a804bf6b80be63":
+        return "accessories";
+        break;
+      case "67af3956666823df372a6764":
+        return "Footwear";
+        break;
+
+      case "67af9c0a92a804bf6b80bea2":
+        return "Fashion";
+        break;
+
+      case "67af3989666823df372a676a":
+        return "Home";
+        break;
+
+      default:
+        "Unknown";
+        break;
+    }
+  };
+
   const clearFilters = () => {
     setSelectedCategory("All");
     setSelectedPriceRange([]);
@@ -51,18 +83,12 @@ const ProductGrid = ({ products }) => {
     }
   };
 
-  console.log(wishlist);
-
   return (
     <div className="relative">
       {/* Filter Button */}
       <div className="flex flex-col items-center mb-6">
-        <div
-          className="flex lg:flex-row flex-col gap-4 justify-between items-center mb-4 z-20"
-        >
-          <h2 className="text-2xl font-bold text-white">
-            Our Products
-          </h2>
+        <div className="flex lg:flex-row flex-col gap-4 justify-between items-center mb-4 ">
+          <h2 className="text-2xl font-bold text-white">Our Products</h2>
           <button
             onClick={() => setIsFilterOpen(true)}
             className="flex items-center space-x-2 bg-neutral-800 text-white px-4 py-2 rounded-lg hover:bg-neutral-700"
@@ -74,7 +100,7 @@ const ProductGrid = ({ products }) => {
 
         {/* Filter Modal */}
         {isFilterOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className=" inset-0 bg-black bg-opacity-50  flex items-center justify-center">
             <div className="bg-neutral-900 p-6 rounded-lg w-full max-w-md">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-white">
@@ -151,16 +177,18 @@ const ProductGrid = ({ products }) => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide">
-        {filteredProducts.map((product) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-h-[calc(100vh-200px)] ">
+        {products.map((product, i) => (
           <div
-            key={product.id}
-            className="group bg-neutral-900 rounded-lg overflow-hidden md:static my-7 md:my-0"
+            key={product._id}
+            className="group bg-neutral-900 rounded-lg md:static my-7 md:my-0"
           >
             <div className="relative overflow-hidden">
-              <img
-                src={product.image}
-                alt={product.name}
+              <Image
+                height={400}
+                width={400}
+                src={product?.images[0]}
+                alt={product?.name}
                 className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
               />
               <div className={`absolute top-4 right-4 space-y-2`}>
@@ -178,13 +206,16 @@ const ProductGrid = ({ products }) => {
             </div>
             <div className="py-2 px-2 flex flex-col justify-between">
               <div className="text-sm text-gray-400 mb-1">
-                {product.category}
+                {setCategoryName(product.category)}
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">
                 {product.name}
               </h3>
+              <h3 className="text-sm text-gray-400 mb-2">
+                {product.description.replace(/^((\S+\s+){5}\S+).*/, "$1...")}
+              </h3>
               <p className="text-violet-400 font-medium mb-4">
-                {product.price}
+                $ {product.price}
               </p>
               <div className="flex space-x-2">
                 <button className="flex-1 bg-neutral-800 text-white px-4 py-2 rounded-lg hover:bg-neutral-700 transition-colors">

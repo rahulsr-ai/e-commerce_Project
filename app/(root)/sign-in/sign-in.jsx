@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Mail, Lock, ArrowRight, ShoppingBag } from "lucide-react";
+import { Mail, Lock, ArrowRight } from "lucide-react";
 
 import axios from "axios";
 import axiosInstance from "@/helpers/AxiosHelper";
@@ -17,9 +17,9 @@ import { GoogleSignIn } from "@/actions/SignIn";
 import { useAuth } from "@/context/Authcontext";
 
 const SignIn = () => {
+  const router = useRouter();
   const { user, setUser } = useAuth();
 
-  const router = useRouter();
   const [isLoading, setisLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,6 +48,8 @@ const SignIn = () => {
       if (!data?.token) {
         setErrorMessage(data?.message);
       }
+
+       setisProcessing(false);
 
       if (data?.code === "2637") {
         router.push("/admin/dashboard/Inventory");
@@ -90,7 +92,14 @@ const SignIn = () => {
                 </p>
               </div>
 
-              <form className="space-y-6" onSubmit={handleform}>
+              {/* Overlay for Loading */}
+              {isProcessing && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                  <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+
+              <form className={`space-y-6 ${isProcessing ? "blur-sm" : ""}`} onSubmit={handleform}>
                 <div>
                   <label
                     htmlFor="email"
@@ -177,7 +186,7 @@ const SignIn = () => {
                   <span className="absolute right-4 flex items-center">
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
                   </span>
-                  {isProcessing ? "Processing" : "Sign-in"}
+                  Sign in 
                 </button>
               </form>
 

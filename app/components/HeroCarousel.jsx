@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 const slides = [
@@ -8,6 +10,7 @@ const slides = [
     image:
       "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1600&q=80",
     buttonText: "Shop Electronics",
+    buttonUrl: "/category/electronic",
   },
   {
     title: "Luxury Fashion & Accessories",
@@ -15,17 +18,19 @@ const slides = [
     image:
       "https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80",
     buttonText: "Explore Fashion",
+    buttonUrl: "/category/fashion",
   },
   {
-    title: "Premium Audio Experience",
-    description: "Immerse yourself in superior sound quality",
-    image:
-      "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=1600&q=80",
+    title: "Home & Living Essentials",
+    description: "Transform your space with carpets, posters, lights & more",
+    image: "/homeCarousel/HomeCategoryCarpet01.jpg",
     buttonText: "View Collection",
+    buttonUrl: "/category/home",
   },
 ];
 
 const HeroCarousel = () => {
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -36,10 +41,18 @@ const HeroCarousel = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const handleNavigate = (url) => {
+    alert("Navigating to " + url);
+  };
+
   return (
     <section className="relative h-[80vh] overflow-hidden">
       {slides.map((slide, index) => (
+        
         <div
+          onClick={() => {
+            handleNavigate(slide.buttonUrl);
+          }}
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
             currentSlide === index ? "opacity-100" : "opacity-0"
@@ -57,7 +70,7 @@ const HeroCarousel = () => {
           <div className="relative h-full flex items-center">
             <div className="max-w-4xl mx-auto px-4">
               <h1
-                className="text-4xl md:text-6xl font-bold text-white mb-6 transform transition-all duration-1000 ease-out"
+                className="text-4xl md:text-6xl font-bold text-white mb-6 transition-all duration-1000 ease-out"
                 style={{
                   opacity: currentSlide === index ? 1 : 0,
                   transform:
@@ -69,7 +82,7 @@ const HeroCarousel = () => {
                 {slide.title}
               </h1>
               <p
-                className="text-xl text-gray-200 mb-8 transform transition-all duration-1000 delay-200 ease-out"
+                className="text-xl text-gray-200 mb-8 transition-all duration-1000 delay-200 ease-out"
                 style={{
                   opacity: currentSlide === index ? 1 : 0,
                   transform:
@@ -81,7 +94,7 @@ const HeroCarousel = () => {
                 {slide.description}
               </p>
               <button
-                className="bg-violet-600 text-white px-8 py-3 rounded-full hover:bg-violet-700 transition-all duration-300 transform"
+                className="bg-violet-600 text-white px-8 py-3 rounded-full hover:bg-violet-700 transition-all duration-300 transform cursor-pointer"
                 style={{
                   opacity: currentSlide === index ? 1 : 0,
                   transform:

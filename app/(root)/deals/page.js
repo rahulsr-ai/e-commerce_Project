@@ -1,7 +1,9 @@
 //@ts-nocheck
-// wishlist done 
+// wishlist done
 
 "use client";
+
+import dynamic from "next/dynamic";
 
 import React, { useState, useEffect } from "react";
 import {
@@ -13,18 +15,46 @@ import {
   ShoppingCart,
   SlidersHorizontal,
 } from "lucide-react";
+
+import Image from "next/image";
 import { products } from "@/app/data/products";
 import { reviews } from "@/app/data/review";
 
-import ReviewCard from "@/app/components/ReviewCard.jsx";
-import { ProductCard } from "@/app/components/ProductCard";
-import NewFooter from "@/app/components/NewFooter";
-import Footer from "@/app/components/Footer";
+const slides = [
+  {
+    title: "Premium Electronics Collection",
+    description: "Discover cutting-edge technology and innovative gadgets",
+    image:
+      "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1600&q=80",
+    buttonText: "Shop Electronics",
+    buttonUrl: "/category/electronic",
+  },
+  {
+    title: "Luxury Fashion & Accessories",
+    description: "Elevate your style with premium fashion pieces",
+    image:
+      "https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80",
+    buttonText: "Explore Fashion",
+    buttonUrl: "/category/fashion",
+  },
+  {
+    title: "Home & Living Essentials",
+    description: "Transform your space with carpets, posters, lights & more",
+    image: "/homeCarousel/HomeCategoryCarpet01.jpg",
+    buttonText: "View Collection",
+    buttonUrl: "/category/home",
+  },
+];
+
+const NewFooter = dynamic(() => import("@/app/components/NewFooter"), {
+  ssr: false,
+});
+const ReviewCard = dynamic(() => import("@/app/components/ReviewCard.jsx"), {
+  ssr: false,
+});
 
 const TrendingPage = () => {
-
-  const [wishlist, setwishlist] = useState([])
-
+  const [wishlist, setwishlist] = useState([]);
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -47,14 +77,11 @@ const TrendingPage = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveSlide((prev) =>
-        prev === Products.filter(product => product.trending).length - 1 ? 0 : prev + 1
-      );
+      setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [])
-
+  }, []);
 
   const handleWishlist = (id) => {
     if (wishlist.includes(id)) {
@@ -63,9 +90,8 @@ const TrendingPage = () => {
       setwishlist([...wishlist, id]);
     }
 
-    console.table(wishlist)
-  }
-
+    console.table(wishlist);
+  };
 
   const handlePriceSorting = (price) => {
     setSortBy(price);
@@ -89,12 +115,16 @@ const TrendingPage = () => {
         {/* Hero Section */}
         <div className="relative h-[500px] bg-black">
           <div className="absolute inset-0">
-            {Products.filter(product => product.isOnDeal).map((product, index) => (
-              <img
+            {slides.map((product, index) => (
+              <Image
+                height={500}
+                width={500}
                 key={index}
                 src={product.image}
                 alt={`Hero ${index + 1}`}
-                className={`w-full h-full object-cover opacity-50 ${index === activeSlide ? 'block' : 'hidden'}`}
+                className={`w-full h-full object-cover opacity-50 ${
+                  index === activeSlide ? "block" : "hidden"
+                }`}
               />
             ))}
           </div>
@@ -111,13 +141,20 @@ const TrendingPage = () => {
               </button>
             </div>
           </div>
-          <button className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full backdrop-blur-sm transition-colors duration-300">
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full backdrop-blur-sm transition-colors duration-300"
+            onClick={() =>
+              setActiveSlide((prev) =>
+                prev === slides.length - 1 ? 0 : prev + 1
+              )
+            }
+          >
             <ChevronLeft className="text-white" size={24} />
           </button>
           <button
             onClick={() =>
               setActiveSlide((prev) =>
-                prev === Products.filter(product => product.trending).length - 1 ? 0 : prev + 1
+                prev === slides.length - 1 ? 0 : prev + 1
               )
             }
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full backdrop-blur-sm transition-colors duration-300"
@@ -125,7 +162,6 @@ const TrendingPage = () => {
             <ChevronRight className="text-white" size={24} />
           </button>
         </div>
-
 
         {/* Filters Section */}
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -160,10 +196,11 @@ const TrendingPage = () => {
                   <button
                     key={price}
                     onClick={() => handlePriceSorting(price)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${sortBy === price
-                      ? "bg-violet-600 text-white"
-                      : "bg-white text-gray-600 hover:bg-gray-100"
-                      }`}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
+                      sortBy === price
+                        ? "bg-violet-600 text-white"
+                        : "bg-white text-gray-600 hover:bg-gray-100"
+                    }`}
                   >
                     {price}
                   </button>
@@ -187,10 +224,17 @@ const TrendingPage = () => {
                   />
                   <div className="absolute top-4 right-4 space-y-2">
                     <button
-                      onClick={() => { handleWishlist(product) }}
+                      onClick={() => {
+                        handleWishlist(product);
+                      }}
                       className={`bg-neutral-900 p-2 rounded-full text-white hover:text-[#ffcb6a] transition-colors
-                       ${wishlist.includes(product) ? "bg-rose-500" : "bg-neutral-900"}
-                      `}>
+                       ${
+                         wishlist.includes(product)
+                           ? "bg-rose-500"
+                           : "bg-neutral-900"
+                       }
+                      `}
+                    >
                       <Heart size={20} />
                     </button>
                   </div>
@@ -229,9 +273,7 @@ const TrendingPage = () => {
                 <ReviewCard key={review.id} review={review} />
               ))}
             </div>
-
           </div>
-
         </div>
       </div>
       <NewFooter />

@@ -4,12 +4,20 @@ import { NextResponse } from "next/server";
 import supabase from "@/lib/SupaBaseClient";
 import { Subcategory } from "@/models/CategorySchema";
 
+
+
+
+
 export async function GET(req) {
   let token = req.cookies.get("authToken")?.value;
   console.log("Raw token:", token);
 
   return NextResponse.json({ message: "Hello", token }, { status: 200 });
 }
+
+
+
+
 
 
 
@@ -80,6 +88,7 @@ export async function POST(req) {
       isBestSeller: file.attributes.bestSeller,
       isNewArrival: file.attributes.newArrival,
       isTrending: file.attributes.trending,
+      isTrending: file.attributes.onDeal,
       images: publicURL,
     });
 

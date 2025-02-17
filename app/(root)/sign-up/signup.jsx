@@ -1,6 +1,8 @@
 //@ts-nocheck
 "use client";
 
+import dynamic from "next/dynamic";
+
 import {
   ArrowRight,
   Eye,
@@ -16,9 +18,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { RegisterUser } from "@/actions/user";
-import Model from "@/app/components/Model";
-import { once } from "events";
-import Loader from "@/app/components/StickyProductGrid";
+
+const Model = dynamic(() => import("@/app/components/Model"))
+
+
+
 
 function Signup() {
   const [isLoading, setisLoading] = useState(false);

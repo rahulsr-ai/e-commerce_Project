@@ -13,7 +13,7 @@ export async function GET(req) {
     const GetSubcategory = await Subcategory.find();
 
     return NextResponse.json(
-      { message: "Subcategory fetched successfully", GetSubcategory },
+      { message: "Subcategory fetched successfully", GetSubcategory, success: true },
       { status: 200 }
     );
 
