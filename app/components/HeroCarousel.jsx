@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { useState, useEffect } from "react";
 
 const slides = [
   {
@@ -30,7 +30,6 @@ const slides = [
 ];
 
 const HeroCarousel = () => {
-  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
@@ -41,71 +40,35 @@ const HeroCarousel = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleNavigate = (url) => {
-    alert("Navigating to " + url);
-  };
-
   return (
-    <section className="relative h-[80vh] overflow-hidden">
+    <section className="relative min-h-[80vh] overflow-hidden">
       {slides.map((slide, index) => (
-        
         <div
-          onClick={() => {
-            handleNavigate(slide.buttonUrl);
-          }}
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+          className={`absolute inset-0 w-full h-full flex items-center justify-center transition-opacity duration-1000 ${
             currentSlide === index ? "opacity-100" : "opacity-0"
           }`}
         >
           {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide.image})` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
-          </div>
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            objectFit="cover"
+            priority={index === 0} // Pehli image ko priority de rahe hain
+            className="absolute inset-0 w-full h-full"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 
           {/* Content */}
-          <div className="relative h-full flex items-center">
-            <div className="max-w-4xl mx-auto px-4">
-              <h1
-                className="text-4xl md:text-6xl font-bold text-white mb-6 transition-all duration-1000 ease-out"
-                style={{
-                  opacity: currentSlide === index ? 1 : 0,
-                  transform:
-                    currentSlide === index
-                      ? "translateY(0)"
-                      : "translateY(20px)",
-                }}
-              >
-                {slide.title}
-              </h1>
-              <p
-                className="text-xl text-gray-200 mb-8 transition-all duration-1000 delay-200 ease-out"
-                style={{
-                  opacity: currentSlide === index ? 1 : 0,
-                  transform:
-                    currentSlide === index
-                      ? "translateY(0)"
-                      : "translateY(20px)",
-                }}
-              >
-                {slide.description}
-              </p>
-              <button
-                className="bg-violet-600 text-white px-8 py-3 rounded-full hover:bg-violet-700 transition-all duration-300 transform cursor-pointer"
-                style={{
-                  opacity: currentSlide === index ? 1 : 0,
-                  transform:
-                    currentSlide === index
-                      ? "translateY(0)"
-                      : "translateY(20px)",
-                }}
-              >
+          <div className="relative z-10 text-center text-white px-6 max-w-3xl">
+            <h1 className="text-4xl md:text-6xl font-semibold mb-6">{slide.title}</h1>
+            <p className="text-xl text-gray-200 mb-8">{slide.description}</p>
+            <Link href={slide.buttonUrl} passHref>
+              <button className="bg-violet-600 text-white px-8 py-3 rounded-full hover:bg-violet-700 transition-all duration-300">
                 {slide.buttonText}
               </button>
-            </div>
+            </Link>
           </div>
         </div>
       ))}
@@ -117,9 +80,7 @@ const HeroCarousel = () => {
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              currentSlide === index
-                ? "bg-violet-600 w-8"
-                : "bg-white/50 hover:bg-white/80"
+              currentSlide === index ? "bg-violet-600 w-8" : "bg-white/50 hover:bg-white/80"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

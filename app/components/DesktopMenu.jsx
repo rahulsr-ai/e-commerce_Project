@@ -1,4 +1,16 @@
-import { ChevronDown, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import {
+  ChevronDown,
+  Menu,
+  Search,
+  ShoppingBag,
+  User,
+  X,
+  Zap,
+  Footprints,
+  Shirt,
+  house,
+  House,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -7,20 +19,22 @@ import { usePathname } from "next/navigation";
 const DesktopMenu = ({
   isOpen,
   setIsOpen,
-  categories,
   brands,
   categoryOpen,
   setCategoryOpen,
   brandsOpen,
   setBrandsOpen,
-  activelink,
   setactivelink,
   user,
   categoryName,
-  setcategoryName,
   handleLogout,
+  setIconsForCategoryName,
+  handleSearch,
+  query,
+  debouncedQuery,
 }) => {
   const pathname = usePathname();
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
       <div className="flex items-center justify-between  h-16">
@@ -35,36 +49,24 @@ const DesktopMenu = ({
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
           <Link
-            // onClick={() =>  setactivelink("home") }
             href="/"
             className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group
                  ${pathname === "/" ? "active-link" : "text-white/90"} `}
           >
-            {/* <Home
-                size={18}
-                className="group-hover:scale-110 transition-transform duration-200"
-              /> */}
             <span className="mr-4">Home</span>
           </Link>
 
           <Link
-            // onClick={() => setactivelink("deals")}
             href="/deals"
             className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group
               ${pathname === "/deals" ? "active-link" : "text-white/90"}  `}
           >
-            {/* <Home
-                size={18}
-                className="group-hover:scale-110 transition-transform duration-200"
-              /> */}
-
             <span className="mr-4">Deals</span>
           </Link>
 
           {/* Categories Dropdown */}
           <div className="relative group">
             <button
-              onClick={() => setactivelink("category")}
               onMouseEnter={() => setCategoryOpen(true)}
               onMouseLeave={() => setCategoryOpen(false)}
               className={`hover:text-white transition-all duration-200 flex items-center space-x-1
@@ -92,16 +94,18 @@ const DesktopMenu = ({
                       key={category?._id}
                       onClick={() => {
                         setCategoryOpen(false);
-                        return setactivelink("category");
                       }}
                       href={`/category/${category?.name}`}
                       className={`group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-purple-100 transition-colors duration-200
                            `}
                     >
-                      {/* <span className="text-indigo-500 group-hover:text-indigo-600 transition-colors duration-200">
-                          {category.icon}
-                        </span> */}
-                      <span className="ml-3">{category.name}</span>
+                      <span className="text-violet-600 group-hover:text-violet-700 transition-colors duration-200">
+                        {setIconsForCategoryName(category.name)}
+                      </span>
+                      <span className="ml-3">
+                        {category.name.charAt(0).toUpperCase() +
+                          category.name.slice(1)}
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -140,7 +144,7 @@ const DesktopMenu = ({
                       href={`/Explore/${brand.name}`}
                       className="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 transition-colors duration-200"
                     >
-                      <span className="text-indigo-500 group-hover:text-indigo-600 transition-colors duration-200">
+                      <span className="text-violet-600 group-hover:text-violet-700 transition-colors duration-200">
                         {brand.icon}
                       </span>
                       <span className="ml-3">{brand.name}</span>
@@ -155,6 +159,8 @@ const DesktopMenu = ({
           <div className={`flex-1 max-w-xs`}>
             <div className="relative group">
               <input
+                value={query}
+                onChange={handleSearch}
                 type="text"
                 placeholder="Search products..."
                 className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-1.5 pr-8 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
@@ -164,6 +170,7 @@ const DesktopMenu = ({
                 size={20}
               />
             </div>
+            <p>Search Query: {debouncedQuery}</p>
           </div>
         </div>
 

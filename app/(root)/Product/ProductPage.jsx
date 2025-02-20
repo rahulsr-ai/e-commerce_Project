@@ -101,6 +101,8 @@ function ProductPage() {
   useEffect(() => {
     setIsloading(true);
   }, []);
+
+  
   return (
     isloading && (
       <div className="min-h-screen bg-gray-900">

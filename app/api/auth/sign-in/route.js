@@ -16,8 +16,8 @@ export async function POST(req) {
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
-        { message: "Invalid email " },
-        { status: 200 }
+        { message: "Invalid email or password" },
+        { status: 400 }
       );
     }
 
@@ -25,35 +25,22 @@ export async function POST(req) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Invalid password" },
-        { status: 200 }
+        { message: "Invalid email or password" },
+        { status: 400 }
       );
     }
 
     // Generate a JWT token with the user's ID and expiration time (7 days)
-    const token = jwt.sign(
-      { id: user._id.toString() },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+    const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: "7d",});
+
+
+    // Create a response object
+    const response = NextResponse.json(
+      { message: "Login successful", token },
+      { status: 200 }
     );
+  
 
-    let response = null;
-
-    if (user.role === "admin") {
-      // Create a response object
-      response = NextResponse.json(
-        { message: "Welcome to the admin panel", token, code: "2637" },
-        { status: 200 }
-      );
-
-    } else {  
-      // Create a response object
-      response = NextResponse.json(
-        { message: "Login successfully", token, code: "0001" },
-        { status: 200 }
-      );
-      
-    }
 
     // Set the cookie securely
     response.cookies.set("authToken", token, {

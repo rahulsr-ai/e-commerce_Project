@@ -1,16 +1,27 @@
+"use client";
+import axios from "axios";
 import React, { useEffect } from "react";
+import { useParams } from "next/navigation";
 
-const ProductPage = ({ params }) => {
-  const { name } = params;
+const ProductPage = () => {
+  // const { name } = React.use(params);
+
+  const { name } = useParams();
 
   const fetchProductData = async () => {
-    const { data } = await fetch("/product/GetSingleProductData");
+    try {
+      const { data } = await axios.get(
+        `/api/product/GetSingleProductData?name=${name}`
+      );
 
-    if (data?.success) {
-      alert(data.message);
+      if (data?.success) {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.log("error");
+      console.log(error);
     }
   };
-
 
   useEffect(() => {
     fetchProductData();

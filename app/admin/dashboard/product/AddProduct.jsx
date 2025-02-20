@@ -45,9 +45,9 @@ function AddProduct() {
   const [RealsubCategory, setRealsubCategory] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-
   const [csvFile, setCsvFile] = useState(null);
   const fileInputRef = useRef(null);
+  
 
   const removeImage = (index) => {
     setFormData((prev) => ({
@@ -95,7 +95,7 @@ function AddProduct() {
 
     try {
       const { data } = await toast.promise(
-        axios.post("/api/product", formDataToSend, {
+        axios.post("/api/product/create", formDataToSend, {
           headers: { "Content-Type": "multipart/form-data" },
         }),
         {
@@ -126,16 +126,21 @@ function AddProduct() {
     }
   };
 
+
+
   const handleCsvUpload = (e) => {
     if (e.target.files?.[0]) {
       setCsvFile(e.target.files[0]);
     }
   };
 
+
   const ProcessCsvUplaod = () => {
     toast.success("CSV file uploaded successfully!");
     setCsvFile(null);
   };
+
+
 
   const GetallCategory = async () => {
     const { data } = await axios.get("/api/category", {
@@ -158,8 +163,6 @@ function AddProduct() {
   };
 
 
-  console.log(RealCategory);
-  console.log(RealsubCategory);
   
 
   const handleCreateCategory = async (e) => {
@@ -196,6 +199,8 @@ function AddProduct() {
     }
   };
 
+
+
   useEffect(() => {
     GetallCategory();
     // Simulate loading data
@@ -206,6 +211,8 @@ function AddProduct() {
     return () => clearTimeout(timer);
   }, []);
 
+
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
@@ -213,6 +220,7 @@ function AddProduct() {
       </div>
     );
   }
+
 
   return (
     <div

@@ -13,7 +13,7 @@
   scrollbar-width: none; /* Firefox */
 }
 
-html{ 
+html {
   scroll-behavior: smooth;
 }
 
@@ -71,6 +71,11 @@ body {
   border-radius: 2px;
 }
 
+.blur-bg {
+  filter: blur(7px);
+  
+
+}
 
 select {
   position: relative;

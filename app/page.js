@@ -1,20 +1,17 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { HomeProductData } from "./data/products";
 import axios from "axios";
 import { useAuth } from "@/context/Authcontext";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { ArrowUp, Home } from "lucide-react";
-import HomeProductGrid from "./components/skeletons/homeProductGrid";
+import { ArrowUp, } from "lucide-react";
 import ProductCard from "./components/useComponents/ProductCard";
+import Loader from "./components/useComponents/Loader";
+import MinFilter from "./components/useComponents/minimalFilter";
 
-const HeroCarousel = dynamic(() => import("./components/HeroCarousel"), {
-  ssr: false,
-});
+const LazyHeroCarousel = React.lazy(() => import("./components/HeroCarousel"));
+
 const Testimonials = dynamic(() => import("./components/Testimonials"), {
   ssr: false,
 });
@@ -32,20 +29,18 @@ const ResponsiveBanner = dynamic(
   { ssr: false }
 );
 
-const ProductGrid = dynamic(() => import("@/app/components/ProductGrid"));
-
-const Featured = dynamic(() => import("@/app/components/Featured"));
+const LazyFeatured = React.lazy(() => import("./components/Featured"));
 
 const Landing = () => {
   const router = useRouter();
   const { user, setUser } = useAuth();
 
-  
-  const [products, setProducts] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [Products, setProducts] = useState([]);
+  const [loading, setloading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  
-
+  const [categories, setCategories] = useState([]);
+  const [whislist, setWhislist] = useState([]);
+  const [UnFilterData, setUnFilterData] = useState([]);
 
   const GetProductData = async () => {
     try {
@@ -54,6 +49,7 @@ const Landing = () => {
 
       if (data?.success) {
         setProducts(data.products);
+        setUnFilterData(data.products);
       }
 
       console.log(data.products[0].images[0]);
@@ -65,10 +61,28 @@ const Landing = () => {
     }
   };
 
-  useEffect(() => {
-    GetProductData();
-    setloading(true);
+  const scrollToFilter = () => {
+    const filterSection = document.getElementById("filter-section");
+    if (filterSection) {
+      const yOffset =
+        filterSection.getBoundingClientRect().top + window.scrollY - 50; // 50px padding
+      window.scrollTo({ top: yOffset, behavior: "smooth" });
+    }
+  };
 
+  const fetchCategories = async () => {
+    const { data } = await axios.get("/api/category/subcategory");
+    console.log(data.GetSubcategory);
+
+    if (data?.success) {
+      setCategories(() => [...data?.GetSubcategory]);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    GetProductData();
+    setloading(false);
 
     const toggleVisibility = () => {
       setIsVisible(window.scrollY > 300);
@@ -76,80 +90,95 @@ const Landing = () => {
 
     window.addEventListener("scroll", toggleVisibility);
     return () => window.removeEventListener("scroll", toggleVisibility);
-
-
   }, []);
 
-
-
-  const scrollToFilter = () => {
-    const filterSection = document.getElementById("filter-section");
-    if (filterSection) {
-      const yOffset = filterSection.getBoundingClientRect().top + window.scrollY - 50; // 50px padding
-      window.scrollTo({ top: yOffset, behavior: "smooth" });
-    }
-  };
-
   return (
-    loading && (
-      <div className="bg-black min-h-screen w-full ">
-        {/* Hero Carousel */}
+    <div className="bg-black min-h-screen w-full ">
+      {/* <HeroCarousel /> */}
+      <Suspense fallback={<div></div>}>
+        <LazyHeroCarousel />
+      </Suspense>
 
-        <HeroCarousel />
+      {/* Brands Marquee */}
+      <BrandsMarquee />
 
-        {/* Brands Marquee */}
-        <BrandsMarquee />
+      <div>
+        <Suspense fallback={<div></div>}>
+          <LazyFeatured />
+        </Suspense>
+      </div>
 
-        <Featured />
+      {/* Special Offer Banner */}
+      <div>
+        <ResponsiveBanner />
+      </div>
 
-        {/* Special Offer Banner */}
+      <div className="py-12" id="filter-section">
+        <MinFilter
+          products={Products}
+          setproducts={setProducts}
+          UnFilterData={UnFilterData}
+        />
+      </div>
 
-        <div>
-          <ResponsiveBanner />
-        </div>
-
-        {/* Product Grid */}
-        <section id="filter-section" className="mx-auto px-4 py-8 bg-black">
-          {/* <h2 className="text-2xl font-semibold text-white mb-4">
-            Featured Products
-          </h2> */}
-
-          <div className="grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map((product, i) => (
-              <ProductCard
-                key={i}
-                id={product._id}
-                slug={product.slug}
-                imageUrl={product.images[0]}
-                title={product.name}
-                category={product.category}
-                description={product.description}
-                price={product.price}
-              />
-            ))}
-          </div>
+      {/* Product Grid */}
+      {Products.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-12">
+          {Products?.map((product) => (
+            <ProductCard
+              whislist={whislist}
+              setWhislist={setWhislist}
+              key={product._id}
+              imageUrl={product.images[0]}
+              category={product.category}
+              title={product.name}
+              description={product.description}
+              price={product.price}
+              id={product._id}
+              slug={product.slug}
+            />
+          ))}
           {isVisible && (
-        <button
-          onClick={scrollToFilter}
-          className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
-        >
-          <ArrowUp className="w-6 h-6" />
-        </button>
+            <button
+              onClick={scrollToFilter}
+              className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+            >
+              <ArrowUp className="w-6 h-6" />
+            </button>
+          )}
+        </div>
+      ) : ( 
+        Products.length === 0 ? ( 
+          <div className="flex py-24  justify-center ">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-700">
+              No Products Found
+            </h2>
+            <p className="mt-4 text-violet-600">
+              No products found matching your search criteria.
+            </p>
+          </div>
+        </div>
+        ) : ( 
+          <Loader/>
+        )
+       
       )}
-        </section>
 
-        {/* <div>
+      {/* <div>
           <Testimonials />
         </div> */}
 
-        <div>
-           <FAQSection />
-        </div>
+      <div>
+        <FAQSection />
+      </div>
 
-        {/* Footer */}
+      {/* Footer */}
+
+      <div>
         <NewFooter />
       </div>
-    )
+    </div>
   );
 };
 

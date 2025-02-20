@@ -8,17 +8,19 @@ const productSchema = new mongoose.Schema(
     description: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
     stock: { type: Number, required: true, default: 0 },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" }, // Optional
-    subcategory: { type: mongoose.Schema.Types.ObjectId, ref: "Subcategory" }, // Optional
-    images: { type: [String], default: [] }, // 🖼️ Image URLs array with default []
+    identifier: { type: String, required: true }, // Added for category matching
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+    subcategory: { type: mongoose.Schema.Types.ObjectId, ref: "Subcategory" },
+    images: [{ type: String }],
     isNewArrival: { type: Boolean, default: false },
     isBestSeller: { type: Boolean, default: false },
     isTrending: { type: Boolean, default: false },
+    isOnDeal: { type: Boolean, default: false }
   },
   { timestamps: true }
 );
 
-// ✅ **Slug Generate Hook**
+// Pre-save hook to generate slug
 productSchema.pre("save", function (next) {
   if (!this.slug || this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
@@ -26,7 +28,5 @@ productSchema.pre("save", function (next) {
   next();
 });
 
-// ✅ **Check if model already exists before compiling**
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
-
 export default Product;

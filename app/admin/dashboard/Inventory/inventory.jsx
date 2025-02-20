@@ -10,6 +10,7 @@ import {
 import { useSidebar } from "@/helpers/SidebarContext";
 
 import dynamic from "next/dynamic";
+import Loader from "@/app/components/useComponents/Loader";
 
 const Header = dynamic(
   () => import("@/app/components/adminComponents/inventory/Header"),
@@ -119,11 +120,7 @@ function InventoryPage() {
   }, []);
 
   if (Skeleton) {
-    return (
-      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-violet-500"></div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

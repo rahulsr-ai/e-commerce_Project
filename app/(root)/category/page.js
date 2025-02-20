@@ -9,15 +9,14 @@ import DealMarquee from "@/app/components/Tempo/DealsMarquee";
 import ProductMarquee from "@/app/components/Tempo/ProductMarquee";
 import MarqueeSection from "@/app/components/Tempo/MarqueeSection";
 
-import { FEATURED_PRODUCTS } from "@/app/data/products"
+import { FEATURED_PRODUCTS } from "@/app/data/products";
+import Image from "next/image";
 
 function CategoryPage() {
-
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setIsLoading(true);
   }, []);
-
 
   const [filters, setFilters] = useState({
     category: [],
@@ -30,8 +29,6 @@ function CategoryPage() {
       priceRange: null,
     });
   };
-
-
 
   const filteredProducts = FEATURED_PRODUCTS.filter((product) => {
     const categoryMatch =
@@ -60,13 +57,15 @@ function CategoryPage() {
   });
 
 
+  
 
   return (
     isLoading && (
       <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
         {/* Hero Section */}
         <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 overflow-hidden w-full">
-          <img
+          <Image
+            fill
             src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=2070"
             alt="Electronics Category"
             className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50"
@@ -90,8 +89,7 @@ function CategoryPage() {
 
           {/* <DealsSlider /> */}
           {/* <DealMarquee/> */}
-          <ProductMarquee />
-
+          {/* <ProductMarquee /> */}
         </section>
 
         {/* Main Content */}
@@ -107,7 +105,7 @@ function CategoryPage() {
           {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (
-              <ProductCard key={product.id} {...product}  />
+              <ProductCard key={product.id} {...product} />
             ))}
           </div>
 

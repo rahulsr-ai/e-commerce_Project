@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
+import Image from "next/image";
 
 export function ProductCard({ image, name, price, discount, id }) {
   const [wishlist, setwishlist] = useState([]);
@@ -17,14 +18,13 @@ export function ProductCard({ image, name, price, discount, id }) {
   };
 
   return (
-
     <div
       className="group relative 
     bg-zinc-900 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-indigo-500/20"
     >
-
       <div className="aspect-square overflow-hidden">
-        <img
+        <Image
+          fill
           src={image}
           alt={name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
@@ -40,7 +40,6 @@ export function ProductCard({ image, name, price, discount, id }) {
             <Heart size={20} color={"white"} />
           </button>
         </div>
-        
       </div>
 
       {discount && (

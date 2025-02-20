@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import "@/app/components.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
