@@ -54,7 +54,7 @@ const ProductCard = ({
   };
 
 
-  console.log(whislist);
+  // console.log(whislist);
 
 
   if(!(imageUrl || title || description || category || price || id || slug) ) { 

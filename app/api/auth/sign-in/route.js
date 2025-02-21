@@ -31,16 +31,19 @@ export async function POST(req) {
     }
 
     // Generate a JWT token with the user's ID and expiration time (7 days)
-    const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: "7d",});
+    const token = jwt.sign(
+      { id: user._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
+    const code = user.role === "admin" ? "2637" : "0001";
 
     // Create a response object
     const response = NextResponse.json(
-      { message: "Login successful", token },
+      { message: "Login successful", token, code: code },
       { status: 200 }
     );
-  
-
 
     // Set the cookie securely
     response.cookies.set("authToken", token, {
