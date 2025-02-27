@@ -6,37 +6,31 @@ import React, { useState, useEffect } from "react";
 import { ArrowUp, SlidersHorizontal } from "lucide-react";
 
 import { reviews } from "@/app/data/review";
-import {
-  fetchCategories,
-  getProducts,
-  getExploreProducts,
-} from "@/lib/apiCalls";
+import { fetchCategories, getExploreProducts } from "@/lib/apiCalls";
 import ProductCard from "@/app/components/useComponents/ProductCard";
-import DealsHeroSection from "@/app/components/useComponents/DealsHeroSection";
 import Loader from "@/app/components/useComponents/Loader";
 import { useParams } from "next/navigation";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-const slides = [
+const DynamicHeroSection = [
   {
-    title: "Premium Electronics Collection",
-    description: "Discover cutting-edge technology and innovative gadgets",
-    image: "/CategoryHeroSection/electronic01.avif",
-    buttonText: "Shop Electronics",
-    buttonUrl: "/category/electronic",
+    title: "🔥 Stay Ahead with the Latest Trends!",
+    para: " Discover the hottest picks of the season! From must-have essentials to viral sensations, shop what's trending and upgrade your style today.",
+    image: "home.webp",
+    identifier: "Trending",
   },
   {
-    title: "Luxury Fashion & Accessories",
-    description: "Elevate your style with premium fashion pieces",
-    image: "/CategoryHeroSection/fashion.avif",
-    buttonText: "Explore Fashion",
-    buttonUrl: "/category/fashion",
+    title: "✨ Fresh Finds, Just for You!",
+    para: " Be the first to explore our latest collection! From cutting-edge designs to timeless classics, our new arrivals are here to redefine your wardrobe and lifestyle.",
+    image: "footwear02.jpg",
+    identifier: "New-Arrivals",
   },
   {
-    title: "Home & Living Essentials",
-    description: "Transform your space with carpets, posters, lights & more",
-    image: "/CategoryHeroSection/home02.jpg",
-    buttonText: "View Collection",
-    buttonUrl: "/category/home",
+    title: "⭐ Shop the Crowd Favorites!",
+    para: "Loved by many, these best-sellers are a must-have! Don not miss out on top-rated products that customers can nott get enough of—shop now before they are gone!.",
+    image: "fashion.avif",
+    identifier: "Best-Sellers",
   },
 ];
 
@@ -48,17 +42,17 @@ const ReviewCard = dynamic(() => import("@/app/components/ReviewCard.jsx"), {
 });
 
 const TrendingPage = () => {
+  const router = useRouter();
   const { name } = useParams();
-  // alert(name);
 
   const [unfilteredProducts, setUnfilteredProducts] = useState([]);
   const [sortBy, setSortBy] = useState("All");
-  const [activeSlide, setActiveSlide] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [Products, setProducts] = useState([]);
   const [whislist, setWhislist] = useState([]);
   const [category, setCategory] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
+  const [heroContent, setHeroContent] = useState(null);
 
   const DisplayByCategory = (id) => {
     alert(id);
@@ -100,6 +94,18 @@ const TrendingPage = () => {
   };
 
   useEffect(() => {
+    const role = localStorage.getItem("code");
+
+    if (role === "2637") {
+      router.push("/admin/dashboard/Inventory");
+      return;
+    }
+
+    const matchingHero = DynamicHeroSection.find(
+      (section) => section.identifier === name
+    );
+
+    setHeroContent(matchingHero || DynamicHeroSection[0]); // Fallback to first item if no match
 
     const fetchDataForPage = async () => {
       const { category } = await fetchCategories();
@@ -113,16 +119,9 @@ const TrendingPage = () => {
         setProducts(products?.products);
         return;
       }
-
-
     };
 
     fetchDataForPage();
-
-
-    const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    }, 5000); // Change slide every 5 seconds
 
     const toggleVisibility = () => {
       setIsVisible(window.scrollY > 300);
@@ -136,15 +135,33 @@ const TrendingPage = () => {
     <div className="min-h-screen bg-gray-50 mt-1">
       <div className="min-h-screen bg-zinc-950 text-white">
         {/* Hero Section */}
-        <DealsHeroSection
-          slides={slides}
-          activeSlide={activeSlide}
-          setActiveSlide={setActiveSlide}
-        />
+        <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 overflow-hidden w-full">
+          {heroContent && (
+            <>
+              <Image
+                width={1920}
+                height={1080}
+                src={`/CategoryHeroSection/${heroContent.image}`}
+                alt={`${heroContent.title} Category`}
+                className="blur-bg absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 to-transparent" />
+              <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col justify-center">
+                <h1 className="text-5xl font-bold mb-4">{heroContent.title}</h1>
+                <p className="text-xl text-zinc-300 max-w-2xl">
+                  {heroContent.para}
+                </p>
+              </div>
+            </>
+          )}
+        </div>
 
         {/* Filters Section */}
-        <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+        <div className="max-w-7xl mx-auto px-4  py-8">
+          <div
+            className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8
+           md:px-20"
+          >
             <div id="filter-section" className="flex items-center gap-2">
               <SlidersHorizontal size={24} className="text-white" />
 
@@ -189,7 +206,7 @@ const TrendingPage = () => {
 
           {/* Product Grid */}
           {Products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 place-items-center">
               {Products.map((product) => (
                 <ProductCard
                   whislist={whislist}

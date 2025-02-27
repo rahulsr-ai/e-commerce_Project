@@ -1,11 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { PanelLeftClose, PanelLeft } from "lucide-react";
 import Sidebar from "../../components/Sidebar";
-import Manageorder from "./order/page";
-
-import { useSidebar } from "@/helpers/SidebarContext";
+import { useSidebar } from "@/context/SidebarContext" 
 
 export default function RootLayout({ children }) {
   const { isSidebarOpen, setIsSidebarOpen } = useSidebar();

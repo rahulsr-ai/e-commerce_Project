@@ -18,9 +18,6 @@ const MinFilter = ({
     setshowProducts(products);
   }, []);
 
-  console.log("products show data ", showProducts);
-  console.log("products data ", products);
-
   const DisplayByCategory = (id) => {
     alert(id);
     const filteredProductsByCategory = UnFilterData.filter((product) => {

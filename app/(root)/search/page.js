@@ -1,11 +1,19 @@
 "use client";
 
-import { ProductCard } from "@/app/components/ProductCard";
+import ProductCard from "@/app/components/useComponents/ProductCard";
 import Loader from "@/app/components/useComponents/Loader";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const SearchPage = () => {
+  const role = localStorage.getItem("code");
+  const router = useRouter();
+  if (role === "2637") {
+    router.push("/admin/dashboard/Inventory");
+    return;
+  }
+
   return (
     <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
       {/* Hero Section */}

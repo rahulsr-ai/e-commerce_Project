@@ -10,21 +10,10 @@ import { useParams } from "next/navigation";
 import ProductCard from "@/app/components/useComponents/ProductCard";
 import NewFooter from "@/app/components/NewFooter";
 import { ArrowUp } from "lucide-react";
-import axios from "axios";
+
 
 const CategoryPage = () => {
   const { name } = useParams();
-
-  const GetSubCategories = async () => {
-    try {
-      const data = await axios.get(`/api/category/subcategory/One?id=${name}`);
-      console.log("data is ================>");
-      console.log(data);
-    } catch (error) {
-      console.error("Error fetching SubCategories:", error);
-      return null;
-    }
-  };
 
   const DynamicHeroSection = [
     {
@@ -65,13 +54,13 @@ const CategoryPage = () => {
   const [heroContent, setHeroContent] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [filters, setFilters] = useState({
-    category: [],
+    category: null,
     priceRange: null,
   });
 
   const clearFilters = () => {
     setFilters({
-      category: [],
+      category: "",
       priceRange: null,
     });
   };
@@ -94,7 +83,6 @@ const CategoryPage = () => {
       }
     };
     fetchData();
-    GetSubCategories();
 
     const toggleVisibility = () => {
       setIsVisible(window.scrollY > 300);
@@ -116,6 +104,32 @@ const CategoryPage = () => {
       window.scrollTo({ top: yOffset, behavior: "smooth" });
     }
   };
+
+  const ApplyFilter = () => {
+    const { category, priceRange } = filters;
+  
+    console.log("category", category);
+    console.log("priceRange", priceRange);
+    console.log("products", products);
+  
+    // Filtering logic
+    const filteredProducts = products.filter((product) => {
+      // Category Filter (if selected)
+      const categoryMatch = category ? product.category === category : true;
+  
+      // Price Filter
+      const productPrice = product.price || 0; // Assume product has a price field
+      const priceMatch = productPrice >= (priceRange || 10); // Ensure price is within selected range
+  
+      return categoryMatch && priceMatch;
+    });
+  
+    console.log("Filtered Products:", filteredProducts);
+    return filteredProducts;
+  };
+  
+  
+
 
   return (
     <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
@@ -150,11 +164,12 @@ const CategoryPage = () => {
           clearFilters={clearFilters}
           productCount={products.length}
           categoryID={products[0]?.category}
+          ApplyFilter={ApplyFilter}
         />
       </div>
 
       <div className="min-h-screen px-4 md:px-8 pb-20">
-       
+        {products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-6">
             {products.map((product, i) => (
               <div key={i} className="w-full max-w-sm mx-auto">
@@ -181,38 +196,9 @@ const CategoryPage = () => {
               </button>
             )}
           </div>
-
-          {products.length > 0 ?   (
-             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-6">
-             {products.map((product, i) => (
-               <div key={i} className="w-full max-w-sm mx-auto">
-                 <ProductCard
-                   whislist={whislist}
-                   setWhislist={setWhislist}
-                   id={product._id}
-                   slug={product.slug}
-                   imageUrl={product.images[0]}
-                   title={product.name}
-                   category={product.category}
-                   description={product.description}
-                   price={product.price}
-                 />
-               </div>
-             ))}
- 
-             {isVisible && (
-               <button
-                 onClick={scrollToFilter}
-                 className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
-               >
-                 <ArrowUp className="w-6 h-6" />
-               </button>
-             )}
-           </div>
-          ) : (
-            <Loader />
-          )}
-        
+        ) : (
+          <Loader />
+        )}
       </div>
 
       <div>

@@ -1,59 +1,37 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+
 
 export async function middleware(req) {
-  const token = req.cookies.get("authToken")?.value; // Token leke check kar
-  const { pathname } = req.nextUrl;
+  const { cookies } = req;
+  const token = cookies.get("authToken");
+  const googletoken = cookies.get("authjs.session-token");
+  const { pathname } = req.nextUrl; // Get current page path
 
+ 
 
-  
-  console.log("token =============================");
-  console.log(token);
-  
-
-  // Sign-in & Sign-up wale pages pe logged-in user ko redirect karna hai
-  if (token && (pathname === "/sign-in" || pathname === "/sign-up")) {
-    return NextResponse.redirect(new URL("/", req.url)); // Home ya dashboard pe bhejo
+  // If no token and trying to access admin/profile page, redirect to sign-in page
+  if (
+    !token &&
+    !googletoken && 
+    (pathname.startsWith("/admin") || pathname.startsWith("/profile"))
+  ) {
+    return NextResponse.redirect(new URL("/sign-in", req.url)); // Redirect to Sign In page
   }
 
-  // Agar token nahi hai aur restricted pages pe ja raha hai toh redirect karo
-  if (!token && (pathname.startsWith("/admin") || pathname.startsWith("/profile"))) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
+  // If user is logged in, restrict access to Sign In and Sign Up pages
+  if (
+    (token || googletoken) &&
+    (pathname === "/sign-in" || pathname === "/sign-up")
+  ) {
+    return NextResponse.redirect(new URL("/", req.url)); // Redirect to homepage or dashboard
   }
 
-
-
-  // Token decode kar lo, but verify mat karo
-  // let decoded;
-  // try {
-  //   decoded = jwt.decode(token);
-  // } catch (error) {
-  //   console.error("JWT Decode Failed:", error);
-  // }
-
-  // console.log("decoded =============================");
-  // console.log(decoded);
-  
-
-  // // Agar user admin page pe ja raha hai aur role admin nahi hai, toh access block karo
-  // if (decoded && pathname.startsWith("/admin") && decoded.role !== "admin") {
-  //   return NextResponse.json(
-  //     { success: false, message: "Unauthorized access" },
-  //     { status: 403 }
-  //   );
-  // }
-
-
+  // Allow access to the route if user is admin or any other authorized user
   return NextResponse.next();
-
-
 }
 
-
-
-
-
-
+// Apply middleware only to specific routes
 export const config = {
-  matcher: ["/sign-in", "/sign-up", "/profile", "/admin/:path*",   "/",  ],
+  
+  matcher: ["/admin/:path*", "/profile/:path*", "/sign-in", "/sign-up", "/" ],
 };

@@ -66,6 +66,7 @@ export async function POST(req) {
       isBestSeller: file.attributes.bestSeller,
       isNewArrival: file.attributes.newArrival,
       isTrending: file.attributes.trending,
+      isOnDeal: file.attributes.deals,
       images: publicURL,
     });
 

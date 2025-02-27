@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { Filter as FilterIcon, X } from "lucide-react";
 import { fetchSubCategories } from "@/lib/apiCalls";
+import axios from "axios";
 
-const CATEGORIES = ["Mobile Phones", "Headphones", "Laptops"];
 const PRICE_RANGES = [
   { id: "below-100", label: "Below $100" },
   { id: "100-200", label: "$100 - $200" },
@@ -21,12 +21,30 @@ export function Filter({
   Product,
   setProduct,
   categoryID,
+  ApplyFilter,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasActiveFilters, sethasActiveFilters] = useState(false);
-  const [SubCategory, setSubcategory] = useState([]);
+  const [SubCategory, setSubcategory] = useState([""]);
 
+  useEffect(() => {
+    const GetSubCategories = async () => {
+      try {
+        const { data } = await axios.get(
+          `/api/category/subcategory/One?id=${categoryID}`
+        );
+        console.log("data is ================>");
+        console.log(data?.fetchSubcategory);
+        setSubcategory(data?.fetchSubcategory);
+      } catch (error) {
+        console.error("Error fetching SubCategories:", error);
+        return null;
+      }
+    };
+    GetSubCategories();
+  }, [categoryID]);
 
+  console.log(filters);
 
   return (
     <div className=" py-2 flex items-center   md:flex-row flex-col mx-auto md:px-12">
@@ -50,7 +68,10 @@ export function Filter({
 
           {hasActiveFilters && (
             <button
-              onClick={clearFilters}
+              onClick={() => {
+                clearFilters();
+                sethasActiveFilters(false);
+              }}
               className="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition-colors"
             >
               <X size={20} />
@@ -83,17 +104,24 @@ export function Filter({
                 <div>
                   <h3 className="text-sm font-medium mb-4">Categories</h3>
                   <div className="grid grid-cols-2 gap-3">
-                    {CATEGORIES.map((category) => (
+                    {SubCategory.map((category) => (
                       <label
-                        key={category}
-                        className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors ${
-                          filters.category.includes(category)
-                            ? "bg-violet-600 text-white"
-                            : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-                        }`}
+                        onClick={() =>
+                          setFilters({ ...filters, category: category._id })
+                        }
+                        key={category._id}
+                        className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors 
+                          ${
+                            filters.category === category._id
+                              ? "bg-violet-600 text-white"
+                              : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                          }`}
                       >
                         {/* <input type="checkbox" className="sr-only" /> */}
-                        <span className="text-sm">{category}</span>
+                        <span className="text-sm">
+                          {category?.name.charAt(0).toUpperCase() +
+                            category?.name.slice(1)}
+                        </span>
                       </label>
                     ))}
                   </div>
@@ -103,26 +131,49 @@ export function Filter({
 
                 <div>
                   <h3 className="text-sm font-medium mb-4">Price Range</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {PRICE_RANGES.map((range) => (
-                      <label
-                        key={range.id}
-                        className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors ${
-                          filters.priceRange === range.id
-                            ? "bg-violet-600 text-white"
-                            : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
-                        }`}
-                      >
-                        <span className="text-sm">{range.label}</span>
-                      </label>
-                    ))}
+                  <div className="flex flex-col items-center space-y-4">
+                    <input
+                      type="range"
+                      min="10"
+                      max="1000"
+                      step="10"
+                      value={filters.priceRange || 10}
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          priceRange: Number(e.target.value),
+                        })
+                      }
+                      className="w-full cursor-pointer"
+                    />
+                    <input
+                      type="number"
+                      min="10"
+                      max="1000"
+                      step="10"
+                      value={filters.priceRange || 10}
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          priceRange: Number(e.target.value),
+                        })
+                      }
+                      className="border rounded px-2 py-1 w-20 text-center text-black"
+                    />
+                    <p className="text-sm text-zinc-300">
+                      Selected Value: {filters.priceRange || 10}
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="flex gap-4 pt-4">
                 <button
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    sethasActiveFilters(true);
+                    ApplyFilter();
+                  }}
                   className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
                 >
                   Apply Filters
@@ -130,6 +181,8 @@ export function Filter({
                 {hasActiveFilters && (
                   <button
                     onClick={() => {
+                      clearFilters();
+                      sethasActiveFilters(false);
                       setIsModalOpen(false);
                     }}
                     className="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition-colors"

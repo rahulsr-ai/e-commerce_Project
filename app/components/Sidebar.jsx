@@ -12,13 +12,13 @@ import {
   Settings,
   BarChart3,
   LogOut,
+  UserCog,
 } from "lucide-react";
 import { useAuth } from "@/context/Authcontext";
 import axios from "axios";
 
 import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { handleUserLogout } from "@/actions/SignIn";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const { user, setUser } = useAuth();
@@ -28,9 +28,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   // Define menu items with links
   const menuItems = [
     { icon: BarChart3, label: "Inventory", link: "/admin/dashboard/Inventory" },
-    { icon: ShoppingCart, label: "Orders", link: "/admin/dashboard/order" },
-    { icon: Users, label: "Customers", link: "/admin/dashboard/customer" },
+    // { icon: UserCog, label: "Users", link: "/admin/dashboard/settings" },
+    { icon: Users, label: "Users", link: "/admin/dashboard/customer" },
     { icon: Package, label: "Products", link: "/admin/dashboard/product" },
+    { icon: ShoppingCart, label: "Orders", link: "/admin/dashboard/order" },
     { icon: Settings, label: "Settings", link: "/admin/dashboard/settings" },
   ];
 
@@ -38,20 +39,19 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const [activeItem, setActiveItem] = useState("Inventory");
 
   const handleLogout = async () => {
-    alert("Logging out");
     setUser(null);
     localStorage.removeItem("code");
+    setUser(user);
 
-    const { data } = await axios.get("/api/auth/logout");
+    const { data } = await axios.post("/api/auth/logout");
     console.log(data);
 
     if (data?.success) {
-       router.push("/sign-in");
+      toast.success("Logged out successfully");
+      router.push("/sign-in");
+      window.location.reload();
     }
-
   };
-
-
 
   return (
     <div

@@ -1,5 +1,5 @@
 import React from 'react'
-import Signup from './signup'
+import Signup from '../../components/PagesComponent/signup'
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 

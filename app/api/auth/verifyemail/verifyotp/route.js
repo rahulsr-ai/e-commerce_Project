@@ -10,8 +10,13 @@ export async function POST(request) {
     // Step 1: Parse incoming request data
     const { verifyOtp, password, name, email } = await request.json();
 
-    console.log("checking type =============================");
-    console.info(verifyOtp);
+     if(!verifyOtp || !password || !name || !email) {
+      return NextResponse.json(
+        { message: "Missing required fields", success: false },
+        { status: 200 }
+      );
+    }
+
 
     await dbConnect(); // Connect to the database
 
@@ -73,8 +78,7 @@ export async function POST(request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const CheckUserEmailForAdmin = AdminsEmails.includes(email.toLowerCase());
-    console.log("CheckUserEmailForAdmin =============================");
-    console.info(CheckUserEmailForAdmin);
+ 
 
     if (CheckUserEmailForAdmin) {
       // Step 6: Create the new user which role is be admin
@@ -96,10 +100,7 @@ export async function POST(request) {
     }
 
     const TemporaryUserDelete = await TemporaryUser.deleteOne({ email }); // Delete the temporary user
-    console.log("delete =============================");
-    console.info(TemporaryUserDelete);
-
-    
+   
 
     return NextResponse.json(
 

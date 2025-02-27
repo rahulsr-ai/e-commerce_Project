@@ -12,7 +12,7 @@ import {
   House,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 import { usePathname } from "next/navigation";
 
@@ -24,16 +24,18 @@ const DesktopMenu = ({
   setCategoryOpen,
   brandsOpen,
   setBrandsOpen,
-  setactivelink,
-  user,
   categoryName,
   handleLogout,
   setIconsForCategoryName,
   handleSearch,
   query,
   debouncedQuery,
+  role,
+  sendSearchValue,
 }) => {
   const pathname = usePathname();
+
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
@@ -50,16 +52,16 @@ const DesktopMenu = ({
         <div className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
           <Link
             href="/"
-            className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group
-                 ${pathname === "/" ? "active-link" : "text-white/90"} `}
+            className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
+                 ${pathname === "/" ? "underline" : "text-white/90"} `}
           >
             <span className="mr-4">Home</span>
           </Link>
 
           <Link
             href="/deals"
-            className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group
-              ${pathname === "/deals" ? "active-link" : "text-white/90"}  `}
+            className={`  transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
+              ${pathname === "/deals" ? "underline" : "text-white/90"}  `}
           >
             <span className="mr-4">Deals</span>
           </Link>
@@ -69,10 +71,10 @@ const DesktopMenu = ({
             <button
               onMouseEnter={() => setCategoryOpen(true)}
               onMouseLeave={() => setCategoryOpen(false)}
-              className={`hover:text-white transition-all duration-200 flex items-center space-x-1
+              className={`hover:text-white transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
                 ${
                   pathname.startsWith("/category")
-                    ? "active-link"
+                    ? "underline"
                     : "text-white/90"
                 }  `}
             >
@@ -118,10 +120,10 @@ const DesktopMenu = ({
             <button
               onMouseEnter={() => setBrandsOpen(true)}
               onMouseLeave={() => setBrandsOpen(false)}
-              className={`text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-1
+              className={`text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
                 ${
                   pathname.startsWith("/Explore")
-                    ? "active-link"
+                    ? "underline "
                     : "text-white/90"
                 } `}
             >
@@ -159,23 +161,66 @@ const DesktopMenu = ({
           <div className={`flex-1 max-w-xs`}>
             <div className="relative group">
               <input
+                onFocus={(e) => {
+                  setIsFocused(true);
+                }}
+                onBlur={(e) => {
+                  setIsFocused(false);
+                }}
                 value={query}
                 onChange={handleSearch}
+                onKeyDown={sendSearchValue}
                 type="text"
                 placeholder="Search products..."
-                className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-1.5 pr-8 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
+                className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-1.5 pr-8 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
               />
               <Search
                 className="absolute right-3 top-1.5 text-white/60 group-hover:text-white/80 transition-colors duration-200"
                 size={20}
               />
             </div>
-            <p>Search Query: {debouncedQuery}</p>
+
+            {isFocused && query.length >= 3 && (
+              <div
+                className="flex flex-col py-2 px-2 gap-2 border-2 rounded-md
+            bg-white absolute top-14 max-w-xs w-full h-fit "
+              >
+                <p className="text-violet-700"> Search Results</p>
+                <p className="text-black hover:bg-gray-100 ">
+                  {debouncedQuery.charAt(0).toUpperCase() +
+                    debouncedQuery.slice(1).toLowerCase()}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
         <div className={`hidden lg:flex items-center space-x-4`}>
-          {!user?.token ? (
+          {role ? (
+            <>
+              <Link
+              href={"/Account"}
+                
+                className={`text-white  hover:underline underline-offset-4 px-6 py-2 rounded-full  transition-all duration-300 transform hover:scale-105
+
+                ${
+                  pathname.startsWith("/Account")
+                    ? "underline"
+                    : "text-white/90"
+                }
+                `}
+              >
+                Account
+              </Link>
+              <button
+                onClick={handleLogout}
+                className={`bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105
+                `}
+              >
+                LogOut
+              </button>
+            </>
+          ) : (
             <>
               <Link href="/sign-in">
                 <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
@@ -193,14 +238,6 @@ const DesktopMenu = ({
                 </button>
               </Link>
             </>
-          ) : (
-            <button
-              onClick={handleLogout}
-              className={`bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105
-            `}
-            >
-              LogOut
-            </button>
           )}
         </div>
 

@@ -1,35 +1,83 @@
 "use client";
-import axios from "axios";
-import React, { useEffect } from "react";
+
+
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { HandleProductClick, HandleWishlist } from "@/lib/apiCalls";
+import ProductPageNew from "../../../components/PagesComponent/ProductPageNew";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const ProductPage = () => {
-  // const { name } = React.use(params);
+  const router = useRouter();
 
+  // const role = localStorage.getItem("code");
+
+  // if (role === "2637") {
+  //   router.push("/admin/dashboard/Inventory");
+  //   return;
+  // }
+
+  const [SingleProduct, setSingleProduct] = useState([]);
+  const [RelatedProducts, setRelatedProducts] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
   const { name } = useParams();
 
-  const fetchProductData = async () => {
-    try {
-      const { data } = await axios.get(
-        `/api/product/GetSingleProductData?name=${name}`
-      );
+  const getProductData = async () => {
+    const response = await HandleProductClick(name);
+    setSingleProduct(response.product);
 
-      if (data?.success) {
-        alert(data.message);
-      }
-    } catch (error) {
-      console.log("error");
-      console.log(error);
-    }
+    const filter = response.relatedProducts.filter(
+      (product) => product._id !== response.product._id
+    );
+
+    setRelatedProducts(filter.slice(0, 3));
   };
 
   useEffect(() => {
-    fetchProductData();
+    getProductData();
+  }, [name]);
+
+  // Load wishlist from LocalStorage when the component mounts
+  useEffect(() => {
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(storedWishlist);
   }, []);
 
+  const handleWishlist = async (id) => {
+    alert(id);
+    const Logincode = localStorage.getItem("code");
+
+    if (!Logincode || Logincode !== "0001") {
+      toast.loading("Log in to continue shopping", { duration: 1000 });
+      router.push("/sign-in");
+      return;
+    }
+
+    const response = await HandleWishlist(id);
+    console.log(response);
+
+    let updatedWishlist;
+    if (wishlist.includes(id)) {
+      updatedWishlist = wishlist.filter((itemId) => itemId !== id);
+    } else {
+      updatedWishlist = [...wishlist, id];
+    }
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist)); // Save to LocalStorage
+  };
+
+
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-center pt-44 ">
-      <h1 className="text-4xl font-bold text-white">{name}</h1>
+    <div className="min-h-screen pt-10 bg-neutral-900">
+      <ProductPageNew
+        wishlist={wishlist}
+        setWishlist={setWishlist}
+        SingleProduct={SingleProduct}
+        RelatedProducts={RelatedProducts}
+        handleWishlist={handleWishlist}
+      />
     </div>
   );
 };

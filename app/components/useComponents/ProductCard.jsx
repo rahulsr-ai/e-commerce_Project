@@ -4,7 +4,11 @@ import React, { useEffect } from "react";
 import { Heart, ShoppingCart, Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Subcategory } from "@/models/CategorySchema";
+import { HandleWishlist } from "@/lib/apiCalls";
+import { useAuth } from "@/context/Authcontext";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const ProductCard = ({
   imageUrl,
@@ -17,6 +21,7 @@ const ProductCard = ({
   whislist,
   setWhislist,
 }) => {
+  const router = useRouter();
   const setCategoryName = (id) => {
     switch (id) {
       case "67af39a6666823df372a6770":
@@ -34,44 +39,68 @@ const ProductCard = ({
     }
   };
 
-
-   // Load wishlist from LocalStorage when the component mounts
-   useEffect(() => {
+  // Load wishlist from LocalStorage when the component mounts
+  useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWhislist(storedWishlist);
   }, []);
 
-  const handleWishlist = (id) => {
-    let updatedWishlist;
-    if (whislist.includes(id)) {
-      updatedWishlist = whislist.filter((itemId) => itemId !== id);
-    } else {
-      updatedWishlist = [...whislist, id];
+  const AddToCart = async () => {
+    try {
+      const data = await axios.post(`/api/cart/add`, {
+        id,
+      });
+      console.log("data", data);
+      toast.success("Product added to cart");
+    } catch (error) {
+      console.log("frontend error while adding to cart", error);
+      return null;
+    }
+  };
+
+  const handleWishlist = async (id) => {
+    const Logincode = localStorage.getItem("code");
+
+    if (!Logincode || Logincode !== "0001") {
+      toast.loading("Log in to continue shopping", { duration: 1000 });
+      router.push("/sign-in");
+      return;
     }
 
+    const response = await HandleWishlist(id);
+
+
+    let updatedWishlist;
+    if (whislist.includes(id)) {
+      toast.error("Product already in wishlist");
+      updatedWishlist = whislist.filter((itemId) => itemId !== id);
+    } else {
+      toast.success("Product added to wishlist");
+      updatedWishlist = [...whislist, id];
+    }
     setWhislist(updatedWishlist);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist)); // Save to LocalStorage
   };
 
-
-  // console.log(whislist);
-
-
-  if(!(imageUrl || title || description || category || price || id || slug) ) { 
+  if (!(imageUrl || title || description || category || price || id || slug)) {
     <div className="flex py-24  justify-center ">
-    <div className="text-center">
-      <h2 className="text-3xl font-bold text-gray-700">
-        No Products Found
-      </h2>
-      <p className="mt-4 text-violet-600">
-        No products found matching your search criteria.
-      </p>
-    </div>
-  </div>
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-gray-700">No Products Found</h2>
+        <p className="mt-4 text-violet-600">
+          No products found matching your search criteria.
+        </p>
+      </div>
+    </div>;
   }
 
   return (
-    <div className="max-w-sm bg-neutral-950 rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:-translate-y-1 w-full">
+    <div
+      className="max-w-sm
+      place-content-center
+    
+    bg-neutral-950 rounded-lg shadow-lg hover:shadow-[inset_0_0_20px_rgba(139,92,246,0.5)] 
+    overflow-hidden transition-transform duration-300 hover:-translate-y-1 w-full"
+    >
       <div className="relative">
         <Image
           className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
@@ -88,7 +117,7 @@ const ProductCard = ({
         >
           <Heart
             className={`w-5 h-5 z-40 transition-colors duration-200 ${
-              whislist.includes(id) ? "text-red-500" : "text-gray-600"
+              whislist?.includes(id) ? "text-red-500" : "text-gray-600"
             }`}
           />
         </button>
@@ -111,13 +140,16 @@ const ProductCard = ({
 
         <div className="mt-4 flex gap-2">
           <button
+            onClick={() => {
+              AddToCart();
+            }}
             name="cart-button"
             className="flex-1 bg-violet-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-violet-700 transition-colors duration-200 flex items-center justify-center gap-2"
           >
             <ShoppingCart className="w-5 h-5" />
             Add to Cart
           </button>
-          <Link key={title} href={`/Product/${slug}`} aria-label="View product">
+          <Link href={`/Product/${slug}`}>
             <button
               name="view-button"
               className="px-4 py-2 border border-gray-300 rounded-lg font-medium text-violet-400 hover:bg-gray-50 hover:text-black transition-colors duration-200 flex items-center justify-center"

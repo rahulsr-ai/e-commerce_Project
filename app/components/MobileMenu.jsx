@@ -13,7 +13,11 @@ const MobileMenu = ({
   setBrandsOpen,
   handleLogout,
   categoryName,
+  role,
   setIconsForCategoryName,
+  handleSearch,
+  sendSearchValue,
+  query,
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -33,45 +37,67 @@ const MobileMenu = ({
             <input
               type="text"
               placeholder="Search products..."
+              value={query}
+              onChange={(e) => {
+                handleSearch(e);
+              }}
+              onKeyDown={sendSearchValue}
               className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-2 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
             />
             <Search
-              className="absolute right-3 top-2.5 text-white/60"
+              onKeyDown={sendSearchValue}
+              className="absolute right-3 top-2.5 text-white/60 z-40"
               size={20}
             />
           </div>
         </div>
+
+        {role && (
+          <Link
+            onClick={() => setIsOpen(false)}
+            href="/Account"
+            className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+            underline-offset-4 hover:underline
+            ${pathname === "/Account" ? "underline" : "text-white/90"} `}
+          >
+            {/* <Home size={18} /> */}
+            <span>Account</span>
+          </Link>
+        )}
 
         {/* Mobile Links */}
         <Link
           onClick={() => setIsOpen(false)}
           href="/"
           className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
-            ${pathname === "/" ? "active-link" : "text-white/90"} `}
+            underline-offset-4 hover:underline
+            ${pathname === "/" ? "underline" : "text-white/90"} `}
         >
           {/* <Home size={18} /> */}
           <span>Home</span>
         </Link>
+
         <Link
           onClick={() => setIsOpen(false)}
           href="/deals"
-          className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
-            ${pathname === "/deals" ? "active-link" : "text-white/90"} `}
+          className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200 
+            underline-offset-4 hover:underline
+            ${pathname === "/deals" ? "underline" : "text-white/90"} `}
         >
           {/* <Home size={18} /> */}
           <span>Deals</span>
         </Link>
-       
 
         {/* Mobile Categories */}
         <div className="">
           <button
-            onClick={() => setCategoryOpen(!categoryOpen)}
-            className={`flex items-center text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+            onClick={() => {
+              setCategoryOpen(!categoryOpen);
+            }}
+            className={`flex items-center text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
+              underline-offset-4 hover:underline
               ${
-                pathname.startsWith("/category")
-                  ? "active-link"
-                  : "text-white/90"
+                pathname.startsWith("/category") ? "underline" : "text-white/90"
               } `}
           >
             <span>Categories</span>
@@ -91,8 +117,9 @@ const MobileMenu = ({
               <Link
                 onClick={() => setIsOpen(false)}
                 key={category.name}
-                href={`/category/${category.name}`}
+                href={`${category?.path}`}
                 className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+                  
                   `}
               >
                 <span className="text-violet-600 group-hover:text-violet-700 text-xs transition-colors duration-200">
@@ -110,12 +137,14 @@ const MobileMenu = ({
         {/* Mobile Brands */}
         <div className="">
           <button
-            onClick={() => setBrandsOpen(!brandsOpen)}
-            className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+            onClick={() => {
+              setCategoryOpen(false);
+              setBrandsOpen(!brandsOpen);
+            }}
+            className={`flex items-center space-x-2 text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
+              underline-offset-4 hover:underline
               ${
-                pathname.startsWith("/Explore")
-                  ? "active-link"
-                  : "text-white/90"
+                pathname.startsWith("/Explore") ? "underline" : "text-white/90"
               } `}
           >
             <span>Explore</span>
@@ -135,7 +164,8 @@ const MobileMenu = ({
               <Link
                 key={brand.name}
                 href={`/Explore/${brand.name}`} // Add proper href
-                className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200"
+                className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200
+                z-50"
               >
                 <span className="text-violet-600 group-hover:text-violet-700 text-xs transition-colors duration-200">
                   {brand.icon}
@@ -148,26 +178,36 @@ const MobileMenu = ({
 
         {/* Mobile Auth Buttons */}
         <div className="px-3 py-2 space-y-2">
-          <>
+          {role ? (
             <button
-              onClick={() => {
-                setIsOpen(false);
-                router.push("/sign-in");
-              }}
+              onClick={handleLogout}
               className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
             >
-              Sign in
+              Logout
             </button>
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                router.push("/sign-up");
-              }}
-              className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
-            >
-              Sign up
-            </button>
-          </>
+          ) : (
+            <>
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push("/sign-in");
+                }}
+                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+              >
+                Sign in
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsOpen(false);
+                  router.push("/sign-up");
+                }}
+                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+              >
+                Sign up
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

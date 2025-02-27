@@ -1,6 +1,8 @@
-import React from 'react'
-import OrderPage from './Order'
 
+
+import React from 'react'
+import dynamic from 'next/dynamic'
+const OrderPage = dynamic(() => import('@/app/components/adminComponents/customer/Customer.jsx'), { ssr: false })
  const page = () => {
   return (
     <div>

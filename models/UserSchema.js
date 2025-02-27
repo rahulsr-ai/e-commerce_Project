@@ -25,25 +25,31 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    isVerified: { 
+    status: {
+      type: String,
+      default: "Active",
+      enum: ["Active", "Blocked"],
+    },
+    isVerified: {
       type: Boolean,
       required: true,
       default: false,
     },
-    authProvider: { 
+    authProvider: {
       type: String, // "local" ya "google"
       default: "local",
     },
-    authProviderId: { 
+    authProviderId: {
       type: String, // Google ke users ke liye unique ID
     },
+
     image: { type: [String], default: [] },
 
-    
     cart: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         quantity: { type: Number, default: 1 },
+        priceAtTimeOfAdding: { type: Number, required: true }, // Store price when added
       },
     ],
     orders: [
@@ -52,6 +58,9 @@ const userSchema = new mongoose.Schema(
         status: { type: String, default: "Pending" },
       },
     ],
+
+    resetPasswordToken: { type: String }, // Token for password reset
+    resetPasswordExpires: { type: Date }, // Expiry time for token
   },
   {
     timestamps: true,

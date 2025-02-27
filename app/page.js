@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth } from "@/context/Authcontext";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { ArrowUp, } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import ProductCard from "./components/useComponents/ProductCard";
 import Loader from "./components/useComponents/Loader";
 import MinFilter from "./components/useComponents/minimalFilter";
@@ -32,7 +32,9 @@ const ResponsiveBanner = dynamic(
 const LazyFeatured = React.lazy(() => import("./components/Featured"));
 
 const Landing = () => {
+  
   const router = useRouter();
+
   const { user, setUser } = useAuth();
 
   const [Products, setProducts] = useState([]);
@@ -45,14 +47,11 @@ const Landing = () => {
   const GetProductData = async () => {
     try {
       const { data } = await axios.get("/api/product/getallproduct");
-      console.log(data);
 
       if (data?.success) {
         setProducts(data.products);
         setUnFilterData(data.products);
       }
-
-      console.log(data.products[0].images[0]);
 
       setUser({ token: data.token });
     } catch (error) {
@@ -72,7 +71,6 @@ const Landing = () => {
 
   const fetchCategories = async () => {
     const { data } = await axios.get("/api/category/subcategory");
-    console.log(data.GetSubcategory);
 
     if (data?.success) {
       setCategories(() => [...data?.GetSubcategory]);
@@ -80,6 +78,12 @@ const Landing = () => {
   };
 
   useEffect(() => {
+    const role = localStorage.getItem("code");
+    if (role === "2637") {
+      router.push("/admin/dashboard/Inventory");
+      return;
+    }
+
     fetchCategories();
     GetProductData();
     setloading(false);
@@ -91,6 +95,8 @@ const Landing = () => {
     window.addEventListener("scroll", toggleVisibility);
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
+
+  
 
   return (
     <div className="bg-black min-h-screen w-full ">
@@ -113,7 +119,7 @@ const Landing = () => {
         <ResponsiveBanner />
       </div>
 
-      <div className="py-12" id="filter-section">
+      <div className="py-12 md:px-16" id="filter-section">
         <MinFilter
           products={Products}
           setproducts={setProducts}
@@ -123,7 +129,7 @@ const Landing = () => {
 
       {/* Product Grid */}
       {Products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 md:px-12 place-items-center">
           {Products?.map((product) => (
             <ProductCard
               whislist={whislist}
@@ -147,22 +153,8 @@ const Landing = () => {
             </button>
           )}
         </div>
-      ) : ( 
-        Products.length === 0 ? ( 
-          <div className="flex py-24  justify-center ">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-700">
-              No Products Found
-            </h2>
-            <p className="mt-4 text-violet-600">
-              No products found matching your search criteria.
-            </p>
-          </div>
-        </div>
-        ) : ( 
-          <Loader/>
-        )
-       
+      ) : (
+        <Loader />
       )}
 
       {/* <div>

@@ -42,8 +42,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const isUserExits = await User.findOne({ email: user.email });
 
         if (isUserExits) {
-          console.log("user already exists");
-
+          
+          // const newUser = await User.updateOne({
+          //   name: user.name,
+          //   email: user.email,
+          //   password: user.password,
+          //   role: "user",
+          //   isVerified: true,
+          //   authProvider: "google",
+          //   authProviderId: user.id,
+          //   image: user.image,
+          // });
           return token;
         }
 
@@ -55,7 +64,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           isVerified: true,
           authProvider: "google",
           authProviderId: user.id,
-          image : user.image,
+          image: user.image,
         });
 
         console.log("token is  ------------------");

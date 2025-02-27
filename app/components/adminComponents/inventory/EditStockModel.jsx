@@ -1,3 +1,4 @@
+import { UpdateProductStock } from "@/lib/apiCalls";
 import { RefreshCw, Save, X } from "lucide-react";
 import React from "react";
 
@@ -11,17 +12,19 @@ const EditStockModel = ({
   isLoading,
   setIsLoading,
   products,
-  setProducts
+  setProducts,
+  productID,
 }) => {
   const handleSave = async () => {
     if (selectedProduct && newStock) {
       setIsLoading(true);
       try {
         // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        const response = await UpdateProductStock(productID, newStock);
+        console.log("response", response);
 
         const updatedProducts = products.map((product) =>
-          product.id === selectedProduct.id
+          product._id === selectedProduct._id
             ? { ...product, stock: parseInt(newStock) }
             : product
         );

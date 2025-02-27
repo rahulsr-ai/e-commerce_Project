@@ -7,7 +7,7 @@ import ProductSchema from "@/models/ProductSchema";
 export async function GET(req, res) {
   try {
     await dbConnect(); // MongoDB connect karo
-
+    
     // ✅ Sare products fetch karo
     const products = await ProductSchema.find({});
 

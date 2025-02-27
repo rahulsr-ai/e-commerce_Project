@@ -8,33 +8,46 @@ export async function GET(req) {
 
   if (!search) {
     return NextResponse.json(
-      { message: "No search found", product: [] },
+      { message: "No search found", product: [], fetchedCategory: [] },
       { status: 200 }
     );
   }
+
+
+  // 🔹 Perform a text search
+  const Result = await Product.find(
+    { $text: { $search: search } },
+    { score: { $meta: "textScore" } } // Include relevance score
+  ).sort({ score: { $meta: "textScore" } });
+  // const Result = Product.getIndexes()
+
+  console.log("result ", Result);
 
   const product = await Product.find({
     $or: [
       { name: { $regex: search, $options: "i" } },
-      { description: { $regex: search, $options: "i" } }
-    ]
+      { description: { $regex: search, $options: "i" } },
+    ],
   });
-
-  
 
   if (!product) {
     return NextResponse.json(
-      { message: "No product found", product: [] },
+      { message: "No product found", product: [], fetchedCategory: [] },
+      { status: 200 }
+    );
+  }
+  const objectId = product[0]?.category.toString();
+  const fetchedCategory = await Subcategory.find({ category: objectId });
+
+  if (!fetchedCategory) {
+    return NextResponse.json(
+      { message: "No category found", product: [], fetchedCategory: [] },
       { status: 200 }
     );
   }
 
-  const fetchSubCategory = await Subcategory.find({
-    category: product[0]?.category,
-  });
-
-  console.log("fetchSubCategory", fetchSubCategory);
-  console.log("product", product);
-
-  return NextResponse.json({ message: "Hello" , fetchSubCategory, product }, { status: 200 });
+  return NextResponse.json(
+    { message: "Hello", product, fetchedCategory },
+    { status: 200 }
+  );
 }

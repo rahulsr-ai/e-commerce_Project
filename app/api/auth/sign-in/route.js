@@ -17,16 +17,18 @@ export async function POST(req) {
     if (!user) {
       return NextResponse.json(
         { message: "Invalid email or password" },
-        { status: 400 }
+        { status: 200 }
       );
     }
+
+    
 
     // Compare the entered password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return NextResponse.json(
         { message: "Invalid email or password" },
-        { status: 400 }
+        { status: 200 }
       );
     }
 

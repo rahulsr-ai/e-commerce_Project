@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,17 +8,17 @@ const Featured = () => {
     {
       title: "New Arrivals",
       image: "/featuredImages/clothes.jpeg",
-      path: "/Explore/new-arrivals",
+      path: "/Explore/New-Arrivals",
     },
     {
       title: "Best Sellers",
       image: "/featuredImages/ladyshoping.jpeg",
-      path: "/Explore/best-sellers",
+      path: "/Explore/Best-Sellers",
     },
     {
-      title: "Limited Edition",
+      title: "Trending",
       image: "/featuredImages/headphone0.jpg",
-      path: "/Explore/limited-edition",
+      path: "/Explore/Trending",
     },
   ];
 
@@ -49,9 +49,9 @@ const Featured = () => {
                     src={category.image}
                     alt={category.title}
                     fill
-                    objectFit="cover"
-                    className="group-hover:scale-110 transition-transform duration-300"
-                    priority={index === 0} // Preload first image
+                    style={{ objectFit: "cover" }} // ✅ Use `style` instead
+                    className="group-hover:scale-110  transition-transform duration-300"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">

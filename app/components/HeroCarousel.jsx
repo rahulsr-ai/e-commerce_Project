@@ -54,7 +54,7 @@ const HeroCarousel = () => {
             src={slide.image}
             alt={slide.title}
             fill
-            objectFit="cover"
+            style={{ objectFit: "cover" }} // ✅ Use `style` instead
             priority={index === 0} // Pehli image ko priority de rahe hain
             className="absolute inset-0 w-full h-full"
           />
@@ -62,7 +62,9 @@ const HeroCarousel = () => {
 
           {/* Content */}
           <div className="relative z-10 text-center text-white px-6 max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-semibold mb-6">{slide.title}</h1>
+            <h1 className="text-4xl md:text-6xl font-semibold mb-6">
+              {slide.title}
+            </h1>
             <p className="text-xl text-gray-200 mb-8">{slide.description}</p>
             <Link href={slide.buttonUrl} passHref>
               <button className="bg-violet-600 text-white px-8 py-3 rounded-full hover:bg-violet-700 transition-all duration-300">
@@ -80,7 +82,9 @@ const HeroCarousel = () => {
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              currentSlide === index ? "bg-violet-600 w-8" : "bg-white/50 hover:bg-white/80"
+              currentSlide === index
+                ? "bg-violet-600 w-8"
+                : "bg-white/50 hover:bg-white/80"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

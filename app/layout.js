@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "StoreX",
+  icons: { 
+    icon: "/shopping-bag 01.png"
+  },
   description: "Online Store for all your needs",
 };
 
@@ -28,7 +31,11 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <Navbar />
 
-          <div className="">{children}</div>
+         
+            <div className="">{children}</div>
+          
+
+
           <Toaster position="top-center" reverseOrder={false} />
         </AuthProvider>
       </body>

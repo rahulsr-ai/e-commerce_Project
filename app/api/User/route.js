@@ -1,38 +1,57 @@
-//@ts-nocheck
-
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { dbConnect } from "@/lib/db";
 import User from "@/models/UserSchema";
-import { LetterText } from "lucide-react";
 
 export async function GET(req) {
-  let token = req.cookies.get("authToken"); // Get token from cookies
-  console.log(token);
+  const token = req.cookies.get("authToken")?.value; // Get token from cookies
 
-  token = JSON.stringify(token);
+  const Googletoken = req.cookies.get("authjs.session-token")?.value;
+  console.log(Googletoken);
+
   try {
-    if (!token) {
+    if (!token && !Googletoken) {
       return NextResponse.json(
-        { message: "No token provided" },
-        { status: 401 }
+        { message: "No token provided", success: false, user: [] },
+        { status: 200 }
       );
     }
 
-    // Verify the token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded._id;
-
     await dbConnect();
 
-    // Fetch the user from the database
-    const user = await User.findById(decoded._id);
+    
+    if (Googletoken) {
+      const googleDecoded = jwt.verify(Googletoken);
+      console.log(googleDecoded);
 
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+
+
+      return NextResponse.json(
+        { message: "No token provided", success: false, user: [] },
+        { status: 200 }
+      );
     }
 
-    return NextResponse.json({ user }, { status: 200 });
+
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+   
+
+    // Fetch the user from the database
+    const user = await User.findById({ _id: decoded.id });
+
+    if (!user) {
+      return NextResponse.json(
+        { message: "User not found", success: false, user: [] },
+        { status: 200 }
+      );
+    }
+
+    return NextResponse.json(
+      { message: "User Found", success: true, user },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching user:", error);
     return NextResponse.json(

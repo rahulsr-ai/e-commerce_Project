@@ -13,6 +13,7 @@ import { fetchCategories, getDealsProducts } from "@/lib/apiCalls";
 import ProductCard from "@/app/components/useComponents/ProductCard";
 import DealsHeroSection from "@/app/components/useComponents/DealsHeroSection";
 import Loader from "@/app/components/useComponents/Loader";
+import { useRouter } from "next/navigation";
 
 const slides = [
   {
@@ -45,7 +46,16 @@ const ReviewCard = dynamic(() => import("@/app/components/ReviewCard.jsx"), {
   ssr: false,
 });
 
-const TrendingPage = () => {
+const DealsPage = () => {
+
+   const role = localStorage.getItem("code");
+    const router = useRouter();
+    if (role === "2637") {
+      router.push("/admin/dashboard/Inventory");
+      return
+    }
+
+    
   const [unfilteredProducts, setUnfilteredProducts] = useState([]);
   const [sortBy, setSortBy] = useState("All");
   const [activeSlide, setActiveSlide] = useState(0);
@@ -57,7 +67,6 @@ const TrendingPage = () => {
 
 
   const DisplayByCategory = (id) => {
-    alert(id);
     const filteredProductsByCategory = unfilteredProducts.filter((product) => {
       if (id === "All") {
         return true;
@@ -82,7 +91,7 @@ const TrendingPage = () => {
       }
     });
 
-    console.log(sortedProducts);
+    
     setDealsProducts(sortedProducts);
   };
 
@@ -130,7 +139,7 @@ const TrendingPage = () => {
         />
 
         {/* Filters Section */}
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 md:px-16 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
             <div id="filter-section" className="flex items-center gap-2">
               <SlidersHorizontal size={24} className="text-white" />
@@ -177,7 +186,7 @@ const TrendingPage = () => {
           {/* Product Grid */}
 
           {DealsProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 place-items-center">
               {DealsProducts.map((product) => (
                 <ProductCard
                   whislist={whislist}
@@ -216,6 +225,8 @@ const TrendingPage = () => {
               ))}
             </div>
           </div>
+
+          
         </div>
       </div>
       <NewFooter />
@@ -223,4 +234,4 @@ const TrendingPage = () => {
   );
 };
 
-export default TrendingPage;
+export default DealsPage;

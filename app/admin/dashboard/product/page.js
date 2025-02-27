@@ -1,13 +1,10 @@
 import React from 'react'
-import ManageProducts from './ProductManage'
-import AddProduct from './AddProduct'
-
+import dynamic from 'next/dynamic'
+const AddProduct = dynamic(() => import('@/app/components/adminComponents/Product/AddProduct.jsx'), { ssr: false })
 const page = () => {
   return (
        <div>
-        {/* <ManageProducts/> */}
         <AddProduct/>
-       
        </div>
   )
 }
