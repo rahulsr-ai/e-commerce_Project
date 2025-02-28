@@ -1,6 +1,3 @@
-"use client";
-
-
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { useSidebar } from "@/context/SidebarContext";

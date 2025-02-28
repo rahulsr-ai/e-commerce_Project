@@ -6,7 +6,7 @@ export async function GET(req) {
   await dbConnect(); // MongoDB connect karo
 
   const ProductOnDeal = await Product.find({
-    isTrending: true,
+    isOnDeal: true,
   });
 
   return NextResponse.json(

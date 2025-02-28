@@ -7,23 +7,21 @@ const slides = [
   {
     title: "Premium Electronics Collection",
     description: "Discover cutting-edge technology and innovative gadgets",
-    image:
-      "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1600&q=80",
+    image: "/homeCarousel/categoryElectronicKeyboardOptimized01.webp",
     buttonText: "Shop Electronics",
     buttonUrl: "/category/electronic",
   },
   {
     title: "Luxury Fashion & Accessories",
     description: "Elevate your style with premium fashion pieces",
-    image:
-      "https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&q=80",
+    image: "/homeCarousel/jblSpeakerOptimized.webp",
     buttonText: "Explore Fashion",
     buttonUrl: "/category/fashion",
   },
   {
     title: "Home & Living Essentials",
     description: "Transform your space with carpets, posters, lights & more",
-    image: "/homeCarousel/HomeCategoryCarpet01.jpg",
+    image: "/homeCarousel/HomeCategoryCarpetOptimized.webp",
     buttonText: "View Collection",
     buttonUrl: "/category/home",
   },
@@ -39,6 +37,10 @@ const HeroCarousel = () => {
 
     return () => clearInterval(timer);
   }, []);
+
+  const scrollWindow = () => {
+    window.scrollTo({ top: 300, behavior: "smooth" });
+  };
 
   return (
     <section className="relative min-h-[80vh] overflow-hidden">
@@ -66,11 +68,13 @@ const HeroCarousel = () => {
               {slide.title}
             </h1>
             <p className="text-xl text-gray-200 mb-8">{slide.description}</p>
-            <Link href={slide.buttonUrl} passHref>
-              <button className="bg-violet-600 text-white px-8 py-3 rounded-full hover:bg-violet-700 transition-all duration-300">
-                {slide.buttonText}
-              </button>
-            </Link>
+
+            {/* <button
+              onClick={scrollWindow}
+              className="uppercase text-violet-500  px-8 py-3 text-4xl font-medium "
+            >
+              {slide.buttonText}
+            </button> */}
           </div>
         </div>
       ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Heart, Trash2, ShoppingCart } from "lucide-react";
+import { Heart, Trash2, ShoppingCart, IndianRupee } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
 import { handleAddToCart, HandleWishlist } from "@/lib/apiCalls";
@@ -14,9 +14,10 @@ const Wishlist = ({ productsData, setproductsData }) => {
     const fetchWishlist = async () => {
       try {
         const { data } = await axios.get("/api/wishlist/get");
+        console.log(data?.wishlist);
 
         const wishlistItems = productsData?.products?.filter((item) =>
-          data?.wishlist.products?.includes(item._id)
+          data?.wishlist.includes(item._id)
         );
 
         setWishlistProducts(wishlistItems); // ✅ Single state update, better performance
@@ -28,7 +29,7 @@ const Wishlist = ({ productsData, setproductsData }) => {
     };
 
     fetchWishlist();
-  }, [render]);
+  }, [render, productsData]);
 
   const AddToCart = async (item) => {
     console.log(`Added to cart: ${item._id}`);
@@ -38,18 +39,24 @@ const Wishlist = ({ productsData, setproductsData }) => {
   };
 
   const handleRemoveFromWishlist = async (id) => {
-    alert("removed");
-    await HandleWishlist(id); // remove from the database
+    try {
+      await HandleWishlist(id); // remove from the database
 
-    let updatedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    console.log("updatedWishlist", updatedWishlist);
+      let updatedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      console.log("updatedWishlist", updatedWishlist);
 
-    if (updatedWishlist.includes(id)) {
-      let newWishlist = updatedWishlist.filter((itemId) => itemId !== id);
-      localStorage.setItem("wishlist", JSON.stringify(newWishlist));
+      if (updatedWishlist.includes(id)) {
+        let newWishlist = updatedWishlist.filter((itemId) => itemId !== id);
+        localStorage.setItem("wishlist", JSON.stringify(newWishlist));
+      }
+
+      // Update the state to remove the item from the wishlist
+      setWishlistProducts((prevWishlist) =>
+        prevWishlist.filter((item) => item._id !== id)
+      );
+    } catch (error) {
+      console.error("Error removing item from wishlist:", error);
     }
-
-    setWishlistProducts(wishlistProducts);
   };
 
   if (wishlistProducts.length === 0) {
@@ -70,9 +77,6 @@ const Wishlist = ({ productsData, setproductsData }) => {
       <h2 className="text-2xl font-bold mb-6 text-white">My Wishlist</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Sample item - replace with actual wishlist.map() when API is ready */}
-
-        {/* Uncomment and use when API is ready */}
         {wishlistProducts.map((item) => (
           <div
             key={item._id}
@@ -86,9 +90,7 @@ const Wishlist = ({ productsData, setproductsData }) => {
                 className="object-cover"
               />
               <button
-                onClick={() => {
-                  handleRemoveFromWishlist(item._id);
-                }}
+                onClick={() => handleRemoveFromWishlist(item._id)}
                 className="absolute top-2 right-2 p-2 bg-gray-900/50 rounded-full hover:bg-red-500/50 transition-colors"
               >
                 <Trash2 className="w-5 h-5 text-white" />
@@ -100,7 +102,10 @@ const Wishlist = ({ productsData, setproductsData }) => {
                 <h3 className="text-lg font-semibold text-white">
                   {item.name}
                 </h3>
-                <span className="text-violet-400 font-bold">${item.price}</span>
+                <span className="text-violet-400 font-bold">
+                  <IndianRupee className=" inline size-5 text-violet-600" />
+                  {item.price}
+                </span>
               </div>
 
               <p className="text-gray-400 text-sm mb-4 line-clamp-2">

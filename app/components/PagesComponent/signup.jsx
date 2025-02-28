@@ -51,7 +51,7 @@ function Signup() {
     if (trackClick) {
       setisProcessing(true);
     }
-    alert("create account clicked ");
+   
 
     setTrackClick(false);
 

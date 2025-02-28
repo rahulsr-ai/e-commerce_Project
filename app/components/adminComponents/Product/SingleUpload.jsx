@@ -100,6 +100,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
             newArrival: false,
             bestSeller: false,
             trending: false,
+            deals: false,
           },
           images: [],
         });

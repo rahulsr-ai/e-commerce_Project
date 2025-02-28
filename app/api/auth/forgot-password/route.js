@@ -20,7 +20,17 @@ export async function POST(req) {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return NextResponse.json({ message: "This email is not in used", success: false }, { status: 200 });
+      return NextResponse.json(
+        { message: "This email is not in used", success: false },
+        { status: 200 }
+      );
+    }
+
+    if (user.authProvider === "google") {
+      return NextResponse.json(
+        { message: "You are signed in with Google. No password needed", success: false },
+        { status: 200 }
+      );
     }
 
     // Generate a secure token
@@ -59,7 +69,11 @@ export async function POST(req) {
   } catch (error) {
     console.log("error while sending email", error);
     return NextResponse.json(
-      { message: "Error sending email", message: error.message, success: false },
+      {
+        message: "Error sending email",
+        message: error.message,
+        success: false,
+      },
       { status: 400 }
     );
   }

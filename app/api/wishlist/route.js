@@ -1,85 +1,86 @@
+import { auth } from "@/auth";
 import { dbConnect } from "@/lib/db";
-import Product from "@/models/ProductSchema";
-import User from "@/models/UserSchema";
 import WishlistSchema from "@/models/WishlistSchema";
+import User from "@/models/UserSchema";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-// just need to send userToken and id of product to this route
 export async function POST(request) {
   try {
-    const token = request.cookies.get("authToken")?.value; // Token leke check kar
-    const { id } = await request.json();
+    const token = request.cookies.get("authToken")?.value
+    const session = await auth();
+    const { id } = await request.json(); // Product ID
 
-    if (!token || !id) {
+    if (!id) {
       return NextResponse.json(
-        { message: "Missing user or id", success: false },
-        { status: 200 }
+        { message: "Product ID is required", success: false },
+        { status: 400 }
       );
     }
 
-    // Connect to the database
+    if (!token && !session) {
+      return NextResponse.json(
+        { message: "No authentication provided", success: false },
+        { status: 401 }
+      );
+    }
+
     await dbConnect();
 
-    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    let user;
+    if (token) {
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
+      user = await User.findById(decode?.id);
+    } else {
+      user = await User.findOne({ email: session.user?.email });
+    }
 
-    // console.log("decode =============================");
-    // console.log(decode?.id);
-
-    // Find the user in the database
-    const userDoc = await User.findOne({ _id: decode.id });
-    if (!userDoc) {
+    if (!user) {
       return NextResponse.json(
         { message: "User not found", success: false },
+        { status: 404 }
+      );
+    }
+
+    let wishlist = await WishlistSchema.findOne({ userId: user._id });
+
+    if (!wishlist) {
+      // Create new wishlist if not found
+      wishlist = await WishlistSchema.create({
+        userId: user._id,
+        products: [id],
+      });
+
+      return NextResponse.json(
+        { message: "Wishlist created, product added", success: true, wishlist },
         { status: 200 }
       );
     }
 
-    const wishlist = await WishlistSchema.findOne({
-      userId: decode.id,
-    });
+    if (wishlist.products.includes(id)) {
+      // Remove product if already in wishlist
+      wishlist.products = wishlist.products.filter((productId) => productId.toString() !== id);
+      await wishlist.save();
 
-    console.log(wishlist);
+      return NextResponse.json(
+        { message: "Product removed from wishlist", success: true, wishlist },
+        { status: 200 }
+      );
+    } else {
+      // Add product if not in wishlist
+      wishlist.products.push(id);
+      await wishlist.save();
 
-    const val = wishlist?.products.includes(id);
-    console.log("val", val);
-
-
-
-    if (wishlist) {
-
-      if (wishlist?.products.includes(id)) {
-        // remove product from wishlist
-        await WishlistSchema.updateOne({ $pull: { products: id } });
-        return NextResponse.json(
-          { message: "Product removed from wishlist", success: true, wishlist },
-          { status: 200 }
-        );
-      } else if(!wishlist?.products.includes(id)) {
-        await WishlistSchema.updateOne({ $push: { products: id } });
-        return NextResponse.json(
-          { message: "Product added in existing  wishlist", success: true, wishlist },
-          { status: 200 }
-        );
-      }
-
-
+      return NextResponse.json(
+        { message: "Product added to wishlist", success: true, wishlist },
+        { status: 200 }
+      );
     }
-
-    console.log("now u can add to wishlist");
-
-    // Create a new wishlist document
-    const newWishlist = await WishlistSchema.create({
-      userId: userDoc._id,
-      products: id,
-    });
-
-    return NextResponse.json(
-      { message: "Product added to wishlist", success: true, newWishlist },
-      { status: 200 }
-    );
   } catch (error) {
-    console.error("Error adding to wishlist:", error);
-    return null;
+    console.error("Error updating wishlist:", error);
+    return NextResponse.json(
+      { message: "Error updating wishlist", error: error.message, success: false },
+      { status: 500 }
+    );
   }
 }

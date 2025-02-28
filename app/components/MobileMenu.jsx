@@ -45,7 +45,7 @@ const MobileMenu = ({
               className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-2 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
             />
             <Search
-              onKeyDown={sendSearchValue}
+              onClick={(e) => sendSearchValue(e)}
               className="absolute right-3 top-2.5 text-white/60 z-40"
               size={20}
             />
@@ -95,7 +95,7 @@ const MobileMenu = ({
               setCategoryOpen(!categoryOpen);
             }}
             className={`flex items-center text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
-              underline-offset-4 hover:underline
+              underline-offset-4 hover:underline ml-1
               ${
                 pathname.startsWith("/category") ? "underline" : "text-white/90"
               } `}
@@ -117,8 +117,10 @@ const MobileMenu = ({
               <Link
                 onClick={() => setIsOpen(false)}
                 key={category.name}
-                href={`${category?.path}`}
-                className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+                href={`/category/${category?.name}`}
+                className={`flex items-center space-x-2 text-white/90 hover:text-white px-3
+                 py-2 rounded-lg transition-colors duration-200 
+                  
                   
                   `}
               >
@@ -134,15 +136,13 @@ const MobileMenu = ({
           </div>
         </div>
 
-        {/* Mobile Brands */}
         <div className="">
           <button
             onClick={() => {
-              setCategoryOpen(false);
               setBrandsOpen(!brandsOpen);
             }}
-            className={`flex items-center space-x-2 text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
-              underline-offset-4 hover:underline
+            className={`flex items-center text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
+              underline-offset-4 hover:underline ml-1
               ${
                 pathname.startsWith("/Explore") ? "underline" : "text-white/90"
               } `}
@@ -157,20 +157,22 @@ const MobileMenu = ({
           </button>
           <div
             className={`mt-2 space-y-1 transition-all duration-200 ${
-              brandsOpen ? "opacity-100" : "opacity-0"
+              brandsOpen ? "opacity-100 h-fit" : "opacity-0 h-0"
             }`}
           >
             {brands.map((brand) => (
               <Link
+                onClick={() => setIsOpen(false)}
                 key={brand.name}
-                href={`/Explore/${brand.name}`} // Add proper href
-                className="flex items-center space-x-3 px-4 py-2 text-sm text-white/80 hover:text-white rounded-lg transition-colors duration-200
-                z-50"
+                href={`/Explore/${brand?.name}`}
+                className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+                  
+                  `}
               >
                 <span className="text-violet-600 group-hover:text-violet-700 text-xs transition-colors duration-200">
                   {brand.icon}
                 </span>
-                <span className="text-sm">{brand.name}</span>
+                <span className="text-sm z-50">{brand.name}</span>
               </Link>
             ))}
           </div>

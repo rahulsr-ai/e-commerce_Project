@@ -18,7 +18,8 @@ import ErrorState from "../../components/ProfileComponets/ErrorState";
 import { useAuth } from "@/context/Authcontext";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { getAllProducts, GetUserDetails } from "@/lib/apiCalls";
+import { getAllProducts, GetUserDetails, getUserOrder } from "@/lib/apiCalls";
+import Image from "next/image";
 
 // Lazy loaded tab contents
 const ProfileOverview = lazy(() =>
@@ -49,18 +50,18 @@ const SamplePage = lazy(() =>
 const tabs = [
   { id: "profile", label: "Profile", icon: User, component: ProfileOverview },
   { id: "wishlist", label: "Wishlist", icon: Heart, component: Wishlist },
+  {
+    id: "Check Cart",
+    label: "Cart ",
+    icon: ShoppingCart,
+    component: SamplePage,
+  },
   { id: "orders", label: "Orders", icon: ShoppingBag, component: OrderHistory },
   {
     id: "addresses",
     label: "Addresses",
     icon: MapPin,
     component: SavedAddresses,
-  },
-  {
-    id: "Check Cart",
-    label: "Cart ",
-    icon: ShoppingCart,
-    component: SamplePage,
   },
   {
     id: "payments",
@@ -82,7 +83,7 @@ const Profile = () => {
   const [Products, setProducts] = useState([]);
   const [user, setUser] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
-
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const role = localStorage.getItem("code");
@@ -95,32 +96,65 @@ const Profile = () => {
       try {
         const userResponse = await GetUserDetails();
         setUser(userResponse?.user);
-
+    
         const productsResponse = await getAllProducts();
         setProducts(productsResponse);
-
-        // Merge cart fields with product details
+    
+        const ordersResponse = await getUserOrder();
+    
+        console.log("ordersResponse", ordersResponse?.order); // ✅ Debugging
+    
+        // 🛠️ Ensure ordersResponse.order is an array
+        const finalOrders = ordersResponse?.order?.map((singleOrder) => ({
+          orderId: singleOrder._id,
+          totalAmount: singleOrder.totalAmount,
+          status: singleOrder.status,
+          paymentStatus: singleOrder.paymentStatus,
+          createdAt: singleOrder.createdAt,
+          shippingAddress: singleOrder.shippingAddress,
+          products: singleOrder.products
+            .map((orderProduct) => {
+              const product = productsResponse?.products.find(
+                (p) => p._id === orderProduct.productId
+              );
+    
+              if (!product) return null; // Safety check
+    
+              return {
+                ...product, // Full product details
+                quantity: orderProduct.quantity, // Cart quantity
+                priceAtTimeOfOrder: orderProduct.price, // Price at order time
+              };
+            })
+            .filter(Boolean), // Remove null values if product is missing
+        }));
+    
+        setOrders(finalOrders);
+        console.log("finalOrders", finalOrders); // ✅ Debugging
+    
+        // 🛒 Merge cart fields with product details
         const getUserCartData = userResponse?.user.cart
-          .map((cartItem) => {
+          ?.map((cartItem) => {
             const product = productsResponse?.products.find(
-              (product) => product._id === cartItem.productId
+              (p) => p._id === cartItem.productId
             );
-
+    
             if (!product) return null; // Safety check
-
+    
             return {
               ...product, // Full product data (name, price, image, description)
               quantity: cartItem.quantity, // Cart se quantity
               priceAtTimeOfAdding: cartItem.priceAtTimeOfAdding, // Cart se price
             };
           })
-          .filter(Boolean); // null values remove karne ke liye
-
+          .filter(Boolean); // Remove null values
+    
         setCartProducts(getUserCartData);
       } catch (error) {
         console.error("Error fetching products or user details:", error);
       }
     };
+    
 
     fetchProducts();
   }, []);
@@ -146,7 +180,7 @@ const Profile = () => {
   return (
     <div
       className="min-h-screen bg-zinc-900 text-zinc-100 p-4 mt-8 md:p-8
-    "
+      "
     >
       <div className="max-w-7xl mx-auto ">
         {isLoading ? (
@@ -158,7 +192,6 @@ const Profile = () => {
               <div className="w-32 h-32 mx-auto bg-zinc-800 rounded-full mb-4 overflow-hidden">
                 <img
                   src={"/others/userprofile01.jpg"}
-                  alt="Profile"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -195,6 +228,7 @@ const Profile = () => {
                       user={user}
                       setUser={setUser}
                       cartProducts={cartProducts}
+                      orders={orders}
                     />
                   )
                 )}

@@ -55,7 +55,7 @@ const TrendingPage = () => {
   const [heroContent, setHeroContent] = useState(null);
 
   const DisplayByCategory = (id) => {
-    alert(id);
+    
     const filteredProductsByCategory = unfilteredProducts.filter((product) => {
       if (id === "All") {
         return true;
@@ -80,7 +80,6 @@ const TrendingPage = () => {
       }
     });
 
-    console.log(sortedProducts);
     setProducts(sortedProducts);
   };
 
@@ -112,7 +111,7 @@ const TrendingPage = () => {
       setCategory(category);
 
       const products = await getExploreProducts(name);
-      console.log("products", products?.products);
+     
 
       if (products?.products) {
         setUnfilteredProducts(products?.products);
@@ -135,7 +134,8 @@ const TrendingPage = () => {
     <div className="min-h-screen bg-gray-50 mt-1">
       <div className="min-h-screen bg-zinc-950 text-white">
         {/* Hero Section */}
-        <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 overflow-hidden w-full">
+        <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 overflow-hidden w-full
+        pt-12 sm:pt-1">
           {heroContent && (
             <>
               <Image

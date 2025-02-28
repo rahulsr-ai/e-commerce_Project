@@ -3,10 +3,7 @@
 import dynamic from "next/dynamic";
 
 import React, { useState, useEffect } from "react";
-import {
-  ArrowUp,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ArrowUp, SlidersHorizontal } from "lucide-react";
 
 import { reviews } from "@/app/data/review";
 import { fetchCategories, getDealsProducts } from "@/lib/apiCalls";
@@ -47,15 +44,13 @@ const ReviewCard = dynamic(() => import("@/app/components/ReviewCard.jsx"), {
 });
 
 const DealsPage = () => {
+  const role = localStorage.getItem("code");
+  const router = useRouter();
+  if (role === "2637") {
+    router.push("/admin/dashboard/Inventory");
+    return;
+  }
 
-   const role = localStorage.getItem("code");
-    const router = useRouter();
-    if (role === "2637") {
-      router.push("/admin/dashboard/Inventory");
-      return
-    }
-
-    
   const [unfilteredProducts, setUnfilteredProducts] = useState([]);
   const [sortBy, setSortBy] = useState("All");
   const [activeSlide, setActiveSlide] = useState(0);
@@ -64,7 +59,6 @@ const DealsPage = () => {
   const [whislist, setWhislist] = useState([]);
   const [category, setCategory] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-
 
   const DisplayByCategory = (id) => {
     const filteredProductsByCategory = unfilteredProducts.filter((product) => {
@@ -91,7 +85,6 @@ const DealsPage = () => {
       }
     });
 
-    
     setDealsProducts(sortedProducts);
   };
 
@@ -112,6 +105,7 @@ const DealsPage = () => {
       const { products } = await getDealsProducts();
       setUnfilteredProducts(products);
       setDealsProducts(products);
+      console.log("filteredProductsByCategory", products);
     };
 
     fetchDataForPage();
@@ -139,7 +133,7 @@ const DealsPage = () => {
         />
 
         {/* Filters Section */}
-        <div className="max-w-7xl mx-auto px-4 md:px-16 py-8">
+        <div className="max-w-7xl mx-auto px-2  py-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
             <div id="filter-section" className="flex items-center gap-2">
               <SlidersHorizontal size={24} className="text-white" />
@@ -199,6 +193,10 @@ const DealsPage = () => {
                   price={product.price}
                   id={product._id}
                   slug={product.slug}
+                  isOnDeal={product.isOnDeal}
+                  isTrending={product.isTrending}
+                  isNewArrival={product.isNewArrival}
+                  isBestSeller={product.isBestSeller}
                 />
               ))}
               {isVisible && (
@@ -225,8 +223,6 @@ const DealsPage = () => {
               ))}
             </div>
           </div>
-
-          
         </div>
       </div>
       <NewFooter />

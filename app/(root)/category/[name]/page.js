@@ -11,7 +11,6 @@ import ProductCard from "@/app/components/useComponents/ProductCard";
 import NewFooter from "@/app/components/NewFooter";
 import { ArrowUp } from "lucide-react";
 
-
 const CategoryPage = () => {
   const { name } = useParams();
 
@@ -47,22 +46,27 @@ const CategoryPage = () => {
       identifier: "electronic",
     },
   ];
-
+ const [hasActiveFilters, sethasActiveFilters] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [products, setproducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [whislist, setWhislist] = useState([]);
   const [heroContent, setHeroContent] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [filters, setFilters] = useState({
-    category: null,
-    priceRange: null,
+    category: "",
+    minPrice: "",
+    maxPrice: "",
   });
 
   const clearFilters = () => {
     setFilters({
       category: "",
-      priceRange: null,
+      minPrice: "",
+      maxPrice: "",
     });
+    setFilteredProducts(products);
+    sethasActiveFilters(false);
   };
 
   useEffect(() => {
@@ -75,7 +79,8 @@ const CategoryPage = () => {
     const fetchData = async () => {
       try {
         const { product } = await getProductsByCategory(name);
-        setproducts(product);
+        setProducts(product);
+        setFilteredProducts(product); // Initialize filtered products
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -106,30 +111,31 @@ const CategoryPage = () => {
   };
 
   const ApplyFilter = () => {
-    const { category, priceRange } = filters;
-  
-    console.log("category", category);
-    console.log("priceRange", priceRange);
-    console.log("products", products);
-  
-    // Filtering logic
-    const filteredProducts = products.filter((product) => {
-      // Category Filter (if selected)
-      const categoryMatch = category ? product.category === category : true;
-  
-      // Price Filter
-      const productPrice = product.price || 0; // Assume product has a price field
-      const priceMatch = productPrice >= (priceRange || 10); // Ensure price is within selected range
-  
-      return categoryMatch && priceMatch;
-    });
-  
-    console.log("Filtered Products:", filteredProducts);
-    return filteredProducts;
-  };
-  
-  
+    const { category, minPrice, maxPrice } = filters;
+    // alert(category);
 
+    let filtered = products; // Start with all products
+
+    if (category) {
+      filtered = filtered.filter((product) => product.subcategory == category);
+    }
+
+    if (minPrice !== "" && maxPrice !== "") {
+      filtered = filtered.filter(
+        (product) =>
+          product.price >= Number(minPrice) && product.price <= Number(maxPrice)
+      );
+    }
+
+    console.log("filtered", filtered);
+
+    setFilteredProducts(filtered);
+    console.log("products", filteredProducts);
+  };
+
+  useEffect(() => {
+    ApplyFilter();
+  }, [filters]);
 
   return (
     <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
@@ -158,20 +164,22 @@ const CategoryPage = () => {
       <div className="py-9" id="filter-section">
         <Filter
           Products={products}
-          setProducts={setproducts}
+          setProducts={setProducts}
           filters={filters}
           setFilters={setFilters}
           clearFilters={clearFilters}
-          productCount={products.length}
+          productCount={filteredProducts.length}
           categoryID={products[0]?.category}
+          sethasActiveFilters={sethasActiveFilters}
+          hasActiveFilters={hasActiveFilters}
           ApplyFilter={ApplyFilter}
         />
       </div>
 
       <div className="min-h-screen px-4 md:px-8 pb-20">
-        {products.length > 0 ? (
+        {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:gap-6">
-            {products.map((product, i) => (
+            {filteredProducts.map((product, i) => (
               <div key={i} className="w-full max-w-sm mx-auto">
                 <ProductCard
                   whislist={whislist}
@@ -197,7 +205,18 @@ const CategoryPage = () => {
             )}
           </div>
         ) : (
-          <Loader />
+          <div className="flex flex-col items-center justify-center h-96">
+            <h2 className="text-2xl font-semibold mt-4">No Products Found</h2>
+            <p className="text-zinc-400 mt-2">
+              Try adjusting your filters to find more products.
+            </p>
+            <button
+              onClick={clearFilters}
+              className="mt-4 px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg"
+            >
+              Reset Filters
+            </button>
+          </div>
         )}
       </div>
 

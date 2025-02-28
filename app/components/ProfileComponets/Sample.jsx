@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { RefreshCw, ShoppingCart, Trash2 } from "lucide-react";
+import { IndianRupee, RefreshCw, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
+import AddressModel from "../AddressModel";
 
 const SamplePage = ({
   productsData,
@@ -14,6 +15,7 @@ const SamplePage = ({
 }) => {
   const [cartProducts, setCartProducts] = useState(initialCartProducts);
   const [isLoading, setisLoading] = useState(false);
+  const [openAddressModel, setOpenAddressModel] = useState(false);
 
   const calculateTotal = () => {
     return cartProducts.reduce((total, product) => {
@@ -35,6 +37,7 @@ const SamplePage = ({
     );
   }
 
+  
   const removeCartProduct = async (id) => {
     try {
       const { data } = await axios.post(`/api/cart/remove`, {
@@ -92,8 +95,9 @@ const SamplePage = ({
                     Qty: {product.quantity}
                   </span>
                 </div>
-                <span className="font-medium text-violet-400">
-                  ${product.priceAtTimeOfAdding * product.quantity}
+                <span className="font-medium ">
+                  <IndianRupee className=" text-sm inline" />
+                  {product.priceAtTimeOfAdding * product.quantity}
                 </span>
               </div>
             ))}
@@ -101,11 +105,17 @@ const SamplePage = ({
           <div className="pt-4 mt-4 border-t-2 border-gray-700">
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span className="text-violet-500">${calculateTotal()}</span>
+              <span className="">
+                <IndianRupee className="size-6   inline" />
+                {calculateTotal()}
+              </span>
             </div>
           </div>
           <button
-            onClick={ProceedToCheckout}
+            onClick={() => {
+              // setOpenAddressModel(true)
+              ProceedToCheckout();
+            }}
             className="w-full mt-6 bg-violet-600 text-white px-6 py-3 sm:py-4 rounded-lg hover:bg-violet-700 transition-all 
           font-semibold text-base sm:text-lg shadow-lg shadow-violet-600/20
            hover:shadow-violet-600/40 flex items-center justify-center"
@@ -118,6 +128,8 @@ const SamplePage = ({
           </button>
         </div>
       </div>
+
+      {<AddressModel open={openAddressModel} setOpen={setOpenAddressModel} />}
 
       {/* Scrollable Products */}
       <div className="flex-1 p-4 sm:p-6 lg:overflow-y-auto">
@@ -165,13 +177,15 @@ const SamplePage = ({
                     <div className="flex justify-between items-center">
                       <span className="text-gray-400">Unit Price:</span>
                       <span className="font-medium text-white">
-                        ${product.price}
+                        <IndianRupee className="inline size-6 " />
+                        {product.price}
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-lg font-semibold">
                       <span className="text-gray-400">Subtotal:</span>
-                      <span className="text-violet-500">
-                        ${product.priceAtTimeOfAdding * product.quantity}
+                      <span className="">
+                        <IndianRupee className="inline size-6 " />
+                        {product.priceAtTimeOfAdding * product.quantity}
                       </span>
                     </div>
                   </div>

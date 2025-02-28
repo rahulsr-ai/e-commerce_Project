@@ -4,45 +4,38 @@ import React, { Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/context/Authcontext";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import { ArrowUp } from "lucide-react";
 import ProductCard from "./components/useComponents/ProductCard";
 import Loader from "./components/useComponents/Loader";
 import MinFilter from "./components/useComponents/minimalFilter";
+import Testimonials from "./components/Testimonials";
 
+
+
+import ResponsiveBanner from "./components/Tempo/ReponsiveBannaer";
+import BrandsMarquee from "./components/brandsMaruqee";
+import FAQSection from "./components/FAQSection";
+import NewFooter from "./components/NewFooter";
+const LazyFeatured = React.lazy(() => import("./components/Featured"));
 const LazyHeroCarousel = React.lazy(() => import("./components/HeroCarousel"));
 
-const Testimonials = dynamic(() => import("./components/Testimonials"), {
-  ssr: false,
-});
-const FAQSection = dynamic(() => import("./components/FAQSection"), {
-  ssr: false,
-});
-const NewFooter = dynamic(() => import("./components/NewFooter"), {
-  ssr: false,
-});
-const BrandsMarquee = dynamic(() => import("./components/brandsMaruqee"), {
-  ssr: false,
-});
-const ResponsiveBanner = dynamic(
-  () => import("./components/Tempo/ReponsiveBannaer"),
-  { ssr: false }
-);
 
-const LazyFeatured = React.lazy(() => import("./components/Featured"));
 
 const Landing = () => {
   
   const router = useRouter();
 
   const { user, setUser } = useAuth();
+  const [isVisible, setIsVisible] = useState(false);
 
+  
   const [Products, setProducts] = useState([]);
   const [loading, setloading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
   const [categories, setCategories] = useState([]);
   const [whislist, setWhislist] = useState([]);
   const [UnFilterData, setUnFilterData] = useState([]);
+
+  
 
   const GetProductData = async () => {
     try {
@@ -78,6 +71,7 @@ const Landing = () => {
   };
 
   useEffect(() => {
+   try {
     const role = localStorage.getItem("code");
     if (role === "2637") {
       router.push("/admin/dashboard/Inventory");
@@ -94,11 +88,18 @@ const Landing = () => {
 
     window.addEventListener("scroll", toggleVisibility);
     return () => window.removeEventListener("scroll", toggleVisibility);
+   } catch (error) {
+     console.log("error", error);
+     
+   }
   }, []);
 
+ 
+  
   
 
   return (
+    !loading &&
     <div className="bg-black min-h-screen w-full ">
       {/* <HeroCarousel /> */}
       <Suspense fallback={<div></div>}>

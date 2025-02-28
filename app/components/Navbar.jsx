@@ -1,30 +1,16 @@
-//@ts-nocheck
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Search,
-  ShoppingBag,
-  Menu,
-  X,
-  ChevronDown,
   Laptop,
-  Smartphone,
-  Headphones,
-  Camera,
   Shirt,
-  Watch,
   Gem,
   BookOpen,
-  Home,
-  User,
-  Heart,
   TrendingUp,
   Zap,
   Footprints,
   House,
 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/Authcontext";
 import axios from "axios";
@@ -43,6 +29,7 @@ const Navbar = () => {
 
   const [role, setrole] = useState(null);
   const [categoryName, setcategoryName] = useState([]);
+  
 
   const [Loading, setLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -88,10 +75,20 @@ const Navbar = () => {
 
     getAllCategory();
 
+    
     window.addEventListener("scroll", handleScroll);
     setLoading(true);
+    clearTimeout(timeoutIdRef.current);
+
+    timeoutIdRef.current = setTimeout(() => {
+      setDebouncedQuery(query); // Update the debounced query state
+    }, 950); // 1 second delay (adjust as needed)
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, [user]);
+
+
+
 
   const brands = [
     {
@@ -152,22 +149,11 @@ const Navbar = () => {
     const value = e.target.value;
     SetQuery(value);
 
-    clearTimeout(timeoutIdRef.current);
-
-    timeoutIdRef.current = setTimeout(() => {
-      setDebouncedQuery(value); // Update the debounced query state
-    }, 950); // 1 second delay (adjust as needed)
   };
 
-  const fetchDatabaseResults = async (query) => {
-    setSearchloading(true);
+  
 
-    const { data } = await axios.get(`/api/product/search?search=${query}`);
 
-    setSearchloading(false);
-    setSearchResults(data?.products);
-    console.log(data);
-  };
 
   const sendSearchValue = (e) => {
     if (query.trim().length < 3) {
@@ -177,7 +163,8 @@ const Navbar = () => {
 
     if (e.key === "Enter") {
       setIsOpen(false);
-      router.push(`/check?search=${query}`);
+      router.push(`/search?search=${query}`);
+      SetQuery("");
       return;
     }
   };
@@ -210,6 +197,7 @@ const Navbar = () => {
         handleSearch={handleSearch}
         role={role}
         setrole={setrole}
+        
       />
 
       {/* Mobile menu */}
@@ -232,6 +220,7 @@ const Navbar = () => {
         setcategoryName={setcategoryName}
         role={role}
         setrole={setrole}
+        handleSearch={handleSearch}
       />
     </nav>
   );

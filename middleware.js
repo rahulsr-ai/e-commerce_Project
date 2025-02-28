@@ -8,12 +8,13 @@ export async function middleware(req) {
   const { pathname } = req.nextUrl; // Get current page path
 
  
+  
 
   // If no token and trying to access admin/profile page, redirect to sign-in page
   if (
     !token &&
     !googletoken && 
-    (pathname.startsWith("/admin") || pathname.startsWith("/profile"))
+    (pathname.startsWith("/admin") || pathname.startsWith("/Account"))
   ) {
     return NextResponse.redirect(new URL("/sign-in", req.url)); // Redirect to Sign In page
   }
@@ -33,5 +34,5 @@ export async function middleware(req) {
 // Apply middleware only to specific routes
 export const config = {
   
-  matcher: ["/admin/:path*", "/profile/:path*", "/sign-in", "/sign-up", "/" ],
+  matcher: ["/admin/:path*", "/Account/:path*", "/sign-in", "/sign-up", "/" ],
 };

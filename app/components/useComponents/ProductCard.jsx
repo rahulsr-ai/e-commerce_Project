@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Heart, ShoppingCart, Eye } from "lucide-react";
+import { Heart, ShoppingCart, Eye, IndianRupee } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { HandleWishlist } from "@/lib/apiCalls";
@@ -20,6 +20,10 @@ const ProductCard = ({
   slug,
   whislist,
   setWhislist,
+  isOnDeal,
+  isTrending,
+  isNewArrival,
+  isBestSeller,
 }) => {
   const router = useRouter();
   const setCategoryName = (id) => {
@@ -47,6 +51,13 @@ const ProductCard = ({
 
   const AddToCart = async () => {
     try {
+      const Logincode = localStorage.getItem("code");
+
+      if (!Logincode || Logincode !== "0001") {
+        toast.loading("Log in to continue shopping", { duration: 1000 });
+        router.push("/sign-in");
+        return;
+      }
       const data = await axios.post(`/api/cart/add`, {
         id,
       });
@@ -69,13 +80,12 @@ const ProductCard = ({
 
     const response = await HandleWishlist(id);
 
-
     let updatedWishlist;
     if (whislist.includes(id)) {
-      toast.error("Product already in wishlist");
+      toast.error("Product removed from wishlist", { duration: 1000 });
       updatedWishlist = whislist.filter((itemId) => itemId !== id);
     } else {
-      toast.success("Product added to wishlist");
+      toast.success("Product added to wishlist", { duration: 1000 });
       updatedWishlist = [...whislist, id];
     }
     setWhislist(updatedWishlist);
@@ -124,9 +134,12 @@ const ProductCard = ({
       </div>
 
       <div className="p-5">
-        <span className="text-sm text-gradient-violet-to-violet-900 font-medium uppercase tracking-wide">
-          {setCategoryName(category)}
-        </span>
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-gradient-violet-to-violet-900 font-medium uppercase tracking-wide">
+            {setCategoryName(category)}
+          </span>
+          <span className="text-sm text-gradient-violet-to-violet-900 font-medium uppercase tracking-wide"></span>
+        </div>
 
         <h3 className="mt-2 text-xl font-semibold text-stone-200">
           {title.split(" ").slice(-2).join(" ")}
@@ -134,8 +147,24 @@ const ProductCard = ({
 
         <p className="mt-2 text-gray-300 text-sm line-clamp-2">{description}</p>
 
-        <div className="mt-4 mb-2 text-2xl font-bold text-gray-200">
-          $ {price}
+        <div className="mt-4 mb-2 font-bold text-gray-200">
+          {isOnDeal ? (
+            <div className="flex items-center">
+              <IndianRupee className="inline text-xs text-violet-600" />
+              <span className="text-base uppercase tracking-wide text-gray-400 line-through ml-1">
+                {price + 200}
+              </span>
+              <span className="ml-2 text-md uppercase tracking-wide text-gradient-violet-to-violet-900">
+
+                {price}
+              </span>
+            </div>
+          ) : (
+            <span className="uppercase text-xl font-medium tracking-wide text-gradient-violet-to-violet-900">
+              <IndianRupee className="inline text-xs text-violet-600" />
+              {price}
+            </span>
+          )}
         </div>
 
         <div className="mt-4 flex gap-2">
@@ -144,7 +173,8 @@ const ProductCard = ({
               AddToCart();
             }}
             name="cart-button"
-            className="flex-1 bg-violet-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-violet-700 transition-colors duration-200 flex items-center justify-center gap-2"
+            className="flex-1 bg-violet-600 text-white px-4 py-2 lg:px-2 text-wrap text-sm
+             rounded-lg font-medium hover:bg-violet-700 transition-colors duration-200 flex items-center justify-center gap-2"
           >
             <ShoppingCart className="w-5 h-5" />
             Add to Cart

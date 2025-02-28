@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react'
 import dynamic from 'next/dynamic'
 const AddProduct = dynamic(() => import('@/app/components/adminComponents/Product/AddProduct.jsx'), { ssr: false })

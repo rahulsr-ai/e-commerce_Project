@@ -1,25 +1,23 @@
+import Order from "@/models/OrderSchema";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { auth } from "@/auth";
 import { dbConnect } from "@/lib/db";
 import User from "@/models/UserSchema";
-import { auth } from "@/auth";
 
-export async function POST(req) {
+export async function GET(req) {
   try {
-
-
+    console.log("req", req);
     const token = req.cookies.get("authToken")?.value;
     const session = await auth();
 
-
     if (!token && !session) {
       return NextResponse.json(
-        { message: "No token provided" },
+        { message: "No authentication provided", success: false },
         { status: 401 }
       );
     }
 
-   
     await dbConnect();
 
     let user;
@@ -37,23 +35,17 @@ export async function POST(req) {
       );
     }
 
-
-
-    // Clear cart properly
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: user._id },
-      { $set: { cart: [] } }, // ✅ Use $set to clear the cart array
-      { new: true } // ✅ Returns updated user
-    );
+    const order = await Order.find({ userId: user._id });
+    console.log("order", order);
 
     return NextResponse.json(
-      { message: "Cart cleared", success: true, user: updatedUser },
+      { message: "Order retrieved successfully", success: true, order },
       { status: 200 }
     );
   } catch (error) {
-    console.log("Error clearing cart:", error);
+    console.log("error", error);
     return NextResponse.json(
-      { message: "Error clearing cart", success: false, error: error.message },
+      { message: "Error retrieving order", error: error.message },
       { status: 500 }
     );
   }

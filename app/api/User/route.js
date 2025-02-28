@@ -2,12 +2,14 @@ import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { dbConnect } from "@/lib/db";
 import User from "@/models/UserSchema";
+import { auth } from "@/auth";
 
 export async function GET(req) {
   const token = req.cookies.get("authToken")?.value; // Get token from cookies
-
   const Googletoken = req.cookies.get("authjs.session-token")?.value;
-  console.log(Googletoken);
+
+  const session = await auth();
+
 
   try {
     if (!token && !Googletoken) {
@@ -19,24 +21,19 @@ export async function GET(req) {
 
     await dbConnect();
 
-    
     if (Googletoken) {
-      const googleDecoded = jwt.verify(Googletoken);
-      console.log(googleDecoded);
-
-
+      const GoogleBasedUser = await User.findOne({
+        email: session?.user?.email,
+      });
 
       return NextResponse.json(
-        { message: "No token provided", success: false, user: [] },
+        { message: "Google User found", success: true, user: GoogleBasedUser },
         { status: 200 }
       );
     }
 
-
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-   
 
     // Fetch the user from the database
     const user = await User.findById({ _id: decoded.id });

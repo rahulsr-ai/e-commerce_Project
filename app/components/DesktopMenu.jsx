@@ -5,11 +5,6 @@ import {
   ShoppingBag,
   User,
   X,
-  Zap,
-  Footprints,
-  Shirt,
-  house,
-  House,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";

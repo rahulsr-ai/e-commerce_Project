@@ -16,7 +16,14 @@ export async function POST(req) {
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
-        { message: "Invalid email or password" },
+        { message: "User not found" },
+        { status: 200 }
+      );
+    }
+
+    if(user.authProvider === "google"){
+      return NextResponse.json(
+        { message: "This email is already signed in with Google!", success: false },
         { status: 200 }
       );
     }
@@ -27,7 +34,7 @@ export async function POST(req) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Invalid email or password" },
+        { message: "Password does not match" },
         { status: 200 }
       );
     }

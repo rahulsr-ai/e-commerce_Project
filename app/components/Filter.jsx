@@ -22,10 +22,11 @@ export function Filter({
   setProduct,
   categoryID,
   ApplyFilter,
+  sethasActiveFilters,
+  hasActiveFilters,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [hasActiveFilters, sethasActiveFilters] = useState(false);
-  const [SubCategory, setSubcategory] = useState([""]);
+  const [SubCategory, setSubcategory] = useState([]);
 
   useEffect(() => {
     const GetSubCategories = async () => {
@@ -103,66 +104,68 @@ export function Filter({
               <div className="space-y-6">
                 <div>
                   <h3 className="text-sm font-medium mb-4">Categories</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {SubCategory.map((category) => (
-                      <label
-                        onClick={() =>
-                          setFilters({ ...filters, category: category._id })
-                        }
-                        key={category._id}
-                        className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors 
+                  {SubCategory.length > 0 && (
+                    <div className="grid grid-cols-2 gap-3">
+                      {SubCategory.map((category) => (
+                        <label
+                          onClick={() =>
+                            setFilters({ ...filters, category: category._id })
+                          }
+                          key={category._id}
+                          className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors 
                           ${
                             filters.category === category._id
                               ? "bg-violet-600 text-white"
                               : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                           }`}
-                      >
-                        {/* <input type="checkbox" className="sr-only" /> */}
-                        <span className="text-sm">
-                          {category?.name.charAt(0).toUpperCase() +
-                            category?.name.slice(1)}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
+                        >
+                          {/* <input type="checkbox" className="sr-only" /> */}
+                          <span className="text-sm">
+                            {category?.name?.charAt(0).toUpperCase() +
+                              category?.name?.slice(1)}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="h-px bg-zinc-800" />
 
-                <div>
+                <div className="text-center">
                   <h3 className="text-sm font-medium mb-4">Price Range</h3>
-                  <div className="flex flex-col items-center space-y-4">
-                    <input
-                      type="range"
-                      min="10"
-                      max="1000"
-                      step="10"
-                      value={filters.priceRange || 10}
-                      onChange={(e) =>
-                        setFilters({
-                          ...filters,
-                          priceRange: Number(e.target.value),
-                        })
-                      }
-                      className="w-full cursor-pointer"
-                    />
+                  <div className="flex items-center justify-center space-x-4">
                     <input
                       type="number"
                       min="10"
                       max="1000"
                       step="10"
-                      value={filters.priceRange || 10}
+                      value={filters.minPrice}
                       onChange={(e) =>
                         setFilters({
                           ...filters,
-                          priceRange: Number(e.target.value),
+                          minPrice: Number(e.target.value),
                         })
                       }
-                      className="border rounded px-2 py-1 w-20 text-center text-black"
+                      className="border rounded px-2 py-1 w-24 text-center text-black"
+                      placeholder="Min Price"
                     />
-                    <p className="text-sm text-zinc-300">
-                      Selected Value: {filters.priceRange || 10}
-                    </p>
+                    <span className="text-sm text-zinc-300">to</span>
+                    <input
+                      type="number"
+                      min={filters.minPrice}
+                      max="1000"
+                      step="10"
+                      value={filters.maxPrice}
+                      onChange={(e) =>
+                        setFilters({
+                          ...filters,
+                          maxPrice: Number(e.target.value),
+                        })
+                      }
+                      className="border rounded px-2 py-1 w-24 text-center text-black"
+                      placeholder="Max Price"
+                    />
                   </div>
                 </div>
               </div>
