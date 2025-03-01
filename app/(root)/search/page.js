@@ -13,8 +13,6 @@ const SearchPage = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("search");
 
- 
-
   const [Products, setProducts] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
   const [whislist, setWhislist] = useState([]);
@@ -34,7 +32,6 @@ const SearchPage = () => {
       const response = await handleSearchProduct(searchQuery);
       console.log(response);
       setProducts(response.products);
-     
     };
 
     fetchProducts();
@@ -66,8 +63,10 @@ const SearchPage = () => {
   return (
     <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
       {/* Hero Section */}
-      <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900
-      pt-12 md:pt-0 overflow-hidden w-full">
+      <div
+        className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900
+      pt-12 md:pt-0 overflow-hidden w-full"
+      >
         <>
           <Image
             width={1920}
@@ -145,7 +144,15 @@ const SearchPage = () => {
                 )}
               </div>
             ) : (
-              <Loader />
+              <div className="flex flex-col items-center justify-center h-96">
+                <h2 className="text-2xl font-semibold mt-4">
+                  No Products Found
+                </h2>
+                <p className="text-zinc-400 mt-2">
+                  Search Soemthing else to find more products.
+                </p>
+               
+              </div>
             )}
           </div>
         </>

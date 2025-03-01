@@ -15,9 +15,11 @@ import {
   Phone,
   Edit2,
   X,
+  IndianRupee,
 } from "lucide-react";
 
 import { useSidebar } from "@/context/SidebarContext";
+import { updateUserOrderStatus } from "@/lib/apiCalls";
 
 // Mock data for orders with extended information
 const MOCK_ORDERS = [
@@ -143,7 +145,9 @@ const MOCK_ORDERS = [
 
 const ITEMS_PER_PAGE = 5;
 
-function Customer() {
+function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
+  console.log("UserOrderData --------------", UserOrderData);
+
   const { isSidebarOpen } = useSidebar();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -153,7 +157,7 @@ function Customer() {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isEditStatusModalOpen, setIsEditStatusModalOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState(null);
-  const [orderNotes, setOrderNotes] = useState("");
+  const [newStatus, setNewStatus] = useState("");
 
   useEffect(() => {
     // Simulate loading data
@@ -163,14 +167,23 @@ function Customer() {
     return () => clearTimeout(timer);
   }, []);
 
+  const DisplayByStatus = (status) => {
+    const filteredOrders = FixrealData.filter(
+      (order) => status === "All Status" || order.status === status
+    );
+    setUserOrderData(filteredOrders);
+  };
+
   // Filter orders based on search query and status
   const filteredOrders = useMemo(() => {
-    return MOCK_ORDERS.filter((order) => {
+    return UserOrderData.filter((order) => {
       const matchesSearch =
-        order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        order.customer.toLowerCase().includes(searchQuery.toLowerCase());
+        order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.userDetails.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
       const matchesStatus =
-        statusFilter === "All Status" || order.status === statusFilter;
+        statusFilter === "All Status" || order.status == statusFilter;
       return matchesSearch && matchesStatus;
     });
   }, [searchQuery, statusFilter]);
@@ -184,37 +197,38 @@ function Customer() {
 
   // Stats calculation
   const orderStats = useMemo(() => {
-    const stats = MOCK_ORDERS.reduce((acc, order) => {
-      acc[order.status] = (acc[order.status] || 0) + 1;
+    const stats = FixrealData?.reduce((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1; // Properly increment order statuses
       return acc;
     }, {});
+
     return [
       {
         label: "Pending Orders",
-        count: stats.Pending || 0,
+        count: stats["Pending"] || 0, // Use string keys
         icon: Package,
         color: "bg-amber-500",
       },
       {
         label: "Dispatched",
-        count: stats.Dispatched || 0,
+        count: stats["Dispatched"] || 0,
         icon: Truck,
         color: "bg-blue-500",
       },
       {
         label: "Delivered",
-        count: stats.Delivered || 0,
+        count: stats["Delivered"] || 0,
         icon: CheckCircle,
         color: "bg-green-500",
       },
       {
         label: "Cancelled",
-        count: stats.Cancelled || 0,
+        count: stats["Cancelled"] || 0,
         icon: XCircle,
         color: "bg-red-500",
       },
     ];
-  }, []);
+  }, [UserOrderData]); // Dependency should be UserOrderData
 
   const getStatusColor = (status) => {
     const colors = {
@@ -226,18 +240,20 @@ function Customer() {
     return colors[status] || "bg-gray-500";
   };
 
-  const handleStatusUpdate = (orderId, newStatus) => {
-    // In a real application, this would make an API call
-    const updatedOrders = MOCK_ORDERS.map((order) => {
-      if (order.id === orderId) {
-        return { ...order, status: newStatus };
-      }
-      return order;
-    });
-    // Update the mock data
-    MOCK_ORDERS.splice(0, MOCK_ORDERS.length, ...updatedOrders);
+  const handleStatusUpdate = async (orderId) => {
     setIsEditStatusModalOpen(false);
-    setEditingOrder(null);
+    const response = await updateUserOrderStatus(orderId, newStatus);
+    console.log("response", response);
+  };
+
+  const DisplayBySearch = (searchQuery) => {
+    const searchResults = FixrealData.filter((order) => {
+      return (
+        order.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.userDetails.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+    setUserOrderData(searchResults);
   };
 
   const handleContactCustomer = (method, contact) => {
@@ -323,24 +339,21 @@ function Customer() {
                       type="text"
                       placeholder="Search orders by ID or customer name..."
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        DisplayBySearch(e.target.value);
+                      }}
                       className="w-full pl-10 pr-4 py-3 bg-zinc-900 text-white rounded-lg border border-zinc-700 focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition-all"
                     />
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-4 py-3 text-white rounded-lg bg-purple-600 hover:bg-purple-700 transition-colors"
-                  >
-                    <Filter className="w-5 h-5" />
-                    <span className="hidden sm:inline">Filters</span>
-                    <ChevronDown className="w-4 h-4" />
-                  </motion.button>
                   <select
                     value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
+                    onChange={(e) => {
+                      setStatusFilter(e.target.value);
+                      DisplayByStatus(e.target.value);
+                    }}
                     className="px-4 py-3 text-white bg-zinc-900 border border-zinc-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none hover:bg-zinc-800 transition-colors"
                   >
                     <option>All Status</option>
@@ -386,7 +399,7 @@ function Customer() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-800">
-                    {paginatedOrders.map((order, index) => (
+                    {UserOrderData.map((order, index) => (
                       <motion.tr
                         key={index}
                         initial={{ opacity: 0, y: 10 }}
@@ -395,16 +408,23 @@ function Customer() {
                         className="bg-black hover:bg-zinc-900 transition-colors"
                       >
                         <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                          {order.id}
+                          # {order.orderId.slice(5, 15)}
                         </td>
                         <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {order.customer}
+                          {order.userDetails.name}
                         </td>
+
                         <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-zinc-300">
-                          {order.items.length} items
+                          {order.productsData.reduce(
+                            (total, elem) => total + elem.quantity,
+                            0
+                          )}{" "}
+                          items
                         </td>
+
                         <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                          ${order.total.toFixed(2)}
+                          <IndianRupee className="inline size-4" />{" "}
+                          {order.totalAmount}
                         </td>
                         <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                           <span
@@ -416,7 +436,14 @@ function Customer() {
                           </span>
                         </td>
                         <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-zinc-300">
-                          {order.date}
+                          {new Date(order.createdAt).toLocaleString("en-US", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          })}
                         </td>
                         <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex gap-3">
@@ -554,13 +581,22 @@ function Customer() {
                                   Order ID
                                 </p>
                                 <p className="text-white font-medium">
-                                  {selectedOrder.id}
+                                  # {selectedOrder.orderId.slice(0, 5)}
                                 </p>
                               </div>
                               <div>
                                 <p className="text-zinc-400 text-sm">Date</p>
                                 <p className="text-white font-medium">
-                                  {selectedOrder.date}
+                                  {new Date(
+                                    selectedOrder.createdAt
+                                  ).toLocaleString("en-US", {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  })}
                                 </p>
                               </div>
                               <div>
@@ -576,7 +612,8 @@ function Customer() {
                               <div>
                                 <p className="text-zinc-400 text-sm">Total</p>
                                 <p className="text-white font-medium">
-                                  ${selectedOrder.total.toFixed(2)}
+                                  <IndianRupee className="inline size-4" />{" "}
+                                  {selectedOrder.totalAmount}
                                 </p>
                               </div>
                             </div>
@@ -592,7 +629,7 @@ function Customer() {
                                 <div>
                                   <p className="text-zinc-400 text-sm">Name</p>
                                   <p className="text-white font-medium">
-                                    {selectedOrder.customer}
+                                    {selectedOrder.userDetails.name}
                                   </p>
                                 </div>
                                 <div className="flex gap-2">
@@ -602,7 +639,7 @@ function Customer() {
                                     onClick={() =>
                                       handleContactCustomer(
                                         "email",
-                                        selectedOrder.customerDetails.email
+                                        selectedOrder.userDetails.email
                                       )
                                     }
                                     className="p-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
@@ -610,38 +647,23 @@ function Customer() {
                                   >
                                     <Mail className="w-5 h-5 text-white" />
                                   </motion.button>
-                                  <motion.button
-                                    whileHover={{ scale: 1.1 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    onClick={() =>
-                                      handleContactCustomer(
-                                        "phone",
-                                        selectedOrder.customerDetails.phone
-                                      )
-                                    }
-                                    className="p-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
-                                    title="Call Customer"
-                                  >
-                                    <Phone className="w-5 h-5 text-white" />
-                                  </motion.button>
                                 </div>
                               </div>
                               <div>
                                 <p className="text-zinc-400 text-sm">Email</p>
                                 <p className="text-white font-medium">
-                                  {selectedOrder.customerDetails.email}
+                                  {selectedOrder.userDetails.email}
                                 </p>
                               </div>
-                              <div>
-                                <p className="text-zinc-400 text-sm">Phone</p>
-                                <p className="text-white font-medium">
-                                  {selectedOrder.customerDetails.phone}
-                                </p>
-                              </div>
+
                               <div>
                                 <p className="text-zinc-400 text-sm">Address</p>
                                 <p className="text-white font-medium">
-                                  {selectedOrder.customerDetails.address}
+                                  {selectedOrder.shippingAddress.country},{" "}
+                                  {selectedOrder.shippingAddress.city},{" "}
+                                  {selectedOrder.shippingAddress.state},{" "}
+                                  {selectedOrder.shippingAddress.postalCode},{" "}
+                                  {selectedOrder.shippingAddress.street},{" "}
                                 </p>
                               </div>
                             </div>
@@ -671,55 +693,37 @@ function Customer() {
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {selectedOrder.items.map((item, index) => (
-                                    <tr
-                                      key={index}
-                                      className="border-t border-zinc-700"
-                                    >
-                                      <td className="px-4 py-3 text-sm text-white">
-                                        {item.name}
-                                      </td>
-                                      <td className="px-4 py-3 text-sm text-white">
-                                        {item.quantity}
-                                      </td>
-                                      <td className="px-4 py-3 text-sm text-white">
-                                        ${item.price.toFixed(2)}
-                                      </td>
-                                      <td className="px-4 py-3 text-sm text-white font-medium">
-                                        $
-                                        {(item.quantity * item.price).toFixed(
-                                          2
-                                        )}
-                                      </td>
-                                    </tr>
-                                  ))}
+                                  {selectedOrder.productsData.map(
+                                    (item, index) => (
+                                      <tr
+                                        key={index}
+                                        className="border-t border-zinc-700"
+                                      >
+                                        <td className="px-4 py-3 text-sm text-white">
+                                          {item.name}
+                                        </td>
+                                        <td className="px-4 py-3 text-sm text-white">
+                                          {item.quantity}
+                                        </td>
+                                        <td className="px-4 py-3 text-sm text-white">
+                                          <IndianRupee className="inline size-4 mr-1" />
+                                          {item.price.toFixed(2)}
+                                        </td>
+                                        <td className="px-4 py-3 text-sm text-white font-medium">
+                                          <IndianRupee className="inline size-4 mr-1" />
+                                          {(item.quantity * item.price).toFixed(
+                                            2
+                                          )}
+                                        </td>
+                                      </tr>
+                                    )
+                                  )}
                                 </tbody>
                               </table>
                             </div>
                           </div>
 
                           {/* Notes */}
-                          <div className="bg-zinc-800 p-5 rounded-lg">
-                            <h4 className="text-lg font-semibold text-white mb-4 border-b border-zinc-700 pb-2">
-                              Notes
-                            </h4>
-                            <textarea
-                              value={orderNotes || selectedOrder.notes}
-                              onChange={(e) => setOrderNotes(e.target.value)}
-                              className="w-full px-4 py-3 bg-zinc-900 text-white rounded-lg border border-zinc-700 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all"
-                              rows={3}
-                              placeholder="Add notes about this order..."
-                            />
-                            <div className="flex justify-end mt-4">
-                              <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                              >
-                                Save Notes
-                              </motion.button>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -773,12 +777,9 @@ function Customer() {
                           <select
                             className="w-full px-4 py-3 bg-zinc-900 text-white rounded-lg border border-zinc-700 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all"
                             defaultValue={editingOrder.status}
-                            onChange={(e) =>
-                              handleStatusUpdate(
-                                editingOrder.id,
-                                e.target.value
-                              )
-                            }
+                            onChange={(e) => {
+                              setNewStatus(e.target.value);
+                            }}
                           >
                             <option value="Pending">Pending</option>
                             <option value="Dispatched">Dispatched</option>
@@ -800,10 +801,7 @@ function Customer() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() =>
-                              handleStatusUpdate(
-                                editingOrder.id,
-                                editingOrder.status
-                              )
+                              handleStatusUpdate(editingOrder.orderId)
                             }
                             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                           >

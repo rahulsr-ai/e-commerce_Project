@@ -1,14 +1,38 @@
 "use client";
 
-import React from 'react'
-import dynamic from 'next/dynamic'
-const OrderPage = dynamic(() => import('@/app/components/adminComponents/customer/Customer.jsx'), { ssr: false })
- const page = () => {
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { getAllOrdersData } from "@/lib/apiCalls";
+
+const OrderPage = dynamic(
+  () => import("@/app/components/adminComponents/customer/Customer.jsx"),
+  { ssr: false }
+);
+
+const page = () => {
+  const [UserOrderData, setUserOrderData] = useState([]);
+  const [FixrealData, setFixrealData] = useState();
+
+  const fetchData = async () => {
+    const { finalResult } = await getAllOrdersData();
+    // console.log("response", finalResult);
+    setUserOrderData(finalResult);
+    setFixrealData(finalResult);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div>
-    <OrderPage/>
+      <OrderPage
+        UserOrderData={UserOrderData}
+        setUserOrderData={setUserOrderData}
+        FixrealData={FixrealData}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
