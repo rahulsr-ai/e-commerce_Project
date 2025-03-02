@@ -17,7 +17,6 @@ import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { RegisterUser } from "@/actions/user";
 
 const Model = dynamic(() => import("@/app/components/Model"));
 
@@ -51,7 +50,6 @@ function Signup() {
     if (trackClick) {
       setisProcessing(true);
     }
-   
 
     setTrackClick(false);
 
@@ -62,12 +60,12 @@ function Signup() {
         password,
       });
 
-      setmodelopen(true);
       if (
         data?.success ||
         data?.message === "Verification code sent successfully"
       ) {
         toast.success(data?.message);
+        setmodelopen(true);
         setValue(180);
       } else {
         toast.error(data?.message);

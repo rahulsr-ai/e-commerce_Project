@@ -9,6 +9,8 @@ const OrderPage = dynamic(
   { ssr: false }
 );
 
+const CustomerNew = dynamic(() => import("@/app/components/adminComponents/customer/CustomerNew.jsx"), { ssr: false })
+
 const page = () => {
   const [UserOrderData, setUserOrderData] = useState([]);
   const [FixrealData, setFixrealData] = useState();
@@ -26,11 +28,15 @@ const page = () => {
 
   return (
     <div>
-      <OrderPage
+      <CustomerNew
+       UserOrderData={UserOrderData}
+       setUserOrderData={setUserOrderData}
+       FixrealData={FixrealData} />
+      {/* <OrderPage
         UserOrderData={UserOrderData}
         setUserOrderData={setUserOrderData}
         FixrealData={FixrealData}
-      />
+      /> */}
     </div>
   );
 };

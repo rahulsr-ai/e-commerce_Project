@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "../context/Authcontext";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
@@ -33,7 +35,9 @@ export default function RootLayout({ children }) {
             <Navbar />
           </header>
           <main>
+            <Suspense fallback={<div></div>}>
             <div className="">{children}</div>
+            </Suspense>
 
             <Toaster position="top-center" reverseOrder={false} />
           </main>

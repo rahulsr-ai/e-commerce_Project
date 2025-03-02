@@ -1,7 +1,7 @@
 "use client";
 
 import { HandleWishlist } from "@/lib/apiCalls";
-import { Eye, Heart } from "lucide-react";
+import { Eye, Heart, IndianRupee } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -15,9 +15,8 @@ const RelatedProductsCard = ({
   slug,
   id,
   wishlist,
-  handleWishlist
+  handleWishlist,
 }) => {
- 
   return (
     <div className="group relative bg-neutral-900 p-4 rounded-lg shadow-lg ">
       {/* Product Image */}
@@ -56,7 +55,10 @@ const RelatedProductsCard = ({
       {/* Product Info */}
       <h3 className="font-medium text-violet-400 mb-2"> {name} </h3>
       <p className="text-stone-400 line-clamp-3 text-sm">{description}</p>
-      <p className="text-white mt-3 font-bold text-lg"> $ {price} </p>
+      <p className="text-white mt-3 font-bold text-lg">
+        {" "}
+        <IndianRupee className="inline size-4" /> {price}{" "}
+      </p>
     </div>
   );
 };

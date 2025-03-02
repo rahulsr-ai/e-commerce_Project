@@ -11,13 +11,6 @@ import { useRouter } from "next/navigation";
 const ProductPage = () => {
   const router = useRouter();
 
-  // const role = localStorage.getItem("code");
-
-  // if (role === "2637") {
-  //   router.push("/admin/dashboard/Inventory");
-  //   return;
-  // }
-
   const [SingleProduct, setSingleProduct] = useState([]);
   const [RelatedProducts, setRelatedProducts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
@@ -45,7 +38,6 @@ const ProductPage = () => {
   }, []);
 
   const handleWishlist = async (id) => {
-    alert(id);
     const Logincode = localStorage.getItem("code");
 
     if (!Logincode || Logincode !== "0001") {

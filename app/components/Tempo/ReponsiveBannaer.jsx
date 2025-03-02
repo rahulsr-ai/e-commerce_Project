@@ -1,13 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-
-
 const ResponsiveBanner = ({
   title = "Special Offer",
   description = "Get 20% off on all premium items. Limited time offer!",
   backgroundImage = "/",
 }) => {
+  function scrollWindow() {
+    window.scrollTo({ top: 1400,  behavior: "smooth" });
+  }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -45,6 +46,7 @@ const ResponsiveBanner = ({
 
         {/* CTA Button */}
         <motion.button
+          onClick={scrollWindow}
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.4 }}

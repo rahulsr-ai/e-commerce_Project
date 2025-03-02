@@ -26,6 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+  trustHost: true,
   pages: {
     signIn: "/sign-in", // Displays signin page
     signOut: "/",
@@ -41,18 +42,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const isUserExits = await User.findOne({ email: user.email });
 
+        if (isUserExits.status === "Blocked") {
+          return null;
+        }
+
         if (isUserExits) {
-          
-          // const newUser = await User.updateOne({
-          //   name: user.name,
-          //   email: user.email,
-          //   password: user.password,
-          //   role: "user",
-          //   isVerified: true,
-          //   authProvider: "google",
-          //   authProviderId: user.id,
-          //   image: user.image,
-          // });
           return token;
         }
 

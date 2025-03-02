@@ -19,7 +19,7 @@ const MinFilter = ({
   }, []);
 
   const DisplayByCategory = (id) => {
-    alert(id);
+    
     const filteredProductsByCategory = UnFilterData.filter((product) => {
       if (id === "All") {
         return true;

@@ -1,10 +1,11 @@
-"use client";
+"use client"; // ✅ Convert the entire page into a Client Component
 
 import React, { useEffect, useState } from "react";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const SuccessPage = () => {
   const searchParams = useSearchParams();
@@ -13,8 +14,6 @@ const SuccessPage = () => {
 
   useEffect(() => {
     if (!sessionId) return;
-
-    // {"shipping_details":{"city":"New Delhi","country":"IN","line1":"pallet town","line2":"near the lake","postal_code":"110030","state":"DL"}}
 
     const fetchSession = async () => {
       try {
@@ -27,11 +26,13 @@ const SuccessPage = () => {
         if (data?.shipping_details) {
           setShippingAddress(data.shipping_details);
 
-          // ✅ Clear cart after successful payment
-          await axios.post("/api/orders", {
+          // ✅ Send order details separately (no async inside useEffect)
+          axios.post("/api/orders", {
             shippingAddress: data.shipping_details,
           });
-          await axios.post("/api/cart/clear");
+
+          // ✅ Clear cart separately
+          axios.post("/api/cart/clear");
         }
       } catch (error) {
         console.error("Error fetching session:", error);
@@ -39,9 +40,10 @@ const SuccessPage = () => {
     };
 
     fetchSession();
-  }, [sessionId]); // ✅ Added sessionId in dependency array
+  }, [sessionId]); 
 
   return (
+   
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-black rounded-lg shadow-lg p-8 text-center">
         <div className="mb-6">
@@ -62,10 +64,8 @@ const SuccessPage = () => {
           {shippingAddress ? (
             <div className="mt-4">
               <p>
-                {shippingAddress.line1}, {shippingAddress.city},{" "}
-                {shippingAddress.line2}, {shippingAddress.city},{" "}
-                {shippingAddress.state},{shippingAddress.postal_code},{" "}
-                {shippingAddress.country}
+                {shippingAddress.line1}, {shippingAddress.line2}, {shippingAddress.city},{" "}
+                {shippingAddress.state}, {shippingAddress.postal_code}, {shippingAddress.country}
               </p>
             </div>
           ) : (
@@ -83,6 +83,7 @@ const SuccessPage = () => {
         </div>
       </div>
     </div>
+   
   );
 };
 

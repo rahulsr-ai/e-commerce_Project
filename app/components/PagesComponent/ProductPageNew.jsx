@@ -9,12 +9,14 @@ import {
   ChevronRight,
   Plus,
   Minus,
+  IndianRupee,
 } from "lucide-react";
 import ReviewCard from "@/app/components/ReviewCard";
 import { reviews } from "@/app/data/review";
 import RelatedProductsCard from "@/app/components/useComponents/RelatedProductsCard";
 import { handleAddToCart } from "@/lib/apiCalls";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const ProductPageNew = ({
   SingleProduct,
@@ -33,9 +35,24 @@ const ProductPageNew = ({
   };
 
   const AddToCart = async () => {
-    const response = await handleAddToCart(SingleProduct._id, quantity);
-    console.log("response is", response);
-    toast.success("Product added to cart");
+    const Logincode = localStorage.getItem("code");
+
+    if (!Logincode || Logincode !== "0001") {
+      toast.loading("Log in to continue shopping", { duration: 1000 });
+      router.push("/sign-in");
+      return;
+    }
+
+    try {
+      const response = await handleAddToCart(SingleProduct._id, quantity);
+      console.log("response is", response);
+      if (response.success) {
+        
+      }
+    } catch (error) {
+      console.log("frontend error while adding to cart", error);
+      return null;
+    }
   };
 
   useEffect(() => {
@@ -82,7 +99,8 @@ const ProductPageNew = ({
           </div>
 
           <div className="text-3xl font-bold text-white mb-6">
-            ${SingleProduct?.price}
+            <IndianRupee className="inline text-xs text-violet-600" />
+              {SingleProduct?.price}
           </div>
 
           <p className="text-stone-100 mb-8">{SingleProduct?.description}</p>
@@ -153,9 +171,11 @@ const ProductPageNew = ({
           <h2 className="text-2xl font-bold text-violet-500">
             Related Products
           </h2>
-          <button className="text-violet-600 flex items-center gap-1 hover:text-violet-700">
-            View All <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link href="/">
+            <button className="text-violet-600 flex items-center gap-1 hover:text-violet-700">
+              View All <ChevronRight className="w-4 h-4" />
+            </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

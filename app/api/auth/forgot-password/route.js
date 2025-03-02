@@ -26,6 +26,13 @@ export async function POST(req) {
       );
     }
 
+    if(user.status === "Blocked"){
+      return NextResponse.json(
+        { message: "This email is blocked in StoreX", success: false },
+        { status: 200 }
+      );
+    }
+
     if (user.authProvider === "google") {
       return NextResponse.json(
         { message: "You are signed in with Google. No password needed", success: false },

@@ -15,20 +15,28 @@ export async function POST(req) {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 200 });
+    }
+
+    if (user.status === "Blocked") {
       return NextResponse.json(
-        { message: "User not found" },
+        {
+          message: "This email is blocked. Please contact support for help.",
+          success: false,
+        },
         { status: 200 }
       );
     }
 
-    if(user.authProvider === "google"){
+    if (user.authProvider === "google") {
       return NextResponse.json(
-        { message: "This email is already signed in with Google!", success: false },
+        {
+          message: "This email is already signed in with Google!",
+          success: false,
+        },
         { status: 200 }
       );
     }
-
-    
 
     // Compare the entered password with the hashed password in the database
     const isMatch = await bcrypt.compare(password, user.password);

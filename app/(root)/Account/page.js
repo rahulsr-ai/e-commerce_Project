@@ -64,18 +64,12 @@ const tabs = [
     component: SavedAddresses,
   },
   {
-    id: "payments",
-    label: "Payments",
-    icon: CreditCard,
-    component: PaymentMethods,
-  },
-  {
     id: "settings",
     label: "Settings",
     icon: Settings,
     component: AccountSettings,
   },
-  // { id: "edit", label: "Edit Profile", icon: Edit, component: EditProfile },
+ 
 ];
 
 const Profile = () => {

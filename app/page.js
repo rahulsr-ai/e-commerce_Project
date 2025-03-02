@@ -8,8 +8,6 @@ import { ArrowUp } from "lucide-react";
 import ProductCard from "./components/useComponents/ProductCard";
 import Loader from "./components/useComponents/Loader";
 import MinFilter from "./components/useComponents/minimalFilter";
-import Testimonials from "./components/Testimonials";
-
 
 
 import ResponsiveBanner from "./components/Tempo/ReponsiveBannaer";
@@ -158,15 +156,12 @@ const Landing = () => {
         <Loader />
       )}
 
-      {/* <div>
-          <Testimonials />
-        </div> */}
+
 
       <div>
         <FAQSection />
       </div>
 
-      {/* Footer */}
 
       <div>
         <NewFooter />

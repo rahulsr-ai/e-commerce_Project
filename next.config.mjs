@@ -1,5 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: true, // ✅ Required for Next.js 15
+    trustHost: true, // ✅ Required for DevTunnels
+  },
+  headers: async () => [
+    {
+      source: "/(.*)",
+      headers: [
+        { key: "X-Forwarded-Host", value: "l0r49zrp-3000.inc1.devtunnels.ms" },
+      ],
+    },
+  ],
   images: {
     // Defines external image sources that can be used in Next.js Image component
     remotePatterns: [
@@ -13,10 +25,6 @@ const nextConfig = {
       },
     ],
   },
-
-
-  
-
 };
 
 export default nextConfig;

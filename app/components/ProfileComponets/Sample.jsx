@@ -6,7 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
-import AddressModel from "../AddressModel";
+import AddressModel from "../CustomizeMode";
 
 const SamplePage = ({
   productsData,
