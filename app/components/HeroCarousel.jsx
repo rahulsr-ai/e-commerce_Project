@@ -14,14 +14,14 @@ const slides = [
   {
     title: "Luxury Fashion & Accessories",
     description: "Elevate your style with premium fashion pieces",
-    image: "/homeCarousel/jblSpeakerOptimized.webp",
+    image: "/homeCarousel/fashion-image04.jpg",
     buttonText: "Explore Fashion",
     buttonUrl: "/category/fashion",
   },
   {
     title: "Home & Living Essentials",
     description: "Transform your space with carpets, posters, lights & more",
-    image: "/homeCarousel/HomeCategoryCarpetOptimized.webp",
+    image: "/homeCarousel/home-01.jpg",
     buttonText: "View Collection",
     buttonUrl: "/category/home",
   },

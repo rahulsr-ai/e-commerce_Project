@@ -1,6 +1,5 @@
 "use client"
 
-
 import {useContext, createContext} from 'react'
 import { useState } from 'react'
 
@@ -19,3 +18,5 @@ const SidebarProvider = ({children}) => {
 
 const useSidebar = () => useContext(HandleSidebarContext)
 export {useSidebar, SidebarProvider}
+
+

@@ -47,7 +47,9 @@ const SuccessPage = () => {
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full bg-black rounded-lg shadow-lg p-8 text-center">
         <div className="mb-6">
-          <CheckCircle className="w-20 h-20 text-green-500 mx-auto" />
+          <CheckCircle 
+          aria-label="Success"
+          className="w-20 h-20 text-green-500 mx-auto" />
         </div>
 
         <h1 className="text-3xl font-bold text-white mb-4">
@@ -74,8 +76,13 @@ const SuccessPage = () => {
         </div>
 
         <div className="border-t text-white pt-6">
-          <Link href="/">
-            <button className="flex items-center justify-center space-x-2 text-blue-600 hover:text-blue-800 font-medium mx-auto">
+          <Link
+           aria-label="Return to homepage"
+          href="/"
+          >
+            <button
+             aria-label="Return to homepage"
+            className="flex items-center justify-center space-x-2 text-blue-600 hover:text-blue-800 font-medium mx-auto">
               <ArrowLeft className="w-4 h-4" />
               <span>Return to Homepage</span>
             </button>

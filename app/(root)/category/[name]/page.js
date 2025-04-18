@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 import { getProductsByCategory } from "@/lib/apiCalls";
-import Loader from "@/app/components/useComponents/Loader";
 import Image from "next/image";
 import { Filter } from "@/app/components/Filter";
 import { useParams } from "next/navigation";
@@ -197,6 +196,8 @@ const CategoryPage = () => {
 
             {isVisible && (
               <button
+               aria-label="Scroll to filter"
+                
                 onClick={scrollToFilter}
                 className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
               >
@@ -211,6 +212,7 @@ const CategoryPage = () => {
               Try adjusting your filters to find more products.
             </p>
             <button
+              aria-label="Clear filters"
               onClick={clearFilters}
               className="mt-4 px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg"
             >

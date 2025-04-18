@@ -155,7 +155,6 @@ const ProductCard = ({
                 {price + 200}
               </span>
               <span className="ml-2 text-md uppercase tracking-wide text-gradient-violet-to-violet-900">
-
                 {price}
               </span>
             </div>
@@ -169,6 +168,7 @@ const ProductCard = ({
 
         <div className="mt-4 flex gap-2">
           <button
+            aria-label="Add to cart"
             onClick={() => {
               AddToCart();
             }}
@@ -179,8 +179,12 @@ const ProductCard = ({
             <ShoppingCart className="w-5 h-5" />
             Add to Cart
           </button>
-          <Link href={`/Product/${slug}`}>
+          <Link 
+          
+          aria-label="View product"
+          href={`/Product/${slug}`}>
             <button
+              aria-label="View product"
               name="view-button"
               className="px-4 py-2 border border-gray-300 rounded-lg font-medium text-violet-400 hover:bg-gray-50 hover:text-black transition-colors duration-200 flex items-center justify-center"
             >

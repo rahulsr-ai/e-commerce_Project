@@ -25,7 +25,6 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
@@ -36,7 +35,7 @@ export default function RootLayout({ children }) {
           </header>
           <main>
             <Suspense fallback={<div></div>}>
-            <div className="">{children}</div>
+              <div>{children}</div>
             </Suspense>
 
             <Toaster position="top-center" reverseOrder={false} />

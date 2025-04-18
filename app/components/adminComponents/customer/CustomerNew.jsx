@@ -184,6 +184,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                 </div>
                 <div className="flex gap-4">
                   <select
+                   aria-label="Filter by status"
                     value={statusFilter}
                     onChange={(e) => {
                       setStatusFilter(e.target.value);
@@ -224,6 +225,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   <motion.button
+                   aria-label="Previous page"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() =>
@@ -236,6 +238,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                   </motion.button>
                   {[...Array(totalPages)].map((_, index) => (
                     <motion.button
+                     aria-label="Go to page"
                       key={index}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -254,6 +257,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                     </motion.button>
                   ))}
                   <motion.button
+                   aria-label="Next page"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() =>

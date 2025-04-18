@@ -288,6 +288,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
 
           <div className="flex space-x-4">
             <button
+             aria-label='Save product'
               type="submit"
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
             >
@@ -295,6 +296,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
               Save Product
             </button>
             <button
+             aria-label='Reset form'
               type="reset"
               onClick={() =>
                 setFormData({
@@ -328,6 +330,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
             <Upload className="mx-auto h-12 w-12 text-gray-400" />
             <div className="mt-4">
               <button
+              aria-label='Choose images'
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-violet-500 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
@@ -365,6 +368,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
                     className="w-full h-48 object-cover"
                   />
                   <button
+                  aria-label='Remove image'
                     onClick={() => removeImage(index)}
                     className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
                   >

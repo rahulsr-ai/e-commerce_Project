@@ -61,6 +61,7 @@ const MinFilter = ({
           <SlidersHorizontal size={24} className="text-white" />
 
           <select
+           aria-label="Filter by category"
             value={selectedCategory}
             onChange={(e) => {
               DisplayByCategory(e.target.value);
@@ -68,7 +69,9 @@ const MinFilter = ({
             }}
             className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 text-black"
           >
-            <option value="All" disabled>
+            <option
+            
+            value="All" disabled>
               All
             </option>
             {category.map((category, i) => (
@@ -83,6 +86,7 @@ const MinFilter = ({
           <div className="flex gap-2">
             {["All", "Low to High", "High to Low"].map((price) => (
               <button
+               aria-label="Sort by price"
                 key={price}
                 onClick={() => sortProductsByPrice(price)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${

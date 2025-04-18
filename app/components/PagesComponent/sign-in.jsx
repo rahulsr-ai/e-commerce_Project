@@ -6,7 +6,6 @@ import { FcGoogle } from "react-icons/fc";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 
 import axios from "axios";
-
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,11 +14,12 @@ import toast from "react-hot-toast";
 import { GoogleSignIn } from "@/actions/SignIn";
 import { useAuth } from "@/context/Authcontext";
 
+
+
 const SignIn = () => {
   const router = useRouter();
   const { user, setUser } = useAuth();
   const [render, setrender] = useState("");
-
   const [isLoading, setisLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -87,6 +87,7 @@ const SignIn = () => {
                   Sign in to your account
                 </p>
               </div>
+
 
               {/* Overlay for Loading */}
               {isProcessing && (

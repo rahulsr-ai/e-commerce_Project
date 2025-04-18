@@ -1,52 +1,68 @@
 "use client";
 
 import { motion } from "framer-motion";
-import React from "react";
+import { X } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
-const AddressModel = ({ open, setOpen }) => {
+const CustomizeModel = ({ isOpen, setisOpen, shippingAddress }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !isOpen) return null;
+
   return (
-    open && (
+    <motion.div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <motion.div
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        className="relative bg-zinc-900/90 backdrop-blur-md border border-zinc-700 shadow-xl rounded-xl p-6 w-full max-w-md"
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.8 }}
       >
-        <motion.div
-          className="bg-zinc-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0.8 }}
+        {/* Close Button */}
+        <button
+          className="absolute -top-4 -right-4 bg-zinc-800 p-2 rounded-full shadow-lg hover:bg-red-600 transition"
+          onClick={() => setisOpen(false)}
         >
-          <h3 className="text-lg font-medium mb-2">Setup Address</h3>
+          <X className="w-5 h-5 text-white" />
+        </button>
 
-          <form>
-            <p className="text-zinc-400 mb-4">
-              Are you sure you want to delete your account? This action cannot
-              be undone.
-            </p>
+        {/* Header */}
+        <h3 className="text-xl font-bold text-white text-center mb-4">
+          Setup Address
+        </h3>
 
-           
+        {/* Address Box */}
+        <div className="p-5 bg-zinc-800 rounded-lg shadow-lg border border-zinc-700 space-y-4">
+          <div className="text-white font-semibold text-lg">
+            COUNTRY: <span className="text-violet-400">{shippingAddress?.country}</span>
+          </div>
+          <div className="text-white">
+            STREET: <span className="text-zinc-400">{shippingAddress?.street}</span>
+          </div>
+          <div className="text-white">
+            CITY: <span className="text-zinc-400">{shippingAddress?.city}</span>
+          </div>
+          <div className="text-white">
+            STATE: <span className="text-zinc-400">{shippingAddress?.state}</span>
+          </div>
+          <div className="text-white">
+            POSTAL CODE: <span className="text-zinc-400">{shippingAddress?.postalCode}</span>
+          </div>
+        </div>
 
-            <div className="flex justify-end space-x-3">
-              <button
-                className="px-4 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
-                // onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500"
-                // onClick={handleDeleteAccount}
-              >
-                Confirm
-              </button>
-            </div>
-          </form>
-        </motion.div>
+        {/* Close Button */}
+      
       </motion.div>
-    )
+    </motion.div>
   );
 };
 
-export default AddressModel;
+export default CustomizeModel;

@@ -11,6 +11,7 @@ import {
   CheckCircle,
   ArrowUpDown,
   Loader,
+  IndianRupee,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAllProducts, UpdateProductStock } from "@/lib/apiCalls";
@@ -130,7 +131,7 @@ const InventoryManagement = () => {
       updateModal.product._id,
       Number(newQuantity)
     );
-    console.log("response", response);
+  
 
     if (response?.success) {
       // Update the state immediately
@@ -381,10 +382,11 @@ const InventoryManagement = () => {
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        ${product.price.toFixed(2)}
+                        <IndianRupee className="inline size-4"/> {product.price.toFixed(2)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
+                          aria-label="Update stock quantity"
                           className="text-violet-400 hover:text-violet-300 p-1 rounded-full hover:bg-zinc-700"
                           onClick={() => {
                             setUpdateModal({ isOpen: true, product });
@@ -419,10 +421,14 @@ const InventoryManagement = () => {
           </div>
 
           <div className="flex space-x-2">
-            <button className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button 
+             aria-label="Previous page"
+            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Previous
             </button>
-            <button className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button 
+            aria-label="Next page"
+            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Next
             </button>
           </div>
@@ -448,6 +454,7 @@ const InventoryManagement = () => {
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-medium">Update Stock Quantity</h3>
                 <button
+                 aria-label="Close update modal"
                   className="text-zinc-400 hover:text-white p-1 rounded-full hover:bg-zinc-700"
                   onClick={() =>
                     setUpdateModal({ isOpen: false, product: null })
@@ -492,6 +499,7 @@ const InventoryManagement = () => {
 
               <div className="flex justify-end space-x-3">
                 <button
+                 aria-label="Cancel update"
                   className="px-4 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
                   onClick={() =>
                     setUpdateModal({ isOpen: false, product: null })
@@ -500,6 +508,7 @@ const InventoryManagement = () => {
                   Cancel
                 </button>
                 <button
+                 aria-label="Update stock quantity"
                   className="px-4 py-2 rounded-md bg-violet-600 hover:bg-violet-500 flex items-center"
                   onClick={handleUpdateQuantity}
                   disabled={isUpdating}

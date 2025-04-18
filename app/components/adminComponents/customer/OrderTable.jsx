@@ -93,6 +93,7 @@ const OrderTable = ({
               <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <div className="flex gap-3">
                   <motion.button
+                   aria-label="View details"
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => onViewDetails(order)}
@@ -102,6 +103,7 @@ const OrderTable = ({
                     <Eye className="w-5 h-5" />
                   </motion.button>
                   <motion.button
+                   aria-label="Edit status"
                     whileHover={{ scale: 1.2 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => onEditStatus(order)}

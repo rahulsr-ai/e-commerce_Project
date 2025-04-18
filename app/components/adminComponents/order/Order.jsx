@@ -94,7 +94,7 @@ const AdminDashboard = ({ user }) => {
     const { userId, action } = confirmationModal;
 
     const response = await HandleUserStatus(userId, action);
-    console.log("response", response);
+   
 
     if (response.success) {
       if (action === "block") {
@@ -140,6 +140,7 @@ const AdminDashboard = ({ user }) => {
         <div className="mb-6 flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
           <div className="flex space-x-2">
             <button
+             aria-label="Filter by all users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "All"
                   ? "bg-violet-500 text-white"
@@ -151,6 +152,7 @@ const AdminDashboard = ({ user }) => {
               <span>All</span>
             </button>
             <button
+             aria-label="Filter by active users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Active"
                   ? "bg-violet-500 text-white"
@@ -162,6 +164,7 @@ const AdminDashboard = ({ user }) => {
               <span>Active</span>
             </button>
             <button
+             aria-label="Filter by blocked users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Blocked"
                   ? "bg-violet-500 text-white"
@@ -307,6 +310,7 @@ const AdminDashboard = ({ user }) => {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="relative">
                           <button
+                           aria-label="Open user actions menu"
                             className="text-zinc-400 hover:text-white p-1 rounded-full hover:bg-zinc-700"
                             onClick={() =>
                               setActionMenuOpen(
@@ -321,6 +325,7 @@ const AdminDashboard = ({ user }) => {
                             <div className="absolute right-7 top-0 mt-2 w-48 bg-zinc-800 border border-zinc-700 rounded-md shadow-lg z-10">
                               {user.status === "Blocked" ? (
                                 <button
+                                 aria-label="Unblock user"
                                   className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-700 flex items-center space-x-2"
                                   onClick={() =>
                                     handleUserAction(user._id, "unblock")
@@ -331,6 +336,7 @@ const AdminDashboard = ({ user }) => {
                                 </button>
                               ) : (
                                 <button
+                                 aria-label="Block user"
                                   className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-700 flex items-center space-x-2"
                                   onClick={() =>
                                     handleUserAction(user._id, "block")
@@ -341,6 +347,7 @@ const AdminDashboard = ({ user }) => {
                                 </button>
                               )}
                               <button
+                               aria-label="Delete user"
                                 className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-700 flex items-center space-x-2"
                                 onClick={() =>
                                   handleUserAction(user._id, "delete")
@@ -378,10 +385,14 @@ const AdminDashboard = ({ user }) => {
           </div>
 
           <div className="flex space-x-2">
-            <button className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button 
+             aria-label="Previous page"
+            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Previous
             </button>
-            <button className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button 
+            aria-label="Next page"
+            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Next
             </button>
           </div>
@@ -398,6 +409,7 @@ const AdminDashboard = ({ user }) => {
             <p className="text-zinc-400 mb-4">{confirmationModal.message}</p>
             <div className="flex justify-end space-x-3">
               <button
+               aria-label="Cancel confirmation"
                 className="px-4 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
                 onClick={() =>
                   setConfirmationModal({ ...confirmationModal, isOpen: false })
@@ -406,6 +418,7 @@ const AdminDashboard = ({ user }) => {
                 Cancel
               </button>
               <button
+               aria-label="Confirm action"
                 className="px-4 py-2 rounded-md bg-violet-600 hover:bg-violet-500"
                 onClick={confirmAction}
               >

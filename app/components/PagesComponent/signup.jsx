@@ -2,21 +2,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-
-import {
-  ArrowRight,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  ShoppingBag,
-  User,
-} from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useTimer, TimerProvider } from "@/context/TimerContext.js";
 
 const Model = dynamic(() => import("@/app/components/Model"));
 
@@ -33,24 +25,26 @@ function Signup() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [initialEmail, setInitialEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
   const [isProcessing, setisProcessing] = useState(false);
-
   const [trackClick, setTrackClick] = useState(true);
 
-  const [value, setValue] = useState(180);
+  const { resetTimer } = useTimer();
 
   const handleForm = async (e) => {
     e.preventDefault();
 
-    if (trackClick) {
-      setisProcessing(true);
+    if (initialEmail && email !== initialEmail) {
+      toast.error("Reload the page to use a different email");
+      return;
     }
 
+    setisProcessing(true);
     setTrackClick(false);
 
     try {
@@ -66,9 +60,12 @@ function Signup() {
       ) {
         toast.success(data?.message);
         setmodelopen(true);
-        setValue(180);
-      } else {
+        setInitialEmail(email); // Set the initial email used for signup
+        resetTimer(); // Reset the timer when the OTP is sent
+      } else if (data?.message == "email is already in use") {
         toast.error(data?.message);
+      } else {
+        setmodelopen(true);
       }
 
       setisProcessing(false);
@@ -76,6 +73,10 @@ function Signup() {
       console.log("Failed to sign up");
       console.log(error);
     }
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   return (
@@ -147,7 +148,7 @@ function Signup() {
                       <Mail className="size-5 text-white/40" />
                     </div>
                     <input
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={handleEmailChange}
                       id="email"
                       name="email"
                       type="email"
@@ -239,7 +240,7 @@ function Signup() {
                 </button>
               </form>
 
-              {
+              {!trackClick && (
                 <Model
                   isOpen={modelOpen}
                   setmodel={setmodelopen}
@@ -247,7 +248,7 @@ function Signup() {
                   email={email}
                   username={name}
                 />
-              }
+              )}
             </div>
           </div>
         </div>
@@ -256,4 +257,10 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default function SignupWithProvider() {
+  return (
+    <TimerProvider>
+      <Signup />
+    </TimerProvider>
+  );
+}

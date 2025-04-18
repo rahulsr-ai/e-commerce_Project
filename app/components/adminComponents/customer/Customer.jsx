@@ -560,6 +560,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                             Order Details
                           </h3>
                           <motion.button
+                            aria-label="Close details modal"
                             whileHover={{ scale: 1.1, rotate: 90 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={() => setIsDetailsModalOpen(false)}

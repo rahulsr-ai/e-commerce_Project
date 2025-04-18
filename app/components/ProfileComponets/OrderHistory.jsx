@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Package, ExternalLink, IndianRupee } from "lucide-react";
+import CustomizeModel from "../CustomizeMode";
 
 const OrderHistory = ({ orders }) => {
   if (!orders || orders.length === 0) {
@@ -13,6 +14,9 @@ const OrderHistory = ({ orders }) => {
       </div>
     );
   }
+
+  const [isOpen, setOpen] = useState(false);
+  console.log("order is ", orders);
 
   return (
     <div className="space-y-6">
@@ -93,10 +97,18 @@ const OrderHistory = ({ orders }) => {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <button className="flex items-center gap-1 text-indigo-400 hover:text-indigo-300 transition-colors">
-                        <span className="text-sm">View Details</span>
+                      <button
+                        onClick={() => setOpen(true)}
+                        className="flex items-center gap-1 text-indigo-400 hover:text-indigo-300 transition-colors"
+                      >
+                        <span className="text-sm">View Address</span>
                         <ExternalLink className="w-4 h-4" />
                       </button>
+                      <CustomizeModel
+                        isOpen={isOpen}
+                        setisOpen={setOpen}
+                        shippingAddress={order.shippingAddress}
+                      />
                     </td>
                   </tr>
                 );

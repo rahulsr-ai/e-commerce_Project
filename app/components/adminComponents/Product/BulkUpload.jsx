@@ -61,6 +61,7 @@ const BulkUpload = () => {
                 <Check className="h-5 w-5 text-green-500" />
                 <span>File selected: {csvFile.name}</span>
                 <button
+                 aria-label='Delete csv file'
                   onClick={() => setCsvFile(null)}
                   className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-all duration-200"
                 >
@@ -68,6 +69,7 @@ const BulkUpload = () => {
                 </button>
               </div>
               <button
+              aria-label='Upload csv file'
                 onClick={ProcessCsvUplaod}
                 type="button"
                 className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"

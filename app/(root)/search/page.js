@@ -85,6 +85,7 @@ const SearchPage = () => {
         <div id="filter-section" className="flex items-center gap-4 mb-8 justify-center mt-8">
           {['All', 'Low to High', 'High to Low'].map((price) => (
             <button
+             aria-label="Sort by price"
               key={price}
               onClick={() => sortProductsByPrice(price)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
@@ -124,6 +125,7 @@ const SearchPage = () => {
 
           {isVisible && (
             <button
+             aria-label="Scroll to filter"
               onClick={scrollToFilter}
               className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
             >

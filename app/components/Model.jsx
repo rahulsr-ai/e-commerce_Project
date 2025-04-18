@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useTimer } from "@/context/TimerContext";
 
 const Model = ({ isOpen, setmodel, password, email, username }) => {
   const router = useRouter();
@@ -11,23 +12,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
   const [message, setMessage] = useState("");
   const [ResendCounter, setResendCounter] = useState(0);
 
-  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
-  const [canResend, setCanResend] = useState(false);
-
-  useEffect(() => {
-    // Start the timer if timeLeft > 0
-    if (timeLeft > 0) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
-      }, 950);
-
-      // Clean up timer when component unmounts or timer reaches 0
-      return () => clearInterval(timer);
-    } else {
-      setCanResend(true); // Enable the resend button when timer reaches 0
-    }
-
-  }, [timeLeft]);
+  const { timeLeft, canResend, resetTimer } = useTimer();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,11 +47,9 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
 
   const handleResend = async () => {
     setResendCounter(ResendCounter + 1); // Increment the resend number counter
-    setTimeLeft(180); // Reset the timer
-    setCanResend(false); // Disable resend button
 
     if (ResendCounter > 10) {
-      toast.remove(
+      toast.error(
         "You have reached the maximum number of resend attempts. Please try again later."
       );
       return;
@@ -81,14 +64,16 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
       console.log(data);
 
       if (data?.success) {
+        resetTimer(); // Reset the timer when the OTP is resent
         toast.success(data?.message);
+      } else {
+        toast.error(data?.message);
       }
     } catch (error) {
       console.log("frontend error while requesting for resend otp ");
       console.log(error);
     }
   };
-
 
   return (
     <div
@@ -175,5 +160,3 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
 };
 
 export default Model;
-
-

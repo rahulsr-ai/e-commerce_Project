@@ -1,11 +1,4 @@
-import {
-  ChevronDown,
-  Menu,
-  Search,
-  ShoppingBag,
-  User,
-  X,
-} from "lucide-react";
+import { ChevronDown, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -46,6 +39,7 @@ const DesktopMenu = ({
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
           <Link
+            aria-label="Home"
             href="/"
             className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
                  ${pathname === "/" ? "underline" : "text-white/90"} `}
@@ -54,6 +48,7 @@ const DesktopMenu = ({
           </Link>
 
           <Link
+            aria-label="Deals"
             href="/deals"
             className={`  transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
               ${pathname === "/deals" ? "underline" : "text-white/90"}  `}
@@ -64,6 +59,7 @@ const DesktopMenu = ({
           {/* Categories Dropdown */}
           <div className="relative group">
             <button
+              aria-label="Categories"
               onMouseEnter={() => setCategoryOpen(true)}
               onMouseLeave={() => setCategoryOpen(false)}
               className={`hover:text-white transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
@@ -88,6 +84,7 @@ const DesktopMenu = ({
                 <div className="py-1">
                   {categoryName.map((category, i) => (
                     <Link
+                      aria-label="Category"
                       key={category?._id}
                       onClick={() => {
                         setCategoryOpen(false);
@@ -113,6 +110,7 @@ const DesktopMenu = ({
           {/* Brands Dropdown */}
           <div className="relative group">
             <button
+              aria-label="Brands"
               onMouseEnter={() => setBrandsOpen(true)}
               onMouseLeave={() => setBrandsOpen(false)}
               className={`text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
@@ -194,8 +192,8 @@ const DesktopMenu = ({
           {role ? (
             <>
               <Link
-              href={"/Account"}
-                
+                aria-label="Account"
+                href={"/Account"}
                 className={`text-white  hover:underline underline-offset-4 px-6 py-2 rounded-full  transition-all duration-300 transform hover:scale-105
 
                 ${
@@ -208,6 +206,7 @@ const DesktopMenu = ({
                 Account
               </Link>
               <button
+                aria-label="Log out"
                 onClick={handleLogout}
                 className={`bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105
                 `}
@@ -217,8 +216,11 @@ const DesktopMenu = ({
             </>
           ) : (
             <>
-              <Link href="/sign-in">
-                <button className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group">
+              <Link aria-label="Sign in" href="/sign-in">
+                <button
+                  aria-label="Sign in"
+                  className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group"
+                >
                   <User
                     size={18}
                     className="group-hover:scale-110 transition-transform duration-200"
@@ -227,8 +229,11 @@ const DesktopMenu = ({
                 </button>
               </Link>
 
-              <Link href="/sign-up">
-                <button className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105">
+              <Link aria-label="Sign up" href="/sign-up">
+                <button
+                  aria-label="Sign up"
+                  className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                >
                   Sign up
                 </button>
               </Link>
@@ -239,6 +244,8 @@ const DesktopMenu = ({
         {/* Mobile menu button */}
         <div className="lg:hidden">
           <button
+           name="mobile-menu-button"
+            aria-label="Mobile menu"
             onClick={() => setIsOpen(!isOpen)}
             className="text-white/90 hover:text-white p-2 transition-colors duration-200"
           >

@@ -71,6 +71,7 @@ const ForgotPasswordPage = () => {
             />
             <p className="text-sm text-red-500 ml-2">{errorMessage}</p>
             <button
+             aria-label="Send reset link"
               type="submit"
               className="w-full rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500"
             >

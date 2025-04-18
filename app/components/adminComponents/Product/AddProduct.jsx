@@ -56,6 +56,7 @@ function AddProduct() {
           <div className="border-b border-gray-200">
             <div className="flex">
               <button
+               aria-label="Back to dashboard"
                 onClick={() => setActiveTab("single")}
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "single"
@@ -66,6 +67,7 @@ function AddProduct() {
                 Single Product Upload
               </button>
               <button
+               aria-label="Back to dashboard"
                 onClick={() => setActiveTab("bulk")}
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "bulk"
@@ -76,6 +78,7 @@ function AddProduct() {
                 Bulk Upload
               </button>
               <button
+               aria-label="Back to dashboard"
                 onClick={() => setActiveTab("createCategory")}
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "createCategory"

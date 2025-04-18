@@ -31,17 +31,9 @@ const OrderHistory = lazy(() =>
 const Wishlist = lazy(() =>
   import("../../components/ProfileComponets/WhisList")
 );
-const SavedAddresses = lazy(() =>
-  import("../../components/ProfileComponets/SavedAddress")
-);
-const PaymentMethods = lazy(() =>
-  import("../../components/ProfileComponets/PaymentMethods")
-);
+
 const AccountSettings = lazy(() =>
   import("../../components/ProfileComponets/AccountSetting")
-);
-const EditProfile = lazy(() =>
-  import("../../components/ProfileComponets/editProfile")
 );
 const SamplePage = lazy(() =>
   import("@/app/components/ProfileComponets/Sample")
@@ -51,18 +43,12 @@ const tabs = [
   { id: "profile", label: "Profile", icon: User, component: ProfileOverview },
   { id: "wishlist", label: "Wishlist", icon: Heart, component: Wishlist },
   {
-    id: "Check Cart",
+    id: " Cart",
     label: "Cart ",
     icon: ShoppingCart,
     component: SamplePage,
   },
   { id: "orders", label: "Orders", icon: ShoppingBag, component: OrderHistory },
-  {
-    id: "addresses",
-    label: "Addresses",
-    icon: MapPin,
-    component: SavedAddresses,
-  },
   {
     id: "settings",
     label: "Settings",

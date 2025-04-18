@@ -44,6 +44,7 @@ export const OrderDetailsModal = ({
                   Order Details
                 </h3>
                 <motion.button
+                 aria-label="Close details modal"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={onClose}
@@ -114,6 +115,7 @@ export const OrderDetailsModal = ({
                       </div>
                       <div className="flex gap-2">
                         <motion.button
+                         aria-label="Send email"
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() =>
