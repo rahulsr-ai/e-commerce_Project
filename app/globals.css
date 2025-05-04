@@ -37,10 +37,10 @@ html {
   animation: marquee 20s linear infinite;
 }
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -48,6 +48,17 @@ html {
     --foreground: #ededed;
   }
 }
+
+
+
+:root {
+  --primary-color: #4f46e5;
+  --secondary-color: #9333ea;
+  --background-color: #f9fafb;
+  --text-color: #1f2937;
+  --font-main: 'Segoe UI', sans-serif;
+}
+
 
 body {
   color: var(--foreground);

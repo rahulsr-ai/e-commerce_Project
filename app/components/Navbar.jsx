@@ -25,7 +25,6 @@ const Navbar = () => {
   const [query, SetQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const timeoutIdRef = useRef(null); // Store timeout ID
-  const [Searchloading, setSearchloading] = useState(false); // For loading state if needed
 
   const [role, setrole] = useState(null);
   const [categoryName, setcategoryName] = useState([]);
@@ -36,7 +35,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
-  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [SearchResults, setSearchResults] = useState([]);
 
   const handleLogout = async () => {
