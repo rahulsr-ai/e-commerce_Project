@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function middleware(req) {
   const { cookies } = req;
-  const token = cookies.get("authToken");
-  const googletoken = cookies.get("authjs.session-token");
+  const token = cookies.get("__Host-authjs.csrf-token");
+  const googletoken = cookies.get("__Secure-authjs.session-token");
   const { pathname } = req.nextUrl; // Get current page path
 
  
