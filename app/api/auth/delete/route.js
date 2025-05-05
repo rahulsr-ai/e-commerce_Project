@@ -50,7 +50,7 @@ export const POST = async (req) => {
         path: "/",
         expires: new Date(0), // Expire immediately
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production", // 
       });
     });
 

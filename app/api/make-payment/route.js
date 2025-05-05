@@ -63,8 +63,8 @@ export async function POST(req) {
       line_items: lineitems,
       mode: "payment",
       success_url:
-        "http://localhost:3000/payment/success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "http://localhost:3000/payement/cancel",
+        "https://quickcart-lake.vercel.app/payment/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://quickcart-lake.vercel.app/payement/cancel",
 
       // ✅ Full Address Enable (Not Just Country)
       shipping_address_collection: {
