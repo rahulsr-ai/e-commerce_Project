@@ -6,10 +6,10 @@ export async function POST(request) {
     const cookieStore = cookies();
 
     // Delete all relevant cookies
-    const cookieNames = [
-      "authjs.session-token",
-      "authjs.callback-url",
-      "authjs.csrf-token",
+    const cookieNames = [  
+      "__Secure-authjs.session-token",
+      "__Secure-authjs.callback-url",
+      "__Host-authjs.csrf-token",
       "authToken", // Local auth token
      
     ];
