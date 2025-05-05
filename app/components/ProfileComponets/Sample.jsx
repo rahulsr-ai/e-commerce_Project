@@ -23,7 +23,7 @@ const SamplePage = ({
     }, 0);
   };
 
-  if (cartProducts.length === 0) {
+  if (cartProducts?.length === 0) {
     return (
       <div className="space-y-6 bg-[var(--background-color)] text-[var(--primary-text-color)] min-h-screen p-6">
         <h2 className="text-xl font-semibold mb-4 text-violet-500">
@@ -46,7 +46,7 @@ const SamplePage = ({
 
       if (data?.success) {
         toast.success("Product removed from cart");
-        setCartProducts(cartProducts.filter((product) => product._id !== id));
+        setCartProducts(cartProducts?.filter((product) => product._id !== id));
       }
     } catch (error) {
       console.log("frontend error while fetching wishlist", error);
@@ -84,20 +84,20 @@ const SamplePage = ({
         </h3>
         <div className="space-y-4">
           <div className="max-h-[calc(100vh-300px)] overflow-y-auto scrollbar-thin scrollbar-thumb-violet-600 scrollbar-track-gray-800">
-            {cartProducts.map((product, i) => (
+            {cartProducts?.map((product, i) => (
               <div
                 key={i}
                 className="flex justify-between py-2 border-b border-gray-700"
               >
                 <div className="flex flex-col">
-                  <span className="font-medium text-[var(--primary-text-color)]">{product.name}</span>
+                  <span className="font-medium text-[var(--primary-text-color)]">{product?.name}</span>
                   <span className="text-sm text-gray-200-400">
-                    Qty: {product.quantity}
+                    Qty: {product?.quantity}
                   </span>
                 </div>
                 <span className="font-medium ">
                   <IndianRupee className=" text-sm inline" />
-                  {product.priceAtTimeOfAdding * product.quantity}
+                  {product?.priceAtTimeOfAdding * product?.quantity}
                 </span>
               </div>
             ))}
@@ -137,7 +137,7 @@ const SamplePage = ({
           Cart Products
         </h2>
         <div className="space-y-6">
-          {cartProducts.map((product, i) => (
+          {cartProducts?.map((product, i) => (
             <div
               key={i}
               className="bg-[var(--background-color)] rounded-xl shadow-lg overflow-hidden hover:shadow-violet-600/10 transition-all"
@@ -145,13 +145,13 @@ const SamplePage = ({
               <div className="flex flex-col md:flex-row">
                 <div className="relative h-64 sm:h-72 md:h-auto md:w-1/2">
                   <Image
-                    src={product.images[0]}
-                    alt={product.name}
+                    src={product?.images[0]}
+                    alt={product?.name}
                     fill
                     className="object-cover"
                   />
                   <button
-                    onClick={() => removeCartProduct(product._id)}
+                    onClick={() => removeCartProduct(product?._id)}
                     className="absolute top-4 right-4 p-2 bg-[var(--background-color)]/50 rounded-full hover:bg-red-500/50 transition-all"
                   >
                     <Trash2 className="w-5 h-5 text-[var(--primary-text-color)]" />
@@ -160,32 +160,32 @@ const SamplePage = ({
 
                 <div className="p-4 sm:p-6 md:w-1/2">
                   <h3 className="text-lg sm:text-xl font-semibold text-violet-500">
-                    {product.name}
+                    {product?.name}
                   </h3>
 
                   <p className="text-gray-200-400 mt-2 line-clamp-2">
-                    {product.description}
+                    {product?.description}
                   </p>
 
                   <div className="mt-4 space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-200-400">Quantity:</span>
                       <span className="font-medium text-[var(--primary-text-color)]">
-                        {product.quantity}
+                        {product?.quantity}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-200-400">Unit Price:</span>
                       <span className="font-medium text-[var(--primary-text-color)]">
                         <IndianRupee className="inline size-6 " />
-                        {product.price}
+                        {product?.price}
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-lg font-semibold">
                       <span className="text-gray-200-400">Subtotal:</span>
                       <span className="">
                         <IndianRupee className="inline size-6 " />
-                        {product.priceAtTimeOfAdding * product.quantity}
+                        {product?.priceAtTimeOfAdding * product?.quantity}
                       </span>
                     </div>
                   </div>
