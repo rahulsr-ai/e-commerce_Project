@@ -125,7 +125,7 @@ const AdminDashboard = ({ user }) => {
 
   return (
     <div
-      className={`min-h-screen bg-zinc-900 text-white ${
+      className={`min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)] ${
         isSidebarOpen ? "w-full" : "ml-20"
       }`}
     >
@@ -133,7 +133,7 @@ const AdminDashboard = ({ user }) => {
         {/* Page Title */}
         <div className="mb-6">
           <h2 className="text-2xl font-bold">User Management</h2>
-          <p className="text-zinc-400">Manage user accounts and permissions</p>
+          <p className="text-gray-200-400">Manage user accounts and permissions</p>
         </div>
 
         {/* Filters and Search */}
@@ -143,8 +143,8 @@ const AdminDashboard = ({ user }) => {
              aria-label="Filter by all users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "All"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => setSelectedFilter("All")}
             >
@@ -155,8 +155,8 @@ const AdminDashboard = ({ user }) => {
              aria-label="Filter by active users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Active"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => setSelectedFilter("Active")}
             >
@@ -167,8 +167,8 @@ const AdminDashboard = ({ user }) => {
              aria-label="Filter by blocked users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Blocked"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => setSelectedFilter("Blocked")}
             >
@@ -179,12 +179,12 @@ const AdminDashboard = ({ user }) => {
 
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-zinc-400" />
+              <Search className="h-4 w-4 text-gray-200-400" />
             </div>
             <input
               type="text"
               placeholder="Search users..."
-              className="bg-zinc-800 border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="bg-[var(--background-color)] border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -192,44 +192,44 @@ const AdminDashboard = ({ user }) => {
         </div>
 
         {/* Users Table */}
-        <div className="bg-zinc-800 rounded-lg border border-zinc-700 overflow-hidden">
+        <div className="bg-[var(--background-color)]-800 rounded-lg border border-zinc-700 overflow-hidden">
           <div className="overflow-x-auto scrollbar-hide">
             <table className="min-w-full divide-y divide-zinc-700">
-              <thead className="bg-zinc-800">
+              <thead className="bg-[var(--background-color)]-800">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     User
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     Signup
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     Role
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     Last Login
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -238,7 +238,7 @@ const AdminDashboard = ({ user }) => {
               <tbody className="divide-y divide-zinc-700">
                 {users.length > 0 ? (
                   users.map((user) => (
-                    <tr key={user._id} className="hover:bg-zinc-750">
+                    <tr key={user._id} className="hover:bg-[var(--background-color)]-750">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -252,7 +252,7 @@ const AdminDashboard = ({ user }) => {
                             <div className="text-sm font-medium">
                               {user.name}
                             </div>
-                            <div className="text-sm text-zinc-400">
+                            <div className="text-sm text-gray-200-400">
                               {user.email}
                             </div>
                           </div>
@@ -263,7 +263,7 @@ const AdminDashboard = ({ user }) => {
                           className={`px-2 py-1 text-xs rounded-full ${
                             user.authProvider === "google"
                               ? "bg-green-900 text-violet-200"
-                              : "bg-violet-700 text-zinc-200"
+                              : "bg-violet-700 text-gray-200"
                           }`}
                         >
                           {user.authProvider.charAt(0).toUpperCase() +
@@ -277,7 +277,7 @@ const AdminDashboard = ({ user }) => {
                               ? "bg-violet-900 text-violet-200"
                               : user.role === "user"
                               ? "bg-blue-900 text-blue-200"
-                              : "bg-zinc-700 text-zinc-200"
+                              : "bg-[var(--background-color)]-700 text-gray-200"
                           }`}
                         >
                           {user.role.charAt(0).toUpperCase() +
@@ -297,7 +297,7 @@ const AdminDashboard = ({ user }) => {
                           {user.status || "Active"}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-200-400">
                         {new Date(user.createdAt).toLocaleString("en-US", {
                           day: "2-digit",
                           month: "short",
@@ -311,7 +311,7 @@ const AdminDashboard = ({ user }) => {
                         <div className="relative">
                           <button
                            aria-label="Open user actions menu"
-                            className="text-zinc-400 hover:text-white p-1 rounded-full hover:bg-zinc-700"
+                            className="text-gray-200-400 hover:text-[var(--primary-text-color)] p-1 rounded-full hover:bg-[var(--background-color)]-700"
                             onClick={() =>
                               setActionMenuOpen(
                                 actionMenuOpen === user._id ? null : user._id
@@ -322,11 +322,11 @@ const AdminDashboard = ({ user }) => {
                           </button>
 
                           {actionMenuOpen === user._id && (
-                            <div className="absolute right-7 top-0 mt-2 w-48 bg-zinc-800 border border-zinc-700 rounded-md shadow-lg z-10">
+                            <div className="absolute right-7 top-0 mt-2 w-48 bg-[var(--background-color)]-800 border border-zinc-700 rounded-md shadow-lg z-10">
                               {user.status === "Blocked" ? (
                                 <button
                                  aria-label="Unblock user"
-                                  className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-700 flex items-center space-x-2"
+                                  className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--background-color)]-700 flex items-center space-x-2"
                                   onClick={() =>
                                     handleUserAction(user._id, "unblock")
                                   }
@@ -337,7 +337,7 @@ const AdminDashboard = ({ user }) => {
                               ) : (
                                 <button
                                  aria-label="Block user"
-                                  className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-700 flex items-center space-x-2"
+                                  className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--background-color)]-700 flex items-center space-x-2"
                                   onClick={() =>
                                     handleUserAction(user._id, "block")
                                   }
@@ -348,7 +348,7 @@ const AdminDashboard = ({ user }) => {
                               )}
                               <button
                                aria-label="Delete user"
-                                className="w-full text-left px-4 py-2 text-sm hover:bg-zinc-700 flex items-center space-x-2"
+                                className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--background-color)]-700 flex items-center space-x-2"
                                 onClick={() =>
                                   handleUserAction(user._id, "delete")
                                 }
@@ -366,7 +366,7 @@ const AdminDashboard = ({ user }) => {
                   <tr>
                     <td
                       colSpan={6}
-                      className="px-6 py-4 text-center text-zinc-400"
+                      className="px-6 py-4 text-center text-gray-200-400"
                     >
                       No users found matching your criteria
                     </td>
@@ -379,7 +379,7 @@ const AdminDashboard = ({ user }) => {
 
         {/* Pagination */}
         <div className="mt-4 flex items-center justify-between">
-          <div className="text-sm text-zinc-400">
+          <div className="text-sm text-gray-200-400">
             Showing <span className="font-medium">{users.length}</span> of{" "}
             <span className="font-medium">{user.length}</span> users
           </div>
@@ -387,12 +387,12 @@ const AdminDashboard = ({ user }) => {
           <div className="flex space-x-2">
             <button 
              aria-label="Previous page"
-            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Previous
             </button>
             <button 
             aria-label="Next page"
-            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Next
             </button>
           </div>
@@ -401,16 +401,16 @@ const AdminDashboard = ({ user }) => {
 
       {/* Confirmation Modal */}
       {confirmationModal.isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-zinc-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[var(--background-color)]-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md">
             <h3 className="text-lg font-medium mb-2">
               {confirmationModal.title}
             </h3>
-            <p className="text-zinc-400 mb-4">{confirmationModal.message}</p>
+            <p className="text-gray-200-400 mb-4">{confirmationModal.message}</p>
             <div className="flex justify-end space-x-3">
               <button
                aria-label="Cancel confirmation"
-                className="px-4 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
+                className="px-4 py-2 rounded-md bg-[var(--background-color)]-700 hover:bg-[var(--background-color)]-600"
                 onClick={() =>
                   setConfirmationModal({ ...confirmationModal, isOpen: false })
                 }

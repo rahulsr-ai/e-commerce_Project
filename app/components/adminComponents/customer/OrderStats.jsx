@@ -16,25 +16,25 @@ const OrderStats = ({ orderData }) => {
       {
         label: "Pending Orders",
         count: stats["Pending"] || 0,
-        icon: Package,
+        icon: <Package className="w-6 h-6 text-[var(--primary-text-color)]" />,
         color: "bg-amber-500",
       },
       {
         label: "Dispatched",
         count: stats["Dispatched"] || 0,
-        icon: Truck,
+        icon: <Truck className="w-6 h-6 text-[var(--primary-text-color)]" />,
         color: "bg-blue-500",
       },
       {
         label: "Delivered",
         count: stats["Delivered"] || 0,
-        icon: CheckCircle,
+        icon: <CheckCircle className="w-6 h-6 text-[var(--primary-text-color)]" />,
         color: "bg-green-500",
       },
       {
         label: "Cancelled",
         count: stats["Cancelled"] || 0,
-        icon: XCircle,
+        icon: <XCircle className="w-6 h-6 text-[var(--primary-text-color)]" />,
         color: "bg-red-500",
       },
     ];
@@ -49,19 +49,19 @@ const OrderStats = ({ orderData }) => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3, delay: index * 0.1 }}
           whileHover={{ scale: 1.05 }}
-          className="bg-zinc-900 rounded-lg shadow-lg p-5 border border-zinc-800"
+          className="bg-[var(--background-color)]-900 rounded-lg shadow-lg p-5 border border-zinc-800"
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm md:text-base text-zinc-400">
+              <p className="text-sm md:text-base text-gray-200-400">
                 {stat.label}
               </p>
-              <p className="text-2xl md:text-3xl font-bold text-white mt-2">
+              <p className="text-2xl md:text-3xl font-bold text-[var(--primary-text-color)] mt-2">
                 {stat.count}
               </p>
             </div>
             <div className={`${stat.color} p-3 rounded-full`}>
-              <stat.icon className="w-6 h-6 text-white" />
+              {stat.icon}
             </div>
           </div>
         </motion.div>

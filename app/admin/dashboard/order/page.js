@@ -4,10 +4,6 @@ import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { getAllOrdersData } from "@/lib/apiCalls";
 
-const OrderPage = dynamic(
-  () => import("@/app/components/adminComponents/customer/Customer.jsx"),
-  { ssr: false }
-);
 
 const CustomerNew = dynamic(() => import("@/app/components/adminComponents/customer/CustomerNew.jsx"), { ssr: false })
 
@@ -32,11 +28,7 @@ const page = () => {
        UserOrderData={UserOrderData}
        setUserOrderData={setUserOrderData}
        FixrealData={FixrealData} />
-      {/* <OrderPage
-        UserOrderData={UserOrderData}
-        setUserOrderData={setUserOrderData}
-        FixrealData={FixrealData}
-      /> */}
+    
     </div>
   );
 };

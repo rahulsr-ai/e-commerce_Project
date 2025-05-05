@@ -30,17 +30,17 @@ export const OrderDetailsModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-[var(--background-color)] bg-opacity-80 flex items-center justify-center p-4"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-zinc-900 scrollbar-hide rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-zinc-700 shadow-xl"
+            className="bg-[var(--background-color)]-900 scrollbar-hide rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-zinc-700 shadow-xl"
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-white">
+                <h3 className="text-xl font-bold text-[var(--primary-text-color)]">
                   Order Details
                 </h3>
                 <motion.button
@@ -48,7 +48,7 @@ export const OrderDetailsModal = ({
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={onClose}
-                  className="text-zinc-400 hover:text-white transition-colors"
+                  className="text-gray-200-400 hover:text-[var(--primary-text-color)] transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </motion.button>
@@ -56,20 +56,20 @@ export const OrderDetailsModal = ({
 
               {/* Order Information */}
               <div className="space-y-8">
-                <div className="bg-zinc-800 p-5 rounded-lg">
-                  <h4 className="text-lg font-semibold text-white mb-4 border-b border-zinc-700 pb-2">
+                <div className="bg-[var(--background-color)]-800 p-5 rounded-lg">
+                  <h4 className="text-lg font-semibold text-[var(--primary-text-color)] mb-4 border-b border-zinc-700 pb-2">
                     Order Information
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <p className="text-zinc-400 text-sm">Order ID</p>
-                      <p className="text-white font-medium">
+                      <p className="text-gray-200-400 text-sm">Order ID</p>
+                      <p className="text-[var(--primary-text-color)] font-medium">
                         # {order.orderId.slice(0, 5)}
                       </p>
                     </div>
                     <div>
-                      <p className="text-zinc-400 text-sm">Date</p>
-                      <p className="text-white font-medium">
+                      <p className="text-gray-200-400 text-sm">Date</p>
+                      <p className="text-[var(--primary-text-color)] font-medium">
                         {new Date(order.createdAt).toLocaleString("en-US", {
                           day: "2-digit",
                           month: "short",
@@ -81,18 +81,18 @@ export const OrderDetailsModal = ({
                       </p>
                     </div>
                     <div>
-                      <p className="text-zinc-400 text-sm">Status</p>
+                      <p className="text-gray-200-400 text-sm">Status</p>
                       <span
                         className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
                           order.status
-                        )} text-white mt-1`}
+                        )} text-[var(--primary-text-color)] mt-1`}
                       >
                         {order.status}
                       </span>
                     </div>
                     <div>
-                      <p className="text-zinc-400 text-sm">Total</p>
-                      <p className="text-white font-medium">
+                      <p className="text-gray-200-400 text-sm">Total</p>
+                      <p className="text-[var(--primary-text-color)] font-medium">
                         <IndianRupee className="inline size-4" />{" "}
                         {order.totalAmount}
                       </p>
@@ -101,15 +101,15 @@ export const OrderDetailsModal = ({
                 </div>
 
                 {/* Customer Information */}
-                <div className="bg-zinc-800 p-5 rounded-lg">
-                  <h4 className="text-lg font-semibold text-white mb-4 border-b border-zinc-700 pb-2">
+                <div className="bg-[var(--background-color)]-800 p-5 rounded-lg">
+                  <h4 className="text-lg font-semibold text-[var(--primary-text-color)] mb-4 border-b border-zinc-700 pb-2">
                     Customer Information
                   </h4>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-zinc-400 text-sm">Name</p>
-                        <p className="text-white font-medium">
+                        <p className="text-gray-200-400 text-sm">Name</p>
+                        <p className="text-[var(--primary-text-color)] font-medium">
                           {order.userDetails.name}
                         </p>
                       </div>
@@ -127,20 +127,20 @@ export const OrderDetailsModal = ({
                           className="p-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
                           title="Send Email"
                         >
-                          <Mail className="w-5 h-5 text-white" />
+                          <Mail className="w-5 h-5 text-[var(--primary-text-color)]" />
                         </motion.button>
                       </div>
                     </div>
                     <div>
-                      <p className="text-zinc-400 text-sm">Email</p>
-                      <p className="text-white font-medium">
+                      <p className="text-gray-200-400 text-sm">Email</p>
+                      <p className="text-[var(--primary-text-color)] font-medium">
                         {order.userDetails.email}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-zinc-400 text-sm">Address</p>
-                      <p className="text-white font-medium">
+                      <p className="text-gray-200-400 text-sm">Address</p>
+                      <p className="text-[var(--primary-text-color)] font-medium">
                         {order.shippingAddress.country},{" "}
                         {order.shippingAddress.city},{" "}
                         {order.shippingAddress.state},{" "}
@@ -152,24 +152,24 @@ export const OrderDetailsModal = ({
                 </div>
 
                 {/* Order Items */}
-                <div className="bg-zinc-800 p-5 rounded-lg">
-                  <h4 className="text-lg font-semibold text-white mb-4 border-b border-zinc-700 pb-2">
+                <div className="bg-[var(--background-color)]-800 p-5 rounded-lg">
+                  <h4 className="text-lg font-semibold text-[var(--primary-text-color)] mb-4 border-b border-zinc-700 pb-2">
                     Order Items
                   </h4>
                   <div className="rounded-lg overflow-hidden">
                     <table className="w-full">
                       <thead>
-                        <tr className="bg-zinc-700">
-                          <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                        <tr className="bg-[var(--background-color)]-700">
+                          <th className="px-4 py-3 text-left text-xs font-medium text-[var(--primary-text-color)] uppercase tracking-wider">
                             Item
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-medium text-[var(--primary-text-color)] uppercase tracking-wider">
                             Quantity
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-medium text-[var(--primary-text-color)] uppercase tracking-wider">
                             Price
                           </th>
-                          <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                          <th className="px-4 py-3 text-left text-xs font-medium text-[var(--primary-text-color)] uppercase tracking-wider">
                             Total
                           </th>
                         </tr>
@@ -181,17 +181,17 @@ export const OrderDetailsModal = ({
                               key={index}
                               className="border-t border-zinc-700"
                             >
-                              <td className="px-4 py-3 text-sm text-white">
+                              <td className="px-4 py-3 text-sm text-[var(--primary-text-color)]">
                                 {item.name}
                               </td>
-                              <td className="px-4 py-3 text-sm text-white">
+                              <td className="px-4 py-3 text-sm text-[var(--primary-text-color)]">
                                 {item.quantity}
                               </td>
-                              <td className="px-4 py-3 text-sm text-white">
+                              <td className="px-4 py-3 text-sm text-[var(--primary-text-color)]">
                                 <IndianRupee className="inline size-4 mr-1" />
                                 {item.price.toFixed(2)}
                               </td>
-                              <td className="px-4 py-3 text-sm text-white font-medium">
+                              <td className="px-4 py-3 text-sm text-[var(--primary-text-color)] font-medium">
                                 <IndianRupee className="inline size-4 mr-1" />
                                 {(item.quantity * item.price).toFixed(2)}
                               </td>
@@ -228,44 +228,44 @@ export const EditStatusModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-[var(--background-color)] bg-opacity-80 flex items-center justify-center p-4"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-zinc-900 rounded-lg p-6 max-w-md w-full border border-zinc-700 shadow-xl"
+            className="bg-[var(--background-color)]-900 rounded-lg p-6 max-w-md w-full border border-zinc-700 shadow-xl"
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-white">
+              <h3 className="text-xl font-bold text-[var(--primary-text-color)]">
                 Update Order Status
               </h3>
               <motion.button
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="text-zinc-400 hover:text-white transition-colors"
+                className="text-gray-200-400 hover:text-[var(--primary-text-color)] transition-colors"
               >
                 <X className="w-6 h-6" />
               </motion.button>
             </div>
 
             <div className="space-y-6">
-              <div className="bg-zinc-800 p-4 rounded-lg">
-                <p className="text-zinc-400 mb-2">Current Status</p>
+              <div className="bg-[var(--background-color)]-800 p-4 rounded-lg">
+                <p className="text-gray-200-400 mb-2">Current Status</p>
                 <span
                   className={`px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full ${getStatusColor(
                     order.status
-                  )} text-white`}
+                  )} text-[var(--primary-text-color)]`}
                 >
                   {order.status}
                 </span>
               </div>
 
-              <div className="bg-zinc-800 p-4 rounded-lg">
-                <p className="text-zinc-400 mb-2">New Status</p>
+              <div className="bg-[var(--background-color)]-800 p-4 rounded-lg">
+                <p className="text-gray-200-400 mb-2">New Status</p>
                 <select
-                  className="w-full px-4 py-3 bg-zinc-900 text-white rounded-lg border border-zinc-700 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all"
+                  className="w-full px-4 py-3 bg-[var(--background-color)] text-[var(--primary-text-color)] rounded-lg border border-zinc-700 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-all"
                   defaultValue={order.status}
                   onChange={(e) => setNewStatus(e.target.value)}
                 >
@@ -281,7 +281,7 @@ export const EditStatusModal = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onClose}
-                  className="px-4 py-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors border border-zinc-700"
+                  className="px-4 py-2 bg-[var(--background-color)]-800 text-[var(--primary-text-color)] rounded-lg hover:bg-[var(--background-color)]-700 transition-colors border border-zinc-700"
                 >
                   Cancel
                 </motion.button>
@@ -289,7 +289,7 @@ export const EditStatusModal = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => handleStatusUpdate(order.orderId)}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                  className="px-4 py-2 bg-purple-600 text-[var(--primary-text-color)] rounded-lg hover:bg-purple-700 transition-colors"
                 >
                   Update Status
                 </motion.button>

@@ -7,7 +7,7 @@ const ErrorState = ({ message }) => {
   return (
     <div className="flex flex-col items-center justify-center p-8 space-y-4 text-center">
       <AlertCircle className="w-12 h-12 text-red-500" />
-      <h3 className="text-xl font-semibold text-white">{message}</h3>
+      <h3 className="text-xl font-semibold text-[var(--primary-text-color)]">{message}</h3>
     </div>
   );
 };

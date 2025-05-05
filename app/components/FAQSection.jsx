@@ -33,10 +33,10 @@ const FAQSection = () => {
   return (
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-        <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
+        <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-[var(--primary-text-color)]">
           Your questions, answered
         </h2>
-        <p className="mt-1 text-gray-600 dark:text-neutral-400">
+        <p className="mt-1 text-gray-200-600 dark:text-neutral-400">
           Answers to the most frequently asked questions.
         </p>
       </div>
@@ -44,13 +44,13 @@ const FAQSection = () => {
         {faqs.map((faq, index) => (
           <div key={index} className={`rounded-xl p-6 ${activeIndex === index ? 'bg-gray-100 dark:bg-white/10' : ''}`}>
             <button
-              className="group pb-3 inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-gray-800 rounded-lg transition hover:text-gray-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
+              className="group pb-3 inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-gray-200-800 rounded-lg transition hover:text-gray-200-500 focus:outline-none dark:text-neutral-200 dark:hover:text-neutral-400"
               aria-expanded={activeIndex === index}
               onClick={() => toggleAccordion(index)}
             >
               {faq.question}
               <svg
-                className={`shrink-0 size-5 text-gray-600 transition-transform ${activeIndex === index ? 'rotate-180' : ''}`}
+                className={`shrink-0 size-5 text-gray-200-600 transition-transform ${activeIndex === index ? 'rotate-180' : ''}`}
                 xmlns="http://www.w3.org/2000/svg"
                 width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -59,7 +59,7 @@ const FAQSection = () => {
               </svg>
             </button>
             {activeIndex === index && (
-              <div className="text-gray-800 dark:text-neutral-200">
+              <div className="text-gray-200-800 dark:text-neutral-200">
                 <p>{faq.answer}</p>
               </div>
             )}

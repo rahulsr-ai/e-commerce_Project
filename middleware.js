@@ -31,8 +31,8 @@ export async function middleware(req) {
   return NextResponse.next();
 }
 
+
 // Apply middleware only to specific routes
 export const config = {
-  
   matcher: ["/admin/:path*", "/Account/:path*", "/sign-in", "/sign-up", "/" ],
 };

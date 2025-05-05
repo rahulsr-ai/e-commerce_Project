@@ -165,7 +165,7 @@ const InventoryManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-900 text-white">
+    <div className="min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)]">
       <main className={`p-4 md:p-6 ${isSidebarOpen ? "w-full" : "ml-20"}`}>
         {/* Page Title */}
         <div className="mb-6">
@@ -173,7 +173,7 @@ const InventoryManagement = () => {
             <Package className="mr-2 h-6 w-6 text-violet-500" />
             Inventory Management
           </h2>
-          <p className="text-zinc-400">Manage product stock and inventory</p>
+          <p className="text-gray-200-400">Manage product stock and inventory</p>
         </div>
 
         {/* Filters and Search */}
@@ -182,8 +182,8 @@ const InventoryManagement = () => {
             <button
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "All"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => {
                 setSelectedFilter("All");
@@ -195,8 +195,8 @@ const InventoryManagement = () => {
             <button
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Low Stock"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => {
                 setSelectedFilter("Low Stock");
@@ -208,8 +208,8 @@ const InventoryManagement = () => {
             <button
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Medium Stock"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => {
                 setSelectedFilter("Medium Stock");
@@ -221,8 +221,8 @@ const InventoryManagement = () => {
             <button
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "High Stock"
-                  ? "bg-violet-500 text-white"
-                  : "bg-zinc-800 hover:bg-zinc-700"
+                  ? "bg-violet-500 text-[var(--primary-text-color)]"
+                  : "bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700"
               }`}
               onClick={() => setSelectedFilter("High Stock")}
             >
@@ -233,12 +233,12 @@ const InventoryManagement = () => {
 
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-zinc-400" />
+              <Search className="h-4 w-4 text-gray-200-400" />
             </div>
             <input
               type="text"
               placeholder="Search products..."
-              className="bg-zinc-800 border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="bg-[var(--background-color)] border border-zinc-700 rounded-md py-2 pl-10 pr-4 w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -246,14 +246,14 @@ const InventoryManagement = () => {
         </div>
 
         {/* Products Table */}
-        <div className="bg-zinc-800 rounded-lg border-4  border-zinc-700   ">
+        <div className="bg-[var(--background-color)]-800 rounded-lg border-4  border-zinc-700   ">
           <div className="overflow-x-auto overflow-y-scroll scrollbar-hide  max-h-[400px]">
             <table className="min-w-full divide-y divide-zinc-700">
-              <thead className="bg-zinc-800">
+              <thead className="bg-[var(--background-color)]-800">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider cursor-pointer"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider cursor-pointer"
                     onClick={() => requestSort("name")}
                   >
                     <div className="flex items-center">
@@ -265,7 +265,7 @@ const InventoryManagement = () => {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider cursor-pointer"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider cursor-pointer"
                     onClick={() => requestSort("category")}
                   >
                     <div className="flex items-center">
@@ -277,7 +277,7 @@ const InventoryManagement = () => {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider cursor-pointer"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider cursor-pointer"
                     onClick={() => requestSort("quantity")}
                   >
                     <div className="flex items-center">
@@ -289,7 +289,7 @@ const InventoryManagement = () => {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider cursor-pointer"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200-400 uppercase tracking-wider cursor-pointer"
                     onClick={() => requestSort("price")}
                   >
                     <div className="flex items-center">
@@ -301,7 +301,7 @@ const InventoryManagement = () => {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-right text-xs font-medium text-zinc-400 uppercase tracking-wider"
+                    className="px-6 py-3 text-right text-xs font-medium text-gray-200-400 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -316,24 +316,24 @@ const InventoryManagement = () => {
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="h-10 w-10 bg-zinc-700 rounded animate-pulse"></div>
+                            <div className="h-10 w-10 bg-[var(--background-color)]-700 rounded animate-pulse"></div>
                             <div className="ml-4">
-                              <div className="h-4 w-32 bg-zinc-700 rounded animate-pulse"></div>
-                              <div className="h-3 w-24 bg-zinc-700 rounded animate-pulse mt-2"></div>
+                              <div className="h-4 w-32 bg-[var(--background-color)]-700 rounded animate-pulse"></div>
+                              <div className="h-3 w-24 bg-[var(--background-color)]-700 rounded animate-pulse mt-2"></div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-4 w-20 bg-zinc-700 rounded animate-pulse"></div>
+                          <div className="h-4 w-20 bg-[var(--background-color)]-700 rounded animate-pulse"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-6 w-16 bg-zinc-700 rounded animate-pulse"></div>
+                          <div className="h-6 w-16 bg-[var(--background-color)]-700 rounded animate-pulse"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-4 w-16 bg-zinc-700 rounded animate-pulse"></div>
+                          <div className="h-4 w-16 bg-[var(--background-color)]-700 rounded animate-pulse"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <div className="h-8 w-8 bg-zinc-700 rounded-full animate-pulse ml-auto"></div>
+                          <div className="h-8 w-8 bg-[var(--background-color)]-700 rounded-full animate-pulse ml-auto"></div>
                         </td>
                       </tr>
                     ))
@@ -341,7 +341,7 @@ const InventoryManagement = () => {
                   sortedProducts.map((product) => (
                     <motion.tr
                       key={product._id}
-                      className="hover:bg-zinc-750"
+                      className="hover:bg-[var(--background-color)]-750"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
@@ -361,14 +361,14 @@ const InventoryManagement = () => {
                             <div className="text-sm font-medium">
                               {product.name}
                             </div>
-                            <div className="text-sm text-zinc-400">
+                            <div className="text-sm text-gray-200-400">
                               ID: {product._id}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs rounded-full bg-zinc-700 text-zinc-200">
+                        <span className="px-2 py-1 text-xs rounded-full bg-[var(--background-color)]-700 text-gray-200">
                           {setCategoryName(product.category)}
                         </span>
                       </td>
@@ -387,7 +387,7 @@ const InventoryManagement = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button
                           aria-label="Update stock quantity"
-                          className="text-violet-400 hover:text-violet-300 p-1 rounded-full hover:bg-zinc-700"
+                          className="text-violet-400 hover:text-violet-300 p-1 rounded-full hover:bg-[var(--background-color)]-700"
                           onClick={() => {
                             setUpdateModal({ isOpen: true, product });
                             setNewQuantity(product.stock.toString());
@@ -402,7 +402,7 @@ const InventoryManagement = () => {
                   <tr>
                     <td
                       colSpan={5}
-                      className="px-6 py-4 text-center text-zinc-400"
+                      className="px-6 py-4 text-center text-gray-200-400"
                     >
                       No products found matching your criteria
                     </td>
@@ -415,7 +415,7 @@ const InventoryManagement = () => {
 
         {/* Pagination */}
         <div className="mt-4 flex items-center justify-between">
-          <div className="text-sm text-zinc-400">
+          <div className="text-sm text-gray-200-400">
             Showing <span className="font-medium">{sortedProducts.length}</span>{" "}
             of <span className="font-medium">{products.length}</span> products
           </div>
@@ -423,12 +423,12 @@ const InventoryManagement = () => {
           <div className="flex space-x-2">
             <button 
              aria-label="Previous page"
-            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Previous
             </button>
             <button 
             aria-label="Next page"
-            className="px-3 py-1 rounded-md bg-zinc-800 hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed">
               Next
             </button>
           </div>
@@ -439,13 +439,13 @@ const InventoryManagement = () => {
       <AnimatePresence>
         {updateModal.isOpen && updateModal.product && (
           <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-zinc-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
+              className="bg-[var(--background-color)]-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -455,7 +455,7 @@ const InventoryManagement = () => {
                 <h3 className="text-lg font-medium">Update Stock Quantity</h3>
                 <button
                  aria-label="Close update modal"
-                  className="text-zinc-400 hover:text-white p-1 rounded-full hover:bg-zinc-700"
+                  className="text-gray-200-400 hover:text-[var(--primary-text-color)] p-1 rounded-full hover:bg-[var(--background-color)]-700"
                   onClick={() =>
                     setUpdateModal({ isOpen: false, product: null })
                   }
@@ -474,7 +474,7 @@ const InventoryManagement = () => {
                 />
                 <div>
                   <h4 className="font-medium">{updateModal.product.name}</h4>
-                  <p className="text-sm text-zinc-400">
+                  <p className="text-sm text-gray-200-400">
                     Current stock: {updateModal.product.stock}
                   </p>
                 </div>
@@ -483,7 +483,7 @@ const InventoryManagement = () => {
               <div className="mb-4">
                 <label
                   htmlFor="quantity"
-                  className="block text-sm font-medium text-zinc-300 mb-1"
+                  className="block text-sm font-medium text-gray-200-300 mb-1"
                 >
                   New Quantity
                 </label>
@@ -491,7 +491,7 @@ const InventoryManagement = () => {
                   type="number"
                   id="quantity"
                   min="0"
-                  className="bg-zinc-700 border border-zinc-600 rounded-md py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  className="bg-[var(--background-color)] border border-zinc-600 rounded-md py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   value={newQuantity}
                   onChange={(e) => setNewQuantity(e.target.value)}
                 />
@@ -500,7 +500,7 @@ const InventoryManagement = () => {
               <div className="flex justify-end space-x-3">
                 <button
                  aria-label="Cancel update"
-                  className="px-4 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
+                  className="px-4 py-2 rounded-md bg-[var(--background-color)]-700 hover:bg-[var(--background-color)]-600"
                   onClick={() =>
                     setUpdateModal({ isOpen: false, product: null })
                   }

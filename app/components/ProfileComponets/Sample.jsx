@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IndianRupee, RefreshCw, ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
@@ -25,13 +25,13 @@ const SamplePage = ({
 
   if (cartProducts.length === 0) {
     return (
-      <div className="space-y-6 bg-black text-white min-h-screen p-6">
+      <div className="space-y-6 bg-[var(--background-color)] text-[var(--primary-text-color)] min-h-screen p-6">
         <h2 className="text-xl font-semibold mb-4 text-violet-500">
           Cart Products
         </h2>
         <div className="flex flex-col items-center justify-center py-12">
           <ShoppingCart className="w-12 h-12 text-violet-400 mb-4" />
-          <p className="text-gray-400">No products in cart</p>
+          <p className="text-gray-200-400">No products in cart</p>
         </div>
       </div>
     );
@@ -76,9 +76,9 @@ const SamplePage = ({
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-black text-white">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[var(--background-color)] text-[var(--primary-text-color)]">
       {/* Cart Summary - Fixed on desktop, top on mobile */}
-      <div className="w-full lg:w-1/3 xl:w-1/4 bg-black p-4 sm:p-6 lg:h-screen lg:sticky lg:top-32">
+      <div className="w-full lg:w-1/3 xl:w-1/4 bg-[var(--background-color)] p-4 sm:p-6 lg:h-screen lg:sticky lg:top-32">
         <h3 className="text-xl sm:text-2xl font-bold mb-6 text-violet-500">
           Cart Summary
         </h3>
@@ -90,8 +90,8 @@ const SamplePage = ({
                 className="flex justify-between py-2 border-b border-gray-700"
               >
                 <div className="flex flex-col">
-                  <span className="font-medium text-white">{product.name}</span>
-                  <span className="text-sm text-gray-400">
+                  <span className="font-medium text-[var(--primary-text-color)]">{product.name}</span>
+                  <span className="text-sm text-gray-200-400">
                     Qty: {product.quantity}
                   </span>
                 </div>
@@ -116,7 +116,7 @@ const SamplePage = ({
               // setOpenAddressModel(true)
               ProceedToCheckout();
             }}
-            className="w-full mt-6 bg-violet-600 text-white px-6 py-3 sm:py-4 rounded-lg hover:bg-violet-700 transition-all 
+            className="w-full mt-6 bg-violet-600 text-[var(--primary-text-color)] px-6 py-3 sm:py-4 rounded-lg hover:bg-violet-700 transition-all 
           font-semibold text-base sm:text-lg shadow-lg shadow-violet-600/20
            hover:shadow-violet-600/40 flex items-center justify-center"
           >
@@ -140,7 +140,7 @@ const SamplePage = ({
           {cartProducts.map((product, i) => (
             <div
               key={i}
-              className="bg-black rounded-xl shadow-lg overflow-hidden hover:shadow-violet-600/10 transition-all"
+              className="bg-[var(--background-color)] rounded-xl shadow-lg overflow-hidden hover:shadow-violet-600/10 transition-all"
             >
               <div className="flex flex-col md:flex-row">
                 <div className="relative h-64 sm:h-72 md:h-auto md:w-1/2">
@@ -152,9 +152,9 @@ const SamplePage = ({
                   />
                   <button
                     onClick={() => removeCartProduct(product._id)}
-                    className="absolute top-4 right-4 p-2 bg-black/50 rounded-full hover:bg-red-500/50 transition-all"
+                    className="absolute top-4 right-4 p-2 bg-[var(--background-color)]/50 rounded-full hover:bg-red-500/50 transition-all"
                   >
-                    <Trash2 className="w-5 h-5 text-white" />
+                    <Trash2 className="w-5 h-5 text-[var(--primary-text-color)]" />
                   </button>
                 </div>
 
@@ -163,26 +163,26 @@ const SamplePage = ({
                     {product.name}
                   </h3>
 
-                  <p className="text-gray-400 mt-2 line-clamp-2">
+                  <p className="text-gray-200-400 mt-2 line-clamp-2">
                     {product.description}
                   </p>
 
                   <div className="mt-4 space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Quantity:</span>
-                      <span className="font-medium text-white">
+                      <span className="text-gray-200-400">Quantity:</span>
+                      <span className="font-medium text-[var(--primary-text-color)]">
                         {product.quantity}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Unit Price:</span>
-                      <span className="font-medium text-white">
+                      <span className="text-gray-200-400">Unit Price:</span>
+                      <span className="font-medium text-[var(--primary-text-color)]">
                         <IndianRupee className="inline size-6 " />
                         {product.price}
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-lg font-semibold">
-                      <span className="text-gray-400">Subtotal:</span>
+                      <span className="text-gray-200-400">Subtotal:</span>
                       <span className="">
                         <IndianRupee className="inline size-6 " />
                         {product.priceAtTimeOfAdding * product.quantity}
@@ -190,7 +190,7 @@ const SamplePage = ({
                     </div>
                   </div>
 
-                  <button className="w-full mt-6 flex items-center justify-center gap-2 bg-violet-600 text-white px-4 py-3 rounded-lg hover:bg-violet-700 transition-all font-semibold shadow-lg shadow-violet-600/20 hover:shadow-violet-600/40">
+                  <button className="w-full mt-6 flex items-center justify-center gap-2 bg-violet-600 text-[var(--primary-text-color)] px-4 py-3 rounded-lg hover:bg-violet-700 transition-all font-semibold shadow-lg shadow-violet-600/20 hover:shadow-violet-600/40">
                     <ShoppingCart className="w-5 h-5" />
                     Buy Now
                   </button>

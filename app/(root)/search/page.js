@@ -1,7 +1,6 @@
 "use client";
 
 import ProductCard from "@/app/components/useComponents/ProductCard";
-import Loader from "@/app/components/useComponents/Loader";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -63,7 +62,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
+    <div className="min-h-screen mt-1 bg-[var(--background-color)]-950 text-[var(--primary-text-color)] overflow-x-hidden">
       <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 pt-12 md:pt-0 overflow-hidden w-full">
         <Image
           width={1920}
@@ -75,7 +74,7 @@ const SearchPage = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 to-transparent" />
         <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col justify-center">
           <h1 className="text-5xl font-bold mb-4">🛍️ Elevate Your Shopping Experience</h1>
-          <p className="text-xl text-zinc-300 max-w-2xl">
+          <p className="text-xl text-gray-200-300 max-w-2xl">
             Discover the latest trends, exclusive deals, and top-quality products—all in one place. Shop with confidence and style, anytime, anywhere! 🚀
           </p>
         </div>
@@ -89,7 +88,7 @@ const SearchPage = () => {
               key={price}
               onClick={() => sortProductsByPrice(price)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
-                sortBy === price ? "bg-violet-600 text-white" : "bg-white text-gray-600 hover:bg-gray-100"
+                sortBy === price ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]" : "bg-white text-gray-600 hover:bg-gray-100"
               }`}
             >
               {price}
@@ -119,7 +118,7 @@ const SearchPage = () => {
           ) : (
             <div className="flex flex-col items-center justify-center h-96">
               <h2 className="text-2xl font-semibold mt-4">No Products Found</h2>
-              <p className="text-zinc-400 mt-2">Search something else to find more products.</p>
+              <p className="text-gray-200-400 mt-2">Search something else to find more products.</p>
             </div>
           )}
 
@@ -127,7 +126,7 @@ const SearchPage = () => {
             <button
              aria-label="Scroll to filter"
               onClick={scrollToFilter}
-              className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+              className="fixed bottom-6 right-6 bg-[var(--primary-color)] hover:bg-[var(--primary-color)] text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
             >
               <ArrowUp className="w-6 h-6" />
             </button>

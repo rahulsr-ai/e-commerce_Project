@@ -31,8 +31,8 @@ const DesktopMenu = ({
         {/* Logo */}
         <div className="flex-shrink-0 flex items-center space-x-2">
           <ShoppingBag className="text-violet-600" size={24} />
-          <span className="text-white font-bold text-xl tracking-tight">
-            StoreX
+          <span className="text-[var(--primary-text-color)] font-bold text-xl tracking-tight">
+            QuickCart
           </span>
         </div>
 
@@ -41,8 +41,8 @@ const DesktopMenu = ({
           <Link
             aria-label="Home"
             href="/"
-            className={` hover:text-white transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
-                 ${pathname === "/" ? "underline" : "text-white/90"} `}
+            className={` hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
+                 ${pathname === "/" ? "underline  " : "text-[var(--primary-text-color)"} `}
           >
             <span className="mr-4">Home</span>
           </Link>
@@ -50,10 +50,10 @@ const DesktopMenu = ({
           <Link
             aria-label="Deals"
             href="/deals"
-            className={`  transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
-              ${pathname === "/deals" ? "underline" : "text-white/90"}  `}
+            className={` transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
+              ${pathname === "/deals" ? "underline  " : "text-[var(--primary-text-color)"}  `}
           >
-            <span className="mr-4">Deals</span>
+            <span className="mr-4 ">Deals</span>
           </Link>
 
           {/* Categories Dropdown */}
@@ -62,11 +62,11 @@ const DesktopMenu = ({
               aria-label="Categories"
               onMouseEnter={() => setCategoryOpen(true)}
               onMouseLeave={() => setCategoryOpen(false)}
-              className={`hover:text-white transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
+              className={`hover:text-[var(---text-color)] transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
                 ${
                   pathname.startsWith("/category")
-                    ? "underline"
-                    : "text-white/90"
+                    ? "underline "
+                    : "text-[var(--primary-text-color)"
                 }  `}
             >
               <span>Categories</span>
@@ -90,7 +90,7 @@ const DesktopMenu = ({
                         setCategoryOpen(false);
                       }}
                       href={`/category/${category?.name}`}
-                      className={`group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-purple-100 transition-colors duration-200
+                      className={`group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[var(--primary-hover)] transition-colors duration-200
                            `}
                     >
                       <span className="text-violet-600 group-hover:text-violet-700 transition-colors duration-200">
@@ -113,11 +113,11 @@ const DesktopMenu = ({
               aria-label="Brands"
               onMouseEnter={() => setBrandsOpen(true)}
               onMouseLeave={() => setBrandsOpen(false)}
-              className={`text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
+              className={`text-[var(--primary-text-color) hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
                 ${
                   pathname.startsWith("/Explore")
-                    ? "underline "
-                    : "text-white/90"
+                    ? "underline  "
+                    : "text-[var(--primary-text-color)"
                 } `}
             >
               <span>Explore</span>
@@ -137,7 +137,7 @@ const DesktopMenu = ({
                     <Link
                       key={brand.name}
                       href={`/Explore/${brand.name}`}
-                      className="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 transition-colors duration-200"
+                      className="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-[var(--primary-hover)] transition-colors duration-200"
                     >
                       <span className="text-violet-600 group-hover:text-violet-700 transition-colors duration-200">
                         {brand.icon}
@@ -165,10 +165,10 @@ const DesktopMenu = ({
                 onKeyDown={sendSearchValue}
                 type="text"
                 placeholder="Search products..."
-                className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-1.5 pr-8 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
+                className="w-full bg-white/10 text-[var(--primary-text-color)] placeholder-white/60 px-4 py-1.5 pr-8 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
               />
               <Search
-                className="absolute right-3 top-1.5 text-white/60 group-hover:text-white/80 transition-colors duration-200"
+                className="absolute right-3 top-1.5 text-[var(--primary-text-color)]/60 group-hover:text-[var(--primary-text-color)]/80 transition-colors duration-200"
                 size={20}
               />
             </div>
@@ -194,12 +194,12 @@ const DesktopMenu = ({
               <Link
                 aria-label="Account"
                 href={"/Account"}
-                className={`text-white  hover:underline underline-offset-4 px-6 py-2 rounded-full  transition-all duration-300 transform hover:scale-105
+                className={`text-[var(--primary-text-color)] hover:underline underline-offset-4 px-6 py-2 rounded-full  transition-all duration-300 transform hover:scale-105
 
                 ${
                   pathname.startsWith("/Account")
-                    ? "underline"
-                    : "text-white/90"
+                    ? "underline "
+                    : "text-[var(--primary-text-color)"
                 }
                 `}
               >
@@ -208,7 +208,7 @@ const DesktopMenu = ({
               <button
                 aria-label="Log out"
                 onClick={handleLogout}
-                className={`bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105
+                className={`bg-[var(--primary-btn)] text-[var(--secondary-text-color)] px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105
                 `}
               >
                 LogOut
@@ -219,7 +219,7 @@ const DesktopMenu = ({
               <Link aria-label="Sign in" href="/sign-in">
                 <button
                   aria-label="Sign in"
-                  className="text-white/90 hover:text-white transition-all duration-200 flex items-center space-x-2 group"
+                  className="text-[var(--primary-text-color) hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-2 group"
                 >
                   <User
                     size={18}
@@ -232,7 +232,7 @@ const DesktopMenu = ({
               <Link aria-label="Sign up" href="/sign-up">
                 <button
                   aria-label="Sign up"
-                  className="bg-white text-indigo-600 px-6 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                  className="bg-[var(--primary-btn)] text-[var(--secondary-text-color)]  px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105"
                 >
                   Sign up
                 </button>
@@ -247,7 +247,7 @@ const DesktopMenu = ({
            name="mobile-menu-button"
             aria-label="Mobile menu"
             onClick={() => setIsOpen(!isOpen)}
-            className="text-white/90 hover:text-white p-2 transition-colors duration-200"
+            className="text-[var(--primary-text-color) hover:text-[var(--primary-text-color)] p-2 transition-colors duration-200"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

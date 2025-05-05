@@ -9,10 +9,9 @@ import {
   ShoppingCart,
   Users,
   Package,
-  Settings,
+
   BarChart3,
   LogOut,
-  UserCog,
 } from "lucide-react";
 import { useAuth } from "@/context/Authcontext";
 import axios from "axios";
@@ -28,11 +27,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   // Define menu items with links
   const menuItems = [
     { icon: BarChart3, label: "Inventory", link: "/admin/dashboard/Inventory" },
-    // { icon: UserCog, label: "Users", link: "/admin/dashboard/settings" },
     { icon: Users, label: "Users", link: "/admin/dashboard/customer" },
     { icon: Package, label: "Products", link: "/admin/dashboard/product" },
     { icon: ShoppingCart, label: "Orders", link: "/admin/dashboard/order" },
-    { icon: Settings, label: "Settings", link: "/admin/dashboard/settings" },
   ];
 
   // State to track active menu
@@ -59,7 +56,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         isOpen ? "w-64" : "w-20"
       }`}
     >
-      <div className="flex flex-col h-full w-full bg-black border-r border-violet-800/20">
+      <div className="flex flex-col h-full w-full bg-[var(--background-color)] border-r border-violet-800/20">
         {/* Sidebar Header */}
         <div
           className={`flex items-center p-6 border-b border-violet-800/20 ${
@@ -100,7 +97,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   } py-3 text-sm rounded-lg transition-all duration-200 ${
                     pathname === item?.link
                       ? "bg-violet-600/50 text-violet-100 font-medium"
-                      : "text-gray-400 hover:bg-violet-100/5 hover:text-violet-200"
+                      : "text-gray-200-400 hover:bg-violet-100/5 hover:text-violet-200"
                   }`}
                   title={!isOpen ? item.label : undefined}
                 >
@@ -124,7 +121,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             onClick={handleLogout}
             className={`flex items-center ${
               isOpen ? "w-full px-4" : "justify-center w-full px-2"
-            } py-3 text-gray-400 hover:text-violet-400 hover:bg-violet-600/5 rounded-lg transition-all duration-200`}
+            } py-3 text-gray-200-400 hover:text-violet-400 hover:bg-violet-600/5 rounded-lg transition-all duration-200`}
             title={!isOpen ? "Logout" : undefined}
           >
             <LogOut className="w-5 h-5 text-violet-500" />

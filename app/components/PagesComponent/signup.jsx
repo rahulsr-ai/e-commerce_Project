@@ -84,27 +84,27 @@ function Signup() {
       <div className="relative lg:top-12 top-16 ">
         <div className="lg:py-16 pb-8  flex flex-col justify-center min-h-[calc(100vh-64px)] ">
           <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
-            <div className="bg-black py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">
+            <div className="bg-[var(--background-color)] py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold text-[var(--primary-text-color)]">
                   Create Account
                 </h2>
-                <p className="mt-2 text-center text-sm text-white/60">
+                <p className="mt-2 text-center text-sm text-[var(--primary-text-color)]/60">
                   Already have an account?{" "}
                   <Link
                     href="/sign-in"
-                    className="font-medium text-violet-600 hover:text-violet-500 transition-colors duration-200"
+                    className="font-medium text-[var(--primary-color)] hover:text-[var(--primary-color)] transition-colors duration-200"
                   >
                     Sign in
                   </Link>
                 </p>
-                <p className="mt-1 text-sm text-white/60">
+                <p className="mt-1 text-sm text-[var(--primary-text-color)]/60">
                   Join us and start shopping
                 </p>
               </div>
 
               {isProcessing && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="absolute inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50">
                   <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
                 </div>
               )}
@@ -114,13 +114,13 @@ function Signup() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-white/80"
+                    className="block text-sm font-medium text-[var(--primary-text-color)]/80"
                   >
                     Full Name
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <User className="size-5 text-white/40" />
+                      <User className="size-5 text-[var(--primary-text-color)]/40" />
                     </div>
                     <input
                       onChange={(e) => setName(e.target.value)}
@@ -129,7 +129,7 @@ function Signup() {
                       type="text"
                       autoComplete="name"
                       required
-                      className="Signupearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
+                      className="Signupearance-none block w-full pl-10 pr-3 py-2.5 bg-[var(--background-color)] border border-white/20 rounded-lg text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -139,13 +139,13 @@ function Signup() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-white/80"
+                    className="block text-sm font-medium text-[var(--primary-text-color)]/80"
                   >
                     Email address
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="size-5 text-white/40" />
+                      <Mail className="size-5 text-[var(--primary-text-color)]/40" />
                     </div>
                     <input
                       onChange={handleEmailChange}
@@ -154,7 +154,7 @@ function Signup() {
                       type="email"
                       autoComplete="email"
                       required
-                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-[var(--background-color)] border border-white/20 rounded-lg text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -164,13 +164,13 @@ function Signup() {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-white/80"
+                    className="block text-sm font-medium text-[var(--primary-text-color)]/80"
                   >
                     Password
                   </label>
                   <div className="mt-1 relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="size-5 text-white/40" />
+                      <Lock className="size-5 text-[var(--primary-text-color)]/40" />
                     </div>
                     <input
                       onChange={(e) => {
@@ -180,14 +180,14 @@ function Signup() {
                       name="password"
                       type={showPassword ? "text" : "password"}
                       required
-                      className="appearance-none block w-full pl-10 pr-10 py-2.5 bg-black border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-10 py-2.5 bg-[var(--background-color)] border border-white/20 rounded-lg text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
                       placeholder="••••••••"
                       minLength={8}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/40 hover:text-white/60 transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-[var(--primary-text-color)]/40 hover:text-[var(--primary-text-color)]/60 transition-colors"
                     >
                       {!showPassword ? (
                         <EyeOff className="size-5" />
@@ -205,23 +205,23 @@ function Signup() {
                     name="terms"
                     type="checkbox"
                     required
-                    className="h-4 w-4 text-violet-600 focus:ring-violet-500 border-white/20 rounded bg-black "
+                    className="h-4 w-4 text-[var(--primary-color)] focus:ring-[var(--primary-color)] border-white/20 rounded bg-[var(--background-color)] "
                   />
                   <label
                     htmlFor="terms"
-                    className="ml-2 block text-sm text-white/80"
+                    className="ml-2 block text-sm text-[var(--primary-text-color)]/80"
                   >
                     I agree to the{" "}
                     <a
                       href="#"
-                      className="text-violet-600 hover:text-violet-500"
+                      className="text-[var(--primary-color)] hover:text-[var(--primary-color)]"
                     >
                       Terms
                     </a>{" "}
                     and{" "}
                     <a
                       href="#"
-                      className="text-violet-600 hover:text-violet-500"
+                      className="text-[var(--primary-color)] hover:text-[var(--primary-color)]"
                     >
                       Privacy Policy
                     </a>
@@ -231,7 +231,7 @@ function Signup() {
                 {/* Sign up button */}
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-violet-500 transition-all duration-200"
+                  className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-[var(--primary-text-color)] bg-[var(--primary-color)] hover:bg-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-[var(--primary-color)] transition-all duration-200"
                 >
                   <span className="absolute right-4 flex items-center">
                     <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform duration-200" />

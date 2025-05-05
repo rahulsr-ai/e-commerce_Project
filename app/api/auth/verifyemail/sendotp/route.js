@@ -14,7 +14,7 @@ export async function POST(req) {
     const normalizedEmail = email.trim().toLowerCase(); 
 
     // Email content
-    const subject = "Verify Your Email for StoreX";
+    const subject = "Verify Your Email for QuickCart";
     const htmlContent = `
       <p>Hello ${name},</p>
       <p>Your verification code is:</p>

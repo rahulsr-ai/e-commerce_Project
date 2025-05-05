@@ -69,6 +69,20 @@ const Landing = () => {
   };
 
   useEffect(() => {
+    const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+    if (!fs) return;
+  
+    fs(window.TEMPORARY, 100, () => {
+      console.log("Not in incognito mode");
+    }, () => {
+      alert("For best experience, please open this site in Incognito mode.");
+    });
+  }, []);
+
+  
+  
+
+  useEffect(() => {
    try {
     const role = localStorage.getItem("code");
     if (role === "2637") {
@@ -98,7 +112,7 @@ const Landing = () => {
 
   return (
     !loading &&
-    <div className="bg-black min-h-screen w-full ">
+    <div className=" min-h-screen w-full ">
       {/* <HeroCarousel /> */}
       <Suspense fallback={<div></div>}>
         <LazyHeroCarousel />
@@ -146,7 +160,7 @@ const Landing = () => {
           {isVisible && (
             <button
               onClick={scrollToFilter}
-              className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+              className="fixed bottom-6 right-6 bg-[var(--primary-color)]  text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
             >
               <ArrowUp className="w-6 h-6" />
             </button>

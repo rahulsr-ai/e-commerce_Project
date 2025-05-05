@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         {/* Overlay for mobile */}
         {isSidebarOpen && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-[var(--background-color)] bg-opacity-70 backdrop-blur-sm z-40 lg:hidden"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}

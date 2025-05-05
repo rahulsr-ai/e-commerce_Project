@@ -21,9 +21,6 @@ const ProductCard = ({
   whislist,
   setWhislist,
   isOnDeal,
-  isTrending,
-  isNewArrival,
-  isBestSeller,
 }) => {
   const router = useRouter();
   const setCategoryName = (id) => {
@@ -95,8 +92,8 @@ const ProductCard = ({
   if (!(imageUrl || title || description || category || price || id || slug)) {
     <div className="flex py-24  justify-center ">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-700">No Products Found</h2>
-        <p className="mt-4 text-violet-600">
+        <h2 className="text-3xl font-bold text-gray-200-700">No Products Found</h2>
+        <p className="mt-4 text-[var(--secondary-text-color)]">
           No products found matching your search criteria.
         </p>
       </div>
@@ -108,7 +105,7 @@ const ProductCard = ({
       className="max-w-sm
       place-content-center
     
-    bg-neutral-950 rounded-lg shadow-lg hover:shadow-[inset_0_0_20px_rgba(139,92,246,0.5)] 
+    bg-[var(--background-color)] rounded-lg shadow-lg hover:shadow-[inset_0_0_20px_rgba(139,92,246,0.5)] 
     overflow-hidden transition-transform duration-300 hover:-translate-y-1 w-full"
     >
       <div className="relative">
@@ -135,32 +132,32 @@ const ProductCard = ({
 
       <div className="p-5">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gradient-violet-to-violet-900 font-medium uppercase tracking-wide">
+          <span className="text-sm text-[var(--secondary-text-color)] font-medium uppercase tracking-wide">
             {setCategoryName(category)}
           </span>
-          <span className="text-sm text-gradient-violet-to-violet-900 font-medium uppercase tracking-wide"></span>
+          <span className="text-sm text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)] font-medium uppercase tracking-wide"></span>
         </div>
 
-        <h3 className="mt-2 text-xl font-semibold text-stone-200">
+        <h3 className="mt-2 text-xl font-semibold text-white">
           {title.split(" ").slice(-2).join(" ")}
         </h3>
 
-        <p className="mt-2 text-gray-300 text-sm line-clamp-2">{description}</p>
+        <p className="mt-2 text-[var(--fade-subtext-color)] text-sm line-clamp-2">{description}</p>
 
-        <div className="mt-4 mb-2 font-bold text-gray-200">
+        <div className="mt-4 mb-2 font-bold text-white">
           {isOnDeal ? (
             <div className="flex items-center">
-              <IndianRupee className="inline text-xs text-violet-600" />
-              <span className="text-base uppercase tracking-wide text-gray-400 line-through ml-1">
+              <IndianRupee className="inline text-xs text-[var(--secondary-text-color)]" />
+              <span className="text-base uppercase tracking-wide text-[var(--secondary-text-color)] line-through ml-1">
                 {price + 200}
               </span>
-              <span className="ml-2 text-md uppercase tracking-wide text-gradient-violet-to-violet-900">
+              <span className="ml-2 text-md uppercase tracking-wide text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)]">
                 {price}
               </span>
             </div>
           ) : (
-            <span className="uppercase text-xl font-medium tracking-wide text-gradient-violet-to-violet-900">
-              <IndianRupee className="inline text-xs text-violet-600" />
+            <span className="uppercase text-xl font-medium tracking-wide text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)]">
+              <IndianRupee className="inline text-xs text-[var(--secondary-text-color)]" />
               {price}
             </span>
           )}
@@ -173,8 +170,8 @@ const ProductCard = ({
               AddToCart();
             }}
             name="cart-button"
-            className="flex-1 bg-violet-600 text-white px-4 py-2 lg:px-2 text-wrap text-sm
-             rounded-lg font-medium hover:bg-violet-700 transition-colors duration-200 flex items-center justify-center gap-2"
+            className="flex-1 bg-[var(--primary-color)] text-[var(--primary-text-color)] font-semibold px-4 py-2 lg:px-2 text-wrap text-sm
+             rounded-lg font-medium  transition-colors duration-200 flex items-center justify-center gap-2"
           >
             <ShoppingCart className="w-5 h-5" />
             Add to Cart
@@ -186,7 +183,7 @@ const ProductCard = ({
             <button
               aria-label="View product"
               name="view-button"
-              className="px-4 py-2 border border-gray-300 rounded-lg font-medium text-violet-400 hover:bg-gray-50 hover:text-black transition-colors duration-200 flex items-center justify-center"
+              className="px-4 py-2 border border-gray-300 rounded-lg font-medium text-[var(--secondary-text-color)] hover:bg-gray-50 hover:text-black transition-colors duration-200 flex items-center justify-center"
             >
               <Eye className="w-5 h-5" />
             </button>

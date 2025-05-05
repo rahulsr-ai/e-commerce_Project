@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "StoreX",
+  title: "QuickCart",
   icons: {
     icon: "/shopping-bag 01.png",
   },
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--background-color)]`}
       >
         <AuthProvider>
           <header>

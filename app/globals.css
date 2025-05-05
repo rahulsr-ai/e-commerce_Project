@@ -52,10 +52,15 @@ html {
 
 
 :root {
-  --primary-color: #4f46e5;
-  --secondary-color: #9333ea;
-  --background-color: #f9fafb;
-  --text-color: #1f2937;
+ 
+  --primary-color: #7f23d6;
+  --secondary-color: #ede0f9;
+  --primary-btn: #ffffff;
+  --primary-text-color: #ffffff;
+  --fade-subtext-color: rgb(81, 79, 79);
+  --secondary-text-color: #7f23d6;
+  --primary-hover:#ca92ff ;
+  --background-color: hsl(0, 0%, 0%);
   --font-main: 'Segoe UI', sans-serif;
 }
 

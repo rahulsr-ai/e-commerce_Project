@@ -65,7 +65,7 @@ const ProductPageNew = ({
       <div className="flex flex-col md:flex-row gap-8 mb-12 shadow-lg hover:shadow-[inset_0_0_20px_rgba(139,92,246,0.5)] rounded-lg">
         {/* Product Image */}
         <div className="md:w-1/2 ">
-          <div className="aspect-square rounded-lg overflow-hidden bg-violet-100">
+          <div className="aspect-square rounded-lg overflow-hidden bg-[var(--primary-text-color)]">
             {SingleProduct?.images && (
               <img
                 src={SingleProduct.images}
@@ -78,7 +78,7 @@ const ProductPageNew = ({
 
         {/* Product Info */}
         <div className="md:w-1/2 pt-12 px-4">
-          <h1 className="text-3xl font-bold text-white mb-4">
+          <h1 className="text-3xl font-bold text-[var(--primary-text-color)] mb-4">
             {SingleProduct?.name}
           </h1>
 
@@ -90,50 +90,50 @@ const ProductPageNew = ({
                   className={`w-5 h-5 ${
                     index < 4
                       ? "text-yellow-400 fill-current"
-                      : "text-violet-300"
+                      : "text-[var(--primary-text-color)]"
                   }`}
                 />
               ))}
             </div>
-            <span className="text-violet-500">reviews</span>
+            <span className="text-[var(--primary-text-color)]">reviews</span>
           </div>
 
-          <div className="text-3xl font-bold text-white mb-6">
-            <IndianRupee className="inline text-xs text-violet-600" />
+          <div className="text-3xl font-bold text-[var(--primary-text-color)] mb-6">
+            <IndianRupee className="inline text-xs text-[var(--primary-text-color)]" />
               {SingleProduct?.price}
           </div>
 
-          <p className="text-stone-100 mb-8">{SingleProduct?.description}</p>
+          <p className="text-gray-200-100 mb-8">{SingleProduct?.description}</p>
 
           {/* Quantity Selector */}
           <div className="mb-8">
-            <label className="block text-sm font-medium text-white mb-2">
+            <label className="block text-sm font-medium text-[var(--primary-text-color)] mb-2">
               Quantity
             </label>
             <div className="flex items-center gap-4">
-              <div className="flex items-center border border-violet-300 rounded-lg">
+              <div className="flex items-center border border-[var(--primary-text-color)] rounded-lg">
                 <button
                   onClick={() => handleQuantityChange(-1)}
-                  className="p-2 hover:bg-violet-50 transition-colors"
+                  className="p-2 hover:bg-zinc-800 transition-colors"
                 >
-                  <Minus className="w-5 h-5 text-violet-600" />
+                  <Minus className="w-5 h-5 text-[var(--primary-text-color)]" />
                 </button>
                 <span className="w-12 text-center font-medium">{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(1)}
-                  className="p-2 hover:bg-violet-50 transition-colors"
+                  className="p-2 hover:bg-zinc-800 transition-colors"
                 >
-                  <Plus className="w-5 h-5 text-violet-600" />
+                  <Plus className="w-5 h-5 text-[var(--primary-text-color)]" />
                 </button>
               </div>
-              <span className="text-sm text-violet-500">(Max 10 items)</span>
+              <span className="text-sm text-[var(--primary-text-color)]">(Max 10 items)</span>
             </div>
           </div>
 
           <div className="flex gap-4 mb-8">
             <button
               onClick={AddToCart}
-              className="flex-1 bg-violet-600 text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 hover:bg-violet-700 transition-colors"
+              className="flex-1 bg-[var(--primary-text-color)] text-black py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors"
             >
               <ShoppingCart className="w-5 h-5" />
               Add to Cart
@@ -142,7 +142,7 @@ const ProductPageNew = ({
               onClick={() => {
                 handleWishlist(SingleProduct._id);
               }}
-              className={`p-3 border border-violet-300 rounded-lg hover:bg-rose-500  transition-colors
+              className={`p-3 border border-[var(--primary-text-color)] rounded-lg hover:bg-rose-500  transition-colors
                 ${
                   wishlist.includes(SingleProduct._id)
                     ? "bg-rose-600 "
@@ -150,16 +150,16 @@ const ProductPageNew = ({
                 }`}
             >
               <Heart
-                className={`w-5 h-5 text-black hover:text-white
+                className={`w-5 h-5 text-black hover:text-[var(--primary-text-color)]
                 ${
                   wishlist.includes(SingleProduct._id)
-                    ? "text-white "
+                    ? "text-[var(--primary-text-color)] "
                     : "text-black"
                 }`}
               />
             </button>
-            <button className="p-3 border border-violet-300 rounded-lg  transition-colors">
-              <Share2 className="w-5 h-5 text-white" />
+            <button className="p-3 border border-[var(--primary-text-color)] rounded-lg  transition-colors">
+              <Share2 className="w-5 h-5 text-[var(--primary-text-color)]" />
             </button>
           </div>
         </div>
@@ -168,11 +168,11 @@ const ProductPageNew = ({
       {/* Related Products */}
       <div className="mb-12">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-violet-500">
+          <h2 className="text-2xl font-bold text-[var(--primary-text-color)]">
             Related Products
           </h2>
           <Link href="/">
-            <button className="text-violet-600 flex items-center gap-1 hover:text-violet-700">
+            <button className="text-[var(--primary-text-color)] flex items-center gap-1 hover:text-[var(--primary-text-color)]">
               View All <ChevronRight className="w-4 h-4" />
             </button>
           </Link>
@@ -198,7 +198,7 @@ const ProductPageNew = ({
 
       {/* Customer Reviews */}
       <div className="mb-12">
-        <h2 className="text-3xl font-bold text-violet-600 mb-8 text-center">
+        <h2 className="text-3xl font-bold text-[var(--primary-text-color)] mb-8 text-center">
           What Our Customers Say
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

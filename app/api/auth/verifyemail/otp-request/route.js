@@ -40,7 +40,7 @@ export async function POST(req) {
     }
 
     // Email content
-    const subject = "Your Email Verification Code for StoreX";
+    const subject = "Your Email Verification Code for QuickCart";
     const htmlContent = `
       <p>Hello,</p>
       <p>Your verification code is:</p>

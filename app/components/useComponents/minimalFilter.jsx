@@ -58,7 +58,7 @@ const MinFilter = ({
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 ">
         <div id="filter-section" className="flex items-center gap-2">
-          <SlidersHorizontal size={24} className="text-white" />
+          <SlidersHorizontal size={24} className="text-[var(--primary-text-color)]" />
 
           <select
            aria-label="Filter by category"
@@ -67,7 +67,7 @@ const MinFilter = ({
               DisplayByCategory(e.target.value);
               setSelectedCategory(e.target.value);
             }}
-            className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 text-black"
+            className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-bg-[var(--primary-color)] text-black"
           >
             <option
             
@@ -91,8 +91,8 @@ const MinFilter = ({
                 onClick={() => sortProductsByPrice(price)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
                   sortBy === price
-                    ? "bg-violet-600 text-white"
-                    : "bg-white text-gray-600 hover:bg-gray-100"
+                    ? "bg-[var(--primary-color)] text-[var(--primary-text-color)] "
+                    : "bg-white text-gray-900 hover:bg-gray-100"
                 }`}
               >
                 {price}

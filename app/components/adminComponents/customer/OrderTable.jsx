@@ -18,7 +18,7 @@ const OrderTable = ({
       className="overflow-x-auto rounded-lg border border-zinc-800"
     >
       <table className="w-full">
-        <thead className="bg-zinc-900">
+        <thead className="bg-[var(--background-color)]-900">
           <tr>
             <th className="px-4 md:px-6 py-4 text-left text-xs font-medium text-purple-400 uppercase tracking-wider">
               Order ID
@@ -50,16 +50,16 @@ const OrderTable = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.05 }}
-              className="bg-black hover:bg-zinc-900 transition-colors"
+              className="bg-[var(--background-color)] hover:bg-[var(--background-color)]-900 transition-colors"
             >
-              <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+              <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--primary-text-color)]">
                 # {order.orderId.slice(5, 15)}
               </td>
-              <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-white">
+              <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-text-color)]">
                 {order.userDetails.name}
               </td>
 
-              <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-zinc-300">
+              <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-200-300">
                 {order.productsData.reduce(
                   (total, elem) => total + elem.quantity,
                   0
@@ -67,7 +67,7 @@ const OrderTable = ({
                 items
               </td>
 
-              <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+              <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--primary-text-color)]">
                 <IndianRupee className="inline size-4" />{" "}
                 {order.totalAmount}
               </td>
@@ -75,12 +75,12 @@ const OrderTable = ({
                 <span
                   className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(
                     order.status
-                  )} text-white`}
+                  )} text-[var(--primary-text-color)]`}
                 >
                   {order.status}
                 </span>
               </td>
-              <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-zinc-300">
+              <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-200-300">
                 {new Date(order.createdAt).toLocaleString("en-US", {
                   day: "2-digit",
                   month: "short",

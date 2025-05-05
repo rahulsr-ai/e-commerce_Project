@@ -37,12 +37,12 @@ const AccountSettings = () => {
       <div className="space-y-4 text-center">
         <div className="p-4 bg-background rounded-lg">
           <h3 className="font-medium mb-2">Delete Account</h3>
-          <p className="text-gray-400 mb-4">
+          <p className="text-gray-200-400 mb-4">
             Once you delete your account, there is no going back.
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            className="px-4 py-2 bg-red-600 text-[var(--primary-text-color)] rounded-lg hover:bg-red-700 transition-colors"
           >
             Delete Account
           </button>
@@ -51,25 +51,25 @@ const AccountSettings = () => {
 
       {isModalOpen && (
         <motion.div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-zinc-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
+            className="bg-[var(--background-color)]-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.8 }}
           >
             <h3 className="text-lg font-medium mb-2">Confirm Deletion</h3>
-            <p className="text-zinc-400 mb-4">
+            <p className="text-gray-200-400 mb-4">
               Are you sure you want to delete your account? This action cannot
               be undone.
             </p>
             <div className="flex justify-end space-x-3">
               <button
-                className="px-4 py-2 rounded-md bg-zinc-700 hover:bg-zinc-600"
+                className="px-4 py-2 rounded-md bg-[var(--background-color)]-700 hover:bg-[var(--background-color)]-600"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancel

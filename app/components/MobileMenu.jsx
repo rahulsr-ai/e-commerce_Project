@@ -42,11 +42,11 @@ const MobileMenu = ({
                 handleSearch(e);
               }}
               onKeyDown={sendSearchValue}
-              className="w-full bg-white/10 text-white placeholder-white/60 px-4 py-2 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
+              className="w-full bg-white/10 text-[var(--primary-text-color)] placeholder-white/60 px-4 py-2 rounded-full border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
             />
             <Search
               onClick={(e) => sendSearchValue(e)}
-              className="absolute right-3 top-2.5 text-white/60 z-40"
+              className="absolute right-3 top-2.5 text-[var(--primary-text-color)]/60 z-40"
               size={20}
             />
           </div>
@@ -56,9 +56,9 @@ const MobileMenu = ({
           <Link
             onClick={() => setIsOpen(false)}
             href="/Account"
-            className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+            className={`flex items-center space-x-2 text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-3 py-2 rounded-lg transition-colors duration-200
             underline-offset-4 hover:underline
-            ${pathname === "/Account" ? "underline" : "text-white/90"} `}
+            ${pathname === "/Account" ? "underline" : "text-[var(--primary-text-color)]"} `}
           >
             {/* <Home size={18} /> */}
             <span>Account</span>
@@ -69,9 +69,9 @@ const MobileMenu = ({
         <Link
           onClick={() => setIsOpen(false)}
           href="/"
-          className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+          className={`flex items-center space-x-2 text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-3 py-2 rounded-lg transition-colors duration-200
             underline-offset-4 hover:underline
-            ${pathname === "/" ? "underline" : "text-white/90"} `}
+            ${pathname === "/" ? "underline" : "text-[var(--primary-text-color)]"} `}
         >
           {/* <Home size={18} /> */}
           <span>Home</span>
@@ -80,9 +80,9 @@ const MobileMenu = ({
         <Link
           onClick={() => setIsOpen(false)}
           href="/deals"
-          className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200 
+          className={`flex items-center space-x-2 text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-3 py-2 rounded-lg transition-colors duration-200 
             underline-offset-4 hover:underline
-            ${pathname === "/deals" ? "underline" : "text-white/90"} `}
+            ${pathname === "/deals" ? "underline" : "text-[var(--primary-text-color)]"} `}
         >
           {/* <Home size={18} /> */}
           <span>Deals</span>
@@ -94,10 +94,10 @@ const MobileMenu = ({
             onClick={() => {
               setCategoryOpen(!categoryOpen);
             }}
-            className={`flex items-center text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
+            className={`flex items-center text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-2 pt-2 rounded-lg transition-colors duration-200
               underline-offset-4 hover:underline ml-1
               ${
-                pathname.startsWith("/category") ? "underline" : "text-white/90"
+                pathname.startsWith("/category") ? "underline" : "text-[var(--primary-text-color)]"
               } `}
           >
             <span>Categories</span>
@@ -118,7 +118,7 @@ const MobileMenu = ({
                 onClick={() => setIsOpen(false)}
                 key={category.name}
                 href={`/category/${category?.name}`}
-                className={`flex items-center space-x-2 text-white/90 hover:text-white px-3
+                className={`flex items-center space-x-2 text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-3
                  py-2 rounded-lg transition-colors duration-200 
                   
                   
@@ -141,10 +141,10 @@ const MobileMenu = ({
             onClick={() => {
               setBrandsOpen(!brandsOpen);
             }}
-            className={`flex items-center text-white/90 hover:text-white px-2 pt-2 rounded-lg transition-colors duration-200
+            className={`flex items-center text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-2 pt-2 rounded-lg transition-colors duration-200
               underline-offset-4 hover:underline ml-1
               ${
-                pathname.startsWith("/Explore") ? "underline" : "text-white/90"
+                pathname.startsWith("/Explore") ? "underline" : "text-[var(--primary-text-color)]"
               } `}
           >
             <span>Explore</span>
@@ -165,7 +165,7 @@ const MobileMenu = ({
                 onClick={() => setIsOpen(false)}
                 key={brand.name}
                 href={`/Explore/${brand?.name}`}
-                className={`flex items-center space-x-2 text-white/90 hover:text-white px-3 py-2 rounded-lg transition-colors duration-200
+                className={`flex items-center space-x-2 text-[var(--primary-text-color)] hover:text-[var(--primary-text-color)] px-3 py-2 rounded-lg transition-colors duration-200
                   
                   `}
               >
@@ -183,7 +183,7 @@ const MobileMenu = ({
           {role ? (
             <button
               onClick={handleLogout}
-              className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+              className="bg-[var(--primary-btn)] text-[var(--secondary-text-color)] w-full px-4 py-2 rounded-full  transition-all duration-300 transform hover:scale-105"
             >
               Logout
             </button>
@@ -194,7 +194,7 @@ const MobileMenu = ({
                   setIsOpen(false);
                   router.push("/sign-in");
                 }}
-                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                className="bg-[var(--primary-btn)] text-[var(--secondary-text-color)] w-full px-4 py-2 rounded-full  transition-all duration-300 transform hover:scale-105"
               >
                 Sign in
               </button>
@@ -204,7 +204,7 @@ const MobileMenu = ({
                   setIsOpen(false);
                   router.push("/sign-up");
                 }}
-                className="bg-white text-indigo-600 w-full px-4 py-2 rounded-full hover:bg-indigo-50 transition-all duration-300 transform hover:scale-105"
+                className="bg-[var(--primary-btn)] text-[var(--secondary-text-color)] w-full px-4 py-2 rounded-full  transition-all duration-300 transform hover:scale-105"
               >
                 Sign up
               </button>

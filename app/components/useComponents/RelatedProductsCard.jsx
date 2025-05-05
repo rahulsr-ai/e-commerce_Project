@@ -27,7 +27,7 @@ const RelatedProductsCard = ({
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {/* Wishlist & View Buttons (Hidden by default, appear on hover) */}
-        <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/50">
+        <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[var(--background-color)]/50">
           <button
             onClick={() => {
               handleWishlist(id);
@@ -36,8 +36,8 @@ const RelatedProductsCard = ({
                ${wishlist.includes(id) ? "bg-rose-600 " : "bg-white"}`}
           >
             <Heart
-              className={`w-5 h-5 hover:text-white  text-violet-600
-                ${wishlist.includes(id) && " text-white "}`}
+              className={`w-5 h-5 hover:text-[var(--primary-text-color)]  text-violet-600
+                ${wishlist.includes(id) && " text-[var(--primary-text-color)] "}`}
             />
           </button>
           <Link href={`/Product/${slug}`}>
@@ -46,7 +46,7 @@ const RelatedProductsCard = ({
             
             `}
             >
-              <Eye className={`w-5 h-5 text-violet-600  hover:text-white  `} />
+              <Eye className={`w-5 h-5 text-violet-600  hover:text-[var(--primary-text-color)]  `} />
             </button>
           </Link>
         </div>
@@ -54,8 +54,8 @@ const RelatedProductsCard = ({
 
       {/* Product Info */}
       <h3 className="font-medium text-violet-400 mb-2"> {name} </h3>
-      <p className="text-stone-400 line-clamp-3 text-sm">{description}</p>
-      <p className="text-white mt-3 font-bold text-lg">
+      <p className="text-gray-200-400 line-clamp-3 text-sm">{description}</p>
+      <p className="text-[var(--primary-text-color)] mt-3 font-bold text-lg">
         {" "}
         <IndianRupee className="inline size-4" /> {price}{" "}
       </p>

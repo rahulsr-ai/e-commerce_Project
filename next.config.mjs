@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: true, // ✅ Required for Next.js 15
-    trustHost: true, // ✅ Required for DevTunnels
-  },
+ 
   headers: async () => [
     {
       source: "/(.*)",

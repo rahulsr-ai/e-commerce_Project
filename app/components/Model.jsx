@@ -77,7 +77,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
 
   return (
     <div
-      className={`fixed  top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
+      className={`fixed  top-0 left-0 w-full h-full bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
@@ -131,7 +131,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
         <div className="flex justify-between mt-4">
           <button
             onClick={() => setmodel(false)}
-            className="text-gray-500 hover:underline"
+            className="text-gray-200-500 hover:underline"
           >
             Close
           </button>
@@ -144,7 +144,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
               Request new code
             </button>
           ) : (
-            <p className="text-gray-500">
+            <p className="text-gray-200-500">
               Code will expire in{" "}
               <span className="font-semibold">
                 {Math.floor(timeLeft / 60)}:

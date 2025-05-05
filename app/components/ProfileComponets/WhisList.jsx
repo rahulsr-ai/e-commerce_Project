@@ -6,7 +6,7 @@ import axios from "axios";
 import Image from "next/image";
 import { handleAddToCart, HandleWishlist } from "@/lib/apiCalls";
 
-const Wishlist = ({ productsData, setproductsData }) => {
+const Wishlist = ({ productsData }) => {
   const [wishlistProducts, setWishlistProducts] = useState([]);
   const [render, setRender] = useState(false);
 
@@ -62,11 +62,11 @@ const Wishlist = ({ productsData, setproductsData }) => {
   if (wishlistProducts.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-6 text-white">My Wishlist</h2>
+        <h2 className="text-2xl font-bold mb-6 text-[var(--primary-text-color)]">My Wishlist</h2>
         <div className="flex flex-col items-center justify-center bg-neutral-950 rounded-lg p-8 border-2 border-gray-700">
           <Heart className="w-16 h-16 text-rose-500 mb-4" />
-          <p className="text-gray-400 text-lg">Your wishlist is empty</p>
-          {/* <p className="text-gray-500 mt-2">Add items that you like to your wishlist</p> */}
+          <p className="text-gray-200-400 text-lg">Your wishlist is empty</p>
+          {/* <p className="text-gray-200-500 mt-2">Add items that you like to your wishlist</p> */}
         </div>
       </div>
     );
@@ -74,7 +74,7 @@ const Wishlist = ({ productsData, setproductsData }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 text-white">My Wishlist</h2>
+      <h2 className="text-2xl font-bold mb-6 text-[var(--primary-text-color)]">My Wishlist</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {wishlistProducts.map((item) => (
@@ -93,13 +93,13 @@ const Wishlist = ({ productsData, setproductsData }) => {
                 onClick={() => handleRemoveFromWishlist(item._id)}
                 className="absolute top-2 right-2 p-2 bg-gray-900/50 rounded-full hover:bg-red-500/50 transition-colors"
               >
-                <Trash2 className="w-5 h-5 text-white" />
+                <Trash2 className="w-5 h-5 text-[var(--primary-text-color)]" />
               </button>
             </div>
 
             <div className="p-4">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-[var(--primary-text-color)]">
                   {item.name}
                 </h3>
                 <span className="text-violet-400 font-bold">
@@ -108,13 +108,13 @@ const Wishlist = ({ productsData, setproductsData }) => {
                 </span>
               </div>
 
-              <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+              <p className="text-gray-200-400 text-sm mb-4 line-clamp-2">
                 {item.description}
               </p>
 
               <button
                 onClick={() => AddToCart(item)}
-                className="w-full flex items-center justify-center gap-2 bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700 transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-violet-600 text-[var(--primary-text-color)] px-4 py-2 rounded-lg hover:bg-violet-700 transition-colors"
               >
                 <ShoppingCart className="w-5 h-5" />
                 Add to Cart

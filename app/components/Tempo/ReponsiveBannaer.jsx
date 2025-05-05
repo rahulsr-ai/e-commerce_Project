@@ -30,7 +30,7 @@ const ResponsiveBanner = ({
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-white"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--primary-text-color)]"
           >
             {title}
           </motion.h2>
@@ -52,7 +52,7 @@ const ResponsiveBanner = ({
           transition={{ delay: 0.4 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="hidden md:block px-6 py-3 bg-[#8B5CF6] text-white rounded-lg font-medium
+          className="hidden md:block px-6 py-3 bg-[#8B5CF6] text-[var(--primary-text-color)] rounded-lg font-medium
             shadow-lg hover:shadow-[#8B5CF6]/50 transition-all duration-300"
         >
           Shop Now
@@ -64,8 +64,8 @@ const ResponsiveBanner = ({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="absolute bottom-4 left-4 right-4 md:hidden px-6 py-3 bg-[#8B5CF6] 
-          text-white rounded-lg font-medium shadow-lg hover:shadow-[#8B5CF6]/50 
+        className="absolute bottom-4 left-4 right-4 md:hidden px-6 py-3  
+          text-[var(--primary-text-color)] rounded-lg font-medium shadow-lg hover:shadow-[#8B5CF6]/50 
           transition-all duration-300 text-center"
       >
         Shop Now

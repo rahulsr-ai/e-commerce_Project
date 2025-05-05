@@ -27,10 +27,10 @@ const BulkUpload = () => {
   return (
     <div className="p-6">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-black border-r border-violet-800/20 p-6 rounded-lg border border-gray-200">
+        <div className="bg-[var(--background-color)] border-r border-violet-800/20 p-6 rounded-lg border border-gray-200">
           <div className="text-center mb-6">
-            <FileSpreadsheet className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-white">
+            <FileSpreadsheet className="mx-auto h-12 w-12 text-gray-200-400" />
+            <h3 className="mt-2 text-sm font-medium text-[var(--primary-text-color)]">
               Bulk Product Upload
             </h3>
             <p className="mt-1 text-sm text-violet-500">
@@ -39,14 +39,14 @@ const BulkUpload = () => {
           </div>
 
           <div className="mt-6">
-            <label className="block text-sm font-medium text-white">
+            <label className="block text-sm font-medium text-[var(--primary-text-color)]">
               Choose CSV File
             </label>
             <input
               type="file"
               accept=".csv"
               onChange={handleCsvUpload}
-              className="mt-1 block w-full text-sm text-gray-500
+              className="mt-1 block w-full text-sm text-gray-200-500
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-md file:border-0
                 file:text-sm file:font-medium
@@ -57,13 +57,13 @@ const BulkUpload = () => {
 
           {csvFile && (
             <div className="mt-6">
-              <div className="flex items-center space-x-2 text-sm text-white">
+              <div className="flex items-center space-x-2 text-sm text-[var(--primary-text-color)]">
                 <Check className="h-5 w-5 text-green-500" />
                 <span>File selected: {csvFile.name}</span>
                 <button
                  aria-label='Delete csv file'
                   onClick={() => setCsvFile(null)}
-                  className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-all duration-200"
+                  className="bg-red-500 text-[var(--primary-text-color)] p-1 rounded-full hover:bg-red-600 transition-all duration-200"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -72,7 +72,7 @@ const BulkUpload = () => {
               aria-label='Upload csv file'
                 onClick={ProcessCsvUplaod}
                 type="button"
-                className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
+                className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-[var(--primary-text-color)] bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
               >
                 <Upload className="h-4 w-4 mr-2" />
                 Process CSV File

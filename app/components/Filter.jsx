@@ -56,8 +56,8 @@ export function Filter({
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 
         ${
           hasActiveFilters
-            ? "bg-violet-600 text-white shadow-lg shadow-violet-500/25"
-            : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+            ? "bg-[var(--primary-color)] text-[var(--primary-text-color)] shadow-lg shadow-[var(--primary-color)]"
+            : "bg-[var(--background-color)] text-gray-200-300 hover:bg-[var(--background-color)]"
         }`}
           >
             <FilterIcon
@@ -73,7 +73,7 @@ export function Filter({
                 clearFilters();
                 sethasActiveFilters(false);
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-[var(--background-color)]-800 text-gray-200-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
             >
               <X size={20} />
               <span>Clear</span>
@@ -81,21 +81,21 @@ export function Filter({
           )}
         </div>
 
-        <div className="text-sm text-zinc-400 md:ml-auto ">
+        <div className="text-sm text-gray-200-400 md:ml-auto ">
           Showing {productCount} {productCount === 1 ? "product" : "products"}
         </div>
       </div>
 
       {/* Filter Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0  z-50 flex items-center justify-center p-4">
           <div className="bg-zinc-900 rounded-xl shadow-xl w-full max-w-lg">
             <div className="p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold">Filters</h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 hover:bg-zinc-800 rounded-lg transition-colors"
+                  className="p-2 hover:bg-[var(--background-color)] rounded-lg transition-colors"
                 >
                   <X size={20} />
                 </button>
@@ -115,8 +115,8 @@ export function Filter({
                           className={`flex items-center gap-2 p-3 rounded-lg cursor-pointer transition-colors 
                           ${
                             filters.category === category._id
-                              ? "bg-violet-600 text-white"
-                              : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                              ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]"
+                              : "bg-[var(--background-color)]-800 text-gray-200-300 hover:bg-[var(--background-color)]-700"
                           }`}
                         >
                           {/* <input type="checkbox" className="sr-only" /> */}
@@ -130,7 +130,7 @@ export function Filter({
                   )}
                 </div>
 
-                <div className="h-px bg-zinc-800" />
+                <div className="h-px bg-[var(--background-color)]" />
 
                 <div className="text-center">
                   <h3 className="text-sm font-medium mb-4">Price Range</h3>
@@ -150,7 +150,7 @@ export function Filter({
                       className="border rounded px-2 py-1 w-24 text-center text-black"
                       placeholder="Min Price"
                     />
-                    <span className="text-sm text-zinc-300">to</span>
+                    <span className="text-sm text-gray-200-300">to</span>
                     <input
                       type="number"
                       min={filters.minPrice}
@@ -177,7 +177,7 @@ export function Filter({
                     sethasActiveFilters(true);
                     ApplyFilter();
                   }}
-                  className="flex-1 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
+                  className="flex-1 px-4 py-2 bg-[var(--primary-color)] text-[var(--primary-text-color)] rounded-lg hover:bg-[var(--primary-color)] transition-colors"
                 >
                   Apply Filters
                 </button>
@@ -188,7 +188,7 @@ export function Filter({
                       sethasActiveFilters(false);
                       setIsModalOpen(false);
                     }}
-                    className="px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition-colors"
+                    className="px-4 py-2 bg-[var(--background-color)]-800 text-gray-200-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
                   >
                     Clear All
                   </button>

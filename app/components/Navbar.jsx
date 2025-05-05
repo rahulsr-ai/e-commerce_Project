@@ -35,7 +35,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [brandsOpen, setBrandsOpen] = useState(false);
-  const [SearchResults, setSearchResults] = useState([]);
 
   const handleLogout = async () => {
     setUser(null);
@@ -155,7 +154,6 @@ const Navbar = () => {
 
   const sendSearchValue = (e) => {
     if (query.trim().length < 3) {
-      setSearchResults([]);
       return;
     }
 

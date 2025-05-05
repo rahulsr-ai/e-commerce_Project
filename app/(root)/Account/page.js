@@ -159,7 +159,7 @@ const Profile = () => {
 
   return (
     <div
-      className="min-h-screen bg-zinc-900 text-zinc-100 p-4 mt-8 md:p-8
+      className="min-h-screen bg-[var(--background-color)]-900 text-gray-200-100 p-4 mt-8 md:p-8
       "
     >
       <div className="max-w-7xl mx-auto ">
@@ -169,7 +169,7 @@ const Profile = () => {
           <>
             {/* Profile Header */}
             <div className="text-center mb-8 mt-10">
-              <div className="w-32 h-32 mx-auto bg-zinc-800 rounded-full mb-4 overflow-hidden">
+              <div className="w-32 h-32 mx-auto bg-[var(--background-color)]-800 rounded-full mb-4 overflow-hidden">
                 <img
                   src={"/others/userprofile01.jpg"}
                   className="w-full h-full object-cover"
@@ -196,7 +196,7 @@ const Profile = () => {
             </div>
 
             {/* Tab Content */}
-            <div className="bg-zinc-950 rounded-lg p-4 md:p-6 border-2">
+            <div className="bg-[var(--background-color)]-950 rounded-lg p-4 md:p-6">
               <Suspense fallback={<ProfileSkeleton />}>
                 {activeTab === "edit" ? (
                   <div className="flex flex-col items-center justify-center"></div>

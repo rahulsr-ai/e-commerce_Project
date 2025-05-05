@@ -28,7 +28,7 @@ export async function POST(req) {
 
     if(user.status === "Blocked"){
       return NextResponse.json(
-        { message: "This email is blocked in StoreX", success: false },
+        { message: "This email is blocked in QuickCart", success: false },
         { status: 200 }
       );
     }

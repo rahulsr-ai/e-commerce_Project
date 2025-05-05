@@ -137,9 +137,9 @@ const CategoryPage = () => {
   }, [filters]);
 
   return (
-    <div className="min-h-screen mt-1 bg-zinc-950 text-white overflow-x-hidden">
+    <div className="min-h-screen mt-1 bg-[var(--background-color)]-950 text-[var(--primary-text-color)] overflow-x-hidden">
       {/* Hero Section */}
-      <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 overflow-hidden w-full">
+      <div className="relative h-[400px]  overflow-hidden w-full">
         {heroContent && (
           <>
             <Image
@@ -152,7 +152,7 @@ const CategoryPage = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 to-transparent" />
             <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col justify-center">
               <h1 className="text-5xl font-bold mb-4">{heroContent.title}</h1>
-              <p className="text-xl text-zinc-300 max-w-2xl">
+              <p className="text-xl text-gray-200-300 max-w-2xl">
                 {heroContent.para}
               </p>
             </div>
@@ -199,7 +199,7 @@ const CategoryPage = () => {
                aria-label="Scroll to filter"
                 
                 onClick={scrollToFilter}
-                className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+                className="fixed bottom-6 right-6 bg-[var(--primary-color)] hover:bg-[var(--primary-color)] text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
               >
                 <ArrowUp className="w-6 h-6" />
               </button>
@@ -208,13 +208,13 @@ const CategoryPage = () => {
         ) : (
           <div className="flex flex-col items-center justify-center h-96">
             <h2 className="text-2xl font-semibold mt-4">No Products Found</h2>
-            <p className="text-zinc-400 mt-2">
+            <p className="text-gray-200-400 mt-2">
               Try adjusting your filters to find more products.
             </p>
             <button
               aria-label="Clear filters"
               onClick={clearFilters}
-              className="mt-4 px-6 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg"
+              className="mt-4 px-6 py-2 bg-[var(--primary-color)] hover:bg-[var(--primary-color)] text-[var(--primary-text-color)] rounded-lg"
             >
               Reset Filters
             </button>

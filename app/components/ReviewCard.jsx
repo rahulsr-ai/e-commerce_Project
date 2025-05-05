@@ -6,7 +6,7 @@ import { Star } from 'lucide-react';
 
 const ReviewCard = ({ review }) => {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-[var(--secondary-color)] p-6 rounded-lg shadow-md">
       <div className="flex items-center gap-4 mb-4">
         <img
           src={review.avatar}

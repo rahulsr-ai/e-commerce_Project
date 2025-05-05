@@ -11,7 +11,7 @@ const DealsHeroSection = ({ slides, activeSlide, setActiveSlide }) => {
 
 
   return (
-    <div className="relative h-[500px] bg-black">
+    <div className="relative h-[500px] bg-[var(--background-color)]">
       <div className="absolute inset-0">
         {slides.map((product, index) => (
           <Image
@@ -28,7 +28,7 @@ const DealsHeroSection = ({ slides, activeSlide, setActiveSlide }) => {
       </div>
       <div className="absolute inset-0 flex items-center justify-center text-center">
         <div className="max-w-4xl px-4">
-          <h1 className="text-5xl font-bold text-white mb-6">
+          <h1 className="text-5xl font-bold text-[var(--primary-text-color)] mb-6">
             🔥 Trending Now!
           </h1>
           <p className="text-xl text-gray-200 mb-8">
@@ -36,7 +36,7 @@ const DealsHeroSection = ({ slides, activeSlide, setActiveSlide }) => {
           </p>
           <button
             onClick={scrollWindow}
-            className="bg-violet-600 hover:bg-violet-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300"
+            className="bg-violet-600 hover:bg-violet-700 text-[var(--primary-text-color)] px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300"
           >
             Shop Now
           </button>
@@ -48,7 +48,7 @@ const DealsHeroSection = ({ slides, activeSlide, setActiveSlide }) => {
           setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1))
         }
       >
-        <ChevronLeft className="text-white" size={24} />
+        <ChevronLeft className="text-[var(--primary-text-color)]" size={24} />
       </button>
       <button
         onClick={() =>
@@ -56,7 +56,7 @@ const DealsHeroSection = ({ slides, activeSlide, setActiveSlide }) => {
         }
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 rounded-full backdrop-blur-sm transition-colors duration-300"
       >
-        <ChevronRight className="text-white" size={24} />
+        <ChevronRight className="text-[var(--primary-text-color)]" size={24} />
       </button>
     </div>
   );

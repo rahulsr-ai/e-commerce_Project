@@ -116,7 +116,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
       <div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-white">
+            <label className="block text-sm font-medium text-[var(--primary-text-color)]">
               Product Name
             </label>
             <input
@@ -135,7 +135,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white">
+            <label className="block text-sm font-medium text-[var(--primary-text-color)]">
               Description
             </label>
             <textarea
@@ -155,7 +155,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--primary-text-color)]">
                 Price
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
@@ -180,7 +180,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--primary-text-color)]">
                 Stock
               </label>
               <input
@@ -201,7 +201,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--primary-text-color)]">
                 Category
               </label>
               <select
@@ -227,7 +227,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-white">
+              <label className="block text-sm font-medium text-[var(--primary-text-color)]">
                 Subcategory
               </label>
               <select
@@ -256,7 +256,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-2">
+            <label className="block text-sm font-medium text-[var(--primary-text-color)] mb-2">
               Special Attributes
             </label>
             <div className="space-y-2">
@@ -276,7 +276,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
                     }
                     className="rounded border-gray-300 text-violet-600 focus:ring-violet-500"
                   />
-                  <span className="ml-2 text-sm text-gray-600">
+                  <span className="ml-2 text-sm text-gray-200-600">
                     {key
                       .replace(/([A-Z])/g, " $1")
                       .replace(/^./, (str) => str.toUpperCase())}
@@ -290,7 +290,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
             <button
              aria-label='Save product'
               type="submit"
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-800 hover:text-[var(--primary-text-color)] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
             >
               <Save className="h-4 w-4 mr-2" />
               Save Product
@@ -314,7 +314,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
                   images: [],
                 })
               }
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-600 hover:text-[var(--primary-text-color)] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
             >
               <RefreshCcw className="h-4 w-4 mr-2" />
               Reset Form
@@ -327,7 +327,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
       <div>
         <div className="border-2 border-dashed rounded-lg p-6 border-gray-300 hover:border-gray-400">
           <div className="text-center">
-            <Upload className="mx-auto h-12 w-12 text-gray-400" />
+            <Upload className="mx-auto h-12 w-12 text-gray-200-400" />
             <div className="mt-4">
               <button
               aria-label='Choose images'
@@ -353,7 +353,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
         {/* Image Preview */}
         {formData.images.length > 0 && (
           <div className="mt-6">
-            <h4 className="text-sm font-medium text-white mb-4">
+            <h4 className="text-sm font-medium text-[var(--primary-text-color)] mb-4">
               Selected Images
             </h4>
             <div className="grid grid-cols-1 gap-4">
@@ -370,7 +370,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
                   <button
                   aria-label='Remove image'
                     onClick={() => removeImage(index)}
-                    className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 p-1 bg-red-500 rounded-full text-[var(--primary-text-color)] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X className="h-4 w-4" />
                   </button>

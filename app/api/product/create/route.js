@@ -25,7 +25,7 @@ export async function POST(req) {
 
     const filePath = `Products/${Date.now()}-${photo.name.replace(/\s/g, "-")}`; // Unique file name
     const { data, error } = await supabase.storage
-      .from("StoreX-Bucket") // Your Supabase bucket name
+      .from("QuickCart-Bucket") // Your Supabase bucket name
       .upload(filePath, photo, {
         contentType: photo.type,
         cacheControl: "3600",

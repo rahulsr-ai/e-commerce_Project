@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowUp, SlidersHorizontal } from "lucide-react";
 import { reviews } from "@/app/data/review";
 import { fetchCategories, getDealsProducts } from "@/lib/apiCalls";
@@ -124,8 +124,8 @@ const DealsPage = () => {
 
   return (
    
-      <div className="min-h-screen bg-gray-50 mt-1">
-        <div className="min-h-screen bg-zinc-950 text-white">
+      <div className="min-h-screen mt-1">
+        <div className="min-h-screen bg-[var(--background-color)] text-[var(--primary-text-color)]">
           <DealsHeroSection
             slides={slides}
             activeSlide={activeSlide}
@@ -135,7 +135,7 @@ const DealsPage = () => {
           <div className="max-w-7xl mx-auto px-2 py-4">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
               <div id="filter-section" className="flex items-center gap-2">
-                <SlidersHorizontal size={24} className="text-white" />
+                <SlidersHorizontal size={24} className="text-[var(--primary-text-color)]" />
 
                 <select
                   value={selectedCategory}
@@ -166,7 +166,7 @@ const DealsPage = () => {
                       onClick={() => sortProductsByPrice(price)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
                         sortBy === price
-                          ? "bg-violet-600 text-white"
+                          ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]"
                           : "bg-white text-gray-600 hover:bg-gray-100"
                       }`}
                     >
@@ -201,7 +201,7 @@ const DealsPage = () => {
                   <button
                     aria-label="Scroll to filter"
                     onClick={scrollToFilter}
-                    className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+                    className="fixed bottom-6 right-6 bg-[var(--primary-color)] hover:bg-[var(--primary-color)] text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
                   >
                     <ArrowUp className="w-6 h-6" />
                   </button>

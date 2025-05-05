@@ -62,7 +62,7 @@ const ProductPage = () => {
 
 
   return (
-    <div className="min-h-screen pt-10 bg-neutral-900">
+    <div className="min-h-screen pt-10 bg-[var(--background-color)]">
       <ProductPageNew
         wishlist={wishlist}
         setWishlist={setWishlist}

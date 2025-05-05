@@ -131,8 +131,8 @@ const TrendingPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 mt-1">
-      <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="min-h-screen  mt-1">
+      <div className="min-h-screen bg-[var(--background-color)]-950 text-[var(--primary-text-color)]">
         {/* Hero Section */}
         <div className="relative h-[400px] bg-gradient-to-r from-zinc-900 to-indigo-900 overflow-hidden w-full
         pt-12 sm:pt-1">
@@ -148,7 +148,7 @@ const TrendingPage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 to-transparent" />
               <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col justify-center">
                 <h1 className="text-5xl font-bold mb-4">{heroContent.title}</h1>
-                <p className="text-xl text-zinc-300 max-w-2xl">
+                <p className="text-xl text-gray-800-300 max-w-2xl">
                   {heroContent.para}
                 </p>
               </div>
@@ -163,7 +163,7 @@ const TrendingPage = () => {
            md:px-20"
           >
             <div id="filter-section" className="flex items-center gap-2">
-              <SlidersHorizontal size={24} className="text-white" />
+              <SlidersHorizontal size={24} className="text-[var(--primary-text-color)]" />
 
               <select
                 value={selectedCategory}
@@ -171,7 +171,7 @@ const TrendingPage = () => {
                   DisplayByCategory(e.target.value);
                   setSelectedCategory(e.target.value);
                 }}
-                className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 text-black"
+                className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] text-black"
               >
                 <option value="All" disabled>
                   All
@@ -194,8 +194,8 @@ const TrendingPage = () => {
                     onClick={() => sortProductsByPrice(price)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
                       sortBy === price
-                        ? "bg-violet-600 text-white"
-                        : "bg-white text-gray-600 hover:bg-gray-100"
+                        ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]"
+                        : "bg-white text-gray-800-600 hover:bg-gray-100"
                     }`}
                   >
                     {price}
@@ -226,7 +226,7 @@ const TrendingPage = () => {
                 <button
                  aria-label="Scroll to filter"
                   onClick={scrollToFilter}
-                  className="fixed bottom-6 right-6 bg-violet-600 hover:bg-violet-700 text-white p-3 rounded-full shadow-lg transition-all duration-300"
+                  className="fixed bottom-6 right-6 bg-[var(--primary-color)] hover:bg-[var(--primary-color)] text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
                 >
                   <ArrowUp className="w-6 h-6" />
                 </button>
@@ -238,7 +238,7 @@ const TrendingPage = () => {
 
           {/* Reviews Section */}
           <div className="mb-12">
-            <h2 className="text-3xl font-bold text-violet-600 mb-8 text-center">
+            <h2 className="text-3xl font-bold text-[var(--primary-color)] mb-8 text-center">
               What Our Customers Say
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

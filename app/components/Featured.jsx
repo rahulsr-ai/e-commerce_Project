@@ -26,10 +26,10 @@ const Featured = () => {
     <section className="py-16 bg-gradient-to-b from-black to-purple-900/20">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-[var(--primary-text-color)] mb-4">
             Featured Products
           </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto">
+          <p className="text-gray-200-300 max-w-2xl mx-auto">
             Discover our handpicked selection of premium products
           </p>
         </div>
@@ -55,10 +55,10 @@ const Featured = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                    <h3 className="text-xl font-semibold text-[var(--primary-text-color)] mb-2">
                       {category.title}
                     </h3>
-                    <button className="px-3 py-1.5 rounded-md bg-violet-600 hover:bg-violet-800 shadow-md">
+                    <button className="px-3 py-1.5 rounded-md bg-[var(--primary-color)] hover:bg-violet-800 shadow-md">
                       Explore
                     </button>
                   </div>

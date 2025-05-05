@@ -43,9 +43,9 @@ const CreateCategory = () => {
   return (
     <div className="p-6">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-black border-r border-violet-800/20 p-6 rounded-lg border border-gray-200">
+        <div className="bg-[var(--background-color)] border-r border-violet-800/20 p-6 rounded-lg border border-gray-200">
           <div className="text-center mb-6">
-            <h1 className="mt-2 text-xl font-medium text-white">
+            <h1 className="mt-2 text-xl font-medium text-[var(--primary-text-color)]">
               Create category
             </h1>
             <p className="mt-1 text-sm text-violet-500">
@@ -56,7 +56,7 @@ const CreateCategory = () => {
           <form onSubmit={handleCreateCategory}>
             <div className="grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-sm font-medium text-white">
+                <label className="block text-sm font-medium text-[var(--primary-text-color)]">
                   Category Name
                 </label>
                 <input
@@ -67,7 +67,7 @@ const CreateCategory = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white">
+                <label className="block text-sm font-medium text-[var(--primary-text-color)]">
                   Subcategory Name
                 </label>
                 <input
@@ -83,7 +83,7 @@ const CreateCategory = () => {
               <button
                aria-label='Create category'
                 type="submit"
-                className="inline-flex items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
+                className="inline-flex items-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-violet-800 hover:text-[var(--primary-text-color)] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white"
               >
                 <Save className="h-4 w-4 mr-2" />
                 Create Category
