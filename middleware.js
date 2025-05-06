@@ -3,11 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function middleware(req) {
   const { cookies } = req;
-  const token = cookies.get("__Host-authjs.csrf-token");
-  const googletoken = cookies.get("__Secure-authjs.session-token");
+ 
+  
+  
+  
+  
+
+  const token = cookies.get("authToken")?.value
+  const googletoken = cookies.get("__Secure-authjs.session-token")?.value
   const { pathname } = req.nextUrl; // Get current page path
 
  
+
+  console.log("here is your token", token, googletoken)
   
 
   // If no token and trying to access admin/profile page, redirect to sign-in page

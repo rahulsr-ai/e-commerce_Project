@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter,  } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -16,6 +16,7 @@ import { useAuth } from "@/context/Authcontext";
 import Loader from "../useComponents/Loader";
 
 const SignIn = () => {
+
   const router = useRouter();
   const { user, setUser } = useAuth();
   const [render, setrender] = useState("");
@@ -197,7 +198,7 @@ const SignIn = () => {
 
                 <button
                   type="submit"
-                
+                 
                   className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg text-[var(--primary-text-color)] bg-[var(--primary-color)] hover:bg-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-[var(--primary-color)] transition-all duration-200"
                 >
                   <span className="absolute right-4 flex items-center">
