@@ -37,6 +37,9 @@ export const POST = async (req) => {
 
     // Delete all relevant cookies
     const cookieNames = [
+      "__Secure-authjs.session-token",
+      "__Secure-authjs.callback-url",
+      "__Host-authjs.csrf-token",
       "authjs.session-token",
       "authjs.callback-url",
       "authjs.csrf-token",
