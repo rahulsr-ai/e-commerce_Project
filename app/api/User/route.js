@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 
 export async function GET(req) {
   const token = req.cookies.get("authToken")?.value; // Get token from cookies
-  const Googletoken = req.cookies.get("authjs.session-token")?.value;
+  const Googletoken = req.cookies.get("__Secure-authjs.session-token")?.value;
 
   const session = await auth();
 

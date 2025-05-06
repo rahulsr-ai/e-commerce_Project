@@ -10,7 +10,10 @@ export async function POST(request) {
       "__Secure-authjs.session-token",
       "__Secure-authjs.callback-url",
       "__Host-authjs.csrf-token",
-      "authToken", // Local auth token
+      "authjs.session-token", // on development google 
+      "authjs.callback-url", // on development google 
+      "authjs.csrf-token", // on development google 
+      "authToken",  // on development
      
     ];
 
