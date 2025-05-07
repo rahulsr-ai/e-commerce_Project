@@ -57,8 +57,8 @@ const HeroCarousel = () => {
             alt={slide.title}
             fill
             style={{ objectFit: "cover" }} // ✅ Use `style` instead
-            priority={index === 0} // Pehli image ko priority de rahe hain
-            className="absolute inset-0 w-full h-full"
+            priority
+            className=" w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
 

@@ -15,8 +15,8 @@ import BrandsMarquee from "./components/brandsMaruqee";
 import FAQSection from "./components/FAQSection";
 import NewFooter from "./components/NewFooter";
 const LazyFeatured = React.lazy(() => import("./components/Featured"));
-const LazyHeroCarousel = React.lazy(() => import("./components/HeroCarousel"));
 
+import HerocCarousel from "./components/HeroCarousel.jsx"
 
 
 const Landing = () => {
@@ -114,9 +114,9 @@ const Landing = () => {
     !loading &&
     <div className=" min-h-screen w-full ">
       {/* <HeroCarousel /> */}
-      <Suspense fallback={<div></div>}>
-        <LazyHeroCarousel />
-      </Suspense>
+   
+        <HerocCarousel />
+    
 
       {/* Brands Marquee */}
       <BrandsMarquee />
