@@ -61,7 +61,8 @@ const MobileMenu = ({
           </div>
           {isFocused && query.length >= 3 && (
     <div
-      className="flex flex-col py-2 px-2 gap-2 border-2 rounded-md bg-white absolute top-14 w-full h-fit"
+      className="flex flex-col py-2 px-2 gap-2 border-2 rounded-lg z-50 mt-1 bg-white absolute left-0 top-14 w-full h-fit
+      "
       onMouseDown={(e) => e.preventDefault()} // Prevent onBlur from triggering
     >
       <p className="text-violet-700">Search Results</p>

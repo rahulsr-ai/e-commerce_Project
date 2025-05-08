@@ -56,7 +56,6 @@ export async function POST(req) {
       message: isExpired
         ? "Your previous code expired. A new verification code has been sent."
         : "Your verification code is still valid. We've resent it to your email.",
-      code: newVerificationCode,
     });
   } catch (error) {
     console.error("Error resending verification code:", error);

@@ -104,7 +104,6 @@ export async function POST(req) {
     return NextResponse.json({
       success: true,
       message: "Verification code sent successfully",
-      code: verificationCode,
     });
 
   } catch (error) {
