@@ -112,7 +112,7 @@ const Landing = () => {
 
   return (
     !loading &&
-    <div className=" min-h-screen min-w-full border-4  ">
+    <div className=" min-h-screen min-w-full">
       {/* <HeroCarousel /> */}
    
         <HerocCarousel />

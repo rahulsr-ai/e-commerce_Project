@@ -81,7 +81,7 @@ function Signup() {
 
   return (
     isLoading && (
-      <div className="relative lg:top-12 top-16 ">
+      <div className="relative lg:top-12 top-16 min-h-screen">
         <div className="lg:py-16 pb-8  flex flex-col justify-center min-h-[calc(100vh-64px)] ">
           <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
             <div className="bg-[var(--background-color)] py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">

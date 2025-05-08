@@ -96,7 +96,7 @@ const SignIn = () => {
 
   return (
     isLoading && (
-      <div className="relative lg:top-14 top-14">
+      <div className="relative lg:top-14 top-14 min-h-screen">
      
         <div className=" flex flex-col justify-center min-h-[calc(100vh-64px)]">
           <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
