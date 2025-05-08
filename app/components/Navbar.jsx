@@ -144,12 +144,12 @@ const Navbar = () => {
   
 
   const handleSearch = async (e) => {
-    const value = e.target.value;
+    const value = e.target.value
 
-    if(value.trim().length > 3 ) { 
+    if(value.trim().length >= 3 ) { 
      const productData = await findUserSearch(value.trim())
      setDebouncedQuery(productData)
-     
+    
     }
       
     SetQuery(value);

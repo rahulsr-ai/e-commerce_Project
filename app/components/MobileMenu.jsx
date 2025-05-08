@@ -66,18 +66,18 @@ const MobileMenu = ({
     >
       <p className="text-violet-700">Search Results</p>
       <div className="space-y-1 text-black">
-        {debouncedQuery.map((item, i) => (
-          <p
-            key={i}
-            onClick={() => {
-              router.push(`/search?search=${query}`);
-              setIsOpen(false)
-            }}
-            className="p-1 rounded hover:bg-violet-200 cursor-pointer"
-          >
-            {item.name}
-          </p>
-        ))}
+      {Array.isArray(debouncedQuery) &&
+    debouncedQuery.map((item, i) => (
+      <p
+        key={i}
+        onClick={() => {
+          router.push(`/search?search=${query}`);
+        }}
+        className="p-1 rounded hover:bg-violet-200 cursor-pointer"
+      >
+        {item.name}
+      </p>
+    ))}
       </div>
     </div>
   )}
