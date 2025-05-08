@@ -30,10 +30,10 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--background-color)]`}
       >
         <AuthProvider>
-          <header>
+          <header className="w-full">
             <Navbar />
           </header>
-          <main>
+          <main className="w-full">
             <Suspense fallback={<div></div>}>
               <div>{children}</div>
             </Suspense>

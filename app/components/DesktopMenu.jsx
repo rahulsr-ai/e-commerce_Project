@@ -26,7 +26,7 @@ const DesktopMenu = ({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 ">
+    <div className="max-w-full  px-4 sm:px-6 ">
       <div className="flex items-center justify-between  h-16">
         {/* Logo */}
         <div className="flex-shrink-0 flex items-center space-x-2">
@@ -37,7 +37,7 @@ const DesktopMenu = ({
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-8 flex-1 justify-center">
+        <div className="hidden lg:flex items-center lg:space-x-4 xl:space-x-8 flex-1 justify-center w-fit max-w-3xl ">
           <Link
             aria-label="Home"
             href="/"
@@ -190,8 +190,9 @@ const DesktopMenu = ({
 
         <div className={`hidden lg:flex items-center space-x-4`}>
           {role ? (
-            <>
-              <Link
+            <div>
+
+                          <Link
                 aria-label="Account"
                 href={"/Account"}
                 className={`text-[var(--primary-text-color)] hover:underline underline-offset-4 px-6 py-2 rounded-full  transition-all duration-300 transform hover:scale-105
@@ -213,7 +214,7 @@ const DesktopMenu = ({
               >
                 LogOut
               </button>
-            </>
+              </div>
           ) : (
             <>
               <Link aria-label="Sign in" href="/sign-in">
