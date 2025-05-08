@@ -20,10 +20,12 @@ const DesktopMenu = ({
   debouncedQuery,
   role,
   sendSearchValue,
+  router
 }) => {
   const pathname = usePathname();
 
   const [isFocused, setIsFocused] = useState(false);
+   
 
   return (
     <div className="max-w-full  px-4 sm:px-6 ">
@@ -174,17 +176,26 @@ const DesktopMenu = ({
             </div>
 
             {isFocused && query.length >= 3 && (
-              <div
-                className="flex flex-col py-2 px-2 gap-2 border-2 rounded-md
-            bg-white absolute top-14 max-w-xs w-full h-fit "
-              >
-                <p className="text-violet-700"> Search Results</p>
-                <p className="text-black hover:bg-gray-100 ">
-                  {debouncedQuery.charAt(0).toUpperCase() +
-                    debouncedQuery.slice(1).toLowerCase()}
-                </p>
-              </div>
-            )}
+    <div
+      className="flex flex-col py-2 px-2 gap-2 border-2 rounded-md bg-white absolute top-14 max-w-xs w-full h-fit"
+      onMouseDown={(e) => e.preventDefault()} // Prevent onBlur from triggering
+    >
+      <p className="text-violet-700">Search Results</p>
+      <div className="space-y-1 text-black">
+        {debouncedQuery.map((item, i) => (
+          <p
+            key={i}
+            onClick={() => {
+              router.push(`/search?search=${query}`);
+            }}
+            className="p-1 rounded hover:bg-violet-200 cursor-pointer"
+          >
+            {item.name}
+          </p>
+        ))}
+      </div>
+    </div>
+  )}
           </div>
         </div>
 

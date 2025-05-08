@@ -17,13 +17,14 @@ import axios from "axios";
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
 import toast from "react-hot-toast";
+import { findUserSearch } from "@/lib/apiCalls";
 
 const Navbar = () => {
   const router = useRouter();
   const { user, setUser } = useAuth();
 
   const [query, SetQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState([]);
   const timeoutIdRef = useRef(null); // Store timeout ID
 
   const [role, setrole] = useState(null);
@@ -142,8 +143,15 @@ const Navbar = () => {
 
   
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     const value = e.target.value;
+
+    if(value.trim().length > 3 ) { 
+     const productData = await findUserSearch(value.trim())
+     setDebouncedQuery(productData)
+     
+    }
+      
     SetQuery(value);
 
   };
@@ -181,6 +189,7 @@ const Navbar = () => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         brands={brands}
+        router={router}
         categoryOpen={categoryOpen}
         setCategoryOpen={setCategoryOpen}
         brandsOpen={brandsOpen}
@@ -217,6 +226,7 @@ const Navbar = () => {
         role={role}
         setrole={setrole}
         handleSearch={handleSearch}
+        router={router}
       />
     </nav>
   );

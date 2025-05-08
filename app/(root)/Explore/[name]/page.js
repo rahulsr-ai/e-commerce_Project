@@ -195,7 +195,7 @@ const TrendingPage = () => {
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${
                       sortBy === price
                         ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]"
-                        : "bg-white text-gray-800-600 hover:bg-gray-100"
+                        : "bg-white text-gray-800 hover:bg-gray-100"
                     }`}
                   >
                     {price}

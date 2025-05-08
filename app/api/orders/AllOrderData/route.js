@@ -21,6 +21,11 @@ export async function GET(req) {
     //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     // }
 
+    if (req.headers.origin !== 'https://quickcart-lake.vercel.app/') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    
     await dbConnect();
 
     const Orders = await Order.find({});

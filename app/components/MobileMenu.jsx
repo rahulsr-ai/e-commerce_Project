@@ -1,7 +1,7 @@
 import { ChevronDown, Search } from "lucide-react";
 import Link from "next/link";
-import React from "react";
-import { useRouter, usePathname } from "next/navigation";
+import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const MobileMenu = ({
   isOpen,
@@ -16,11 +16,14 @@ const MobileMenu = ({
   role,
   setIconsForCategoryName,
   handleSearch,
+  debouncedQuery,
   sendSearchValue,
   query,
+  router
 }) => {
-  const router = useRouter();
-  const pathname = usePathname();
+    const pathname = usePathname();
+     const [isFocused, setIsFocused] = useState(false);
+       
 
   return (
     <div
@@ -36,6 +39,12 @@ const MobileMenu = ({
           <div className="relative">
             <input
               type="text"
+              onFocus={(e) => {
+                setIsFocused(true);
+              }}
+              onBlur={(e) => {
+                setIsFocused(false);
+              }}
               placeholder="Search products..."
               value={query}
               onChange={(e) => {
@@ -50,6 +59,28 @@ const MobileMenu = ({
               size={20}
             />
           </div>
+          {isFocused && query.length >= 3 && (
+    <div
+      className="flex flex-col py-2 px-2 gap-2 border-2 rounded-md bg-white absolute top-14 w-full h-fit"
+      onMouseDown={(e) => e.preventDefault()} // Prevent onBlur from triggering
+    >
+      <p className="text-violet-700">Search Results</p>
+      <div className="space-y-1 text-black">
+        {debouncedQuery.map((item, i) => (
+          <p
+            key={i}
+            onClick={() => {
+              router.push(`/search?search=${query}`);
+              setIsOpen(false)
+            }}
+            className="p-1 rounded hover:bg-violet-200 cursor-pointer"
+          >
+            {item.name}
+          </p>
+        ))}
+      </div>
+    </div>
+  )}
         </div>
 
         {role && (
