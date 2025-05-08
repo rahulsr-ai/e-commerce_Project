@@ -72,6 +72,7 @@ const MobileMenu = ({
         key={i}
         onClick={() => {
           router.push(`/search?search=${query}`);
+          setIsOpen(false)
         }}
         className="p-1 rounded hover:bg-violet-200 cursor-pointer"
       >
