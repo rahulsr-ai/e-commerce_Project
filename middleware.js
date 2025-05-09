@@ -6,9 +6,6 @@ export async function middleware(req) {
  
   
   
-  
-  
-
   const token = cookies.get("authToken")?.value
   const googletoken = cookies.get("__Secure-authjs.session-token")?.value
   const { pathname } = req.nextUrl; // Get current page path

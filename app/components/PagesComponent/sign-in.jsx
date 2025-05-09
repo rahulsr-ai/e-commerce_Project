@@ -29,6 +29,7 @@ const SignIn = () => {
 
   useEffect(() => {
     setisLoading(true);
+    
   }, []);
 
   
@@ -73,9 +74,6 @@ const SignIn = () => {
   
    
 
-
-  
-     
     } catch (error) {
       console.error("Error while logging in the user:", error);
       toast.error("Failed to sign in");
