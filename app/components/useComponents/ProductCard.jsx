@@ -58,7 +58,6 @@ const ProductCard = ({
       const data = await axios.post(`/api/cart/add`, {
         id,
       });
-      console.log("data", data);
       toast.success("Product added to cart");
     } catch (error) {
       console.log("frontend error while adding to cart", error);

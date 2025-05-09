@@ -7,19 +7,19 @@ import { dbConnect } from "@/lib/db";
 
 export async function GET(req) {
   try {
-    // const token = req.cookies.get("authToken")?.value;
+    const token = req.cookies.get("authToken")?.value;
 
-    // if (!token) {
-    //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    // }
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
-    // const decode = jwt.verify(token, process.env.JWT_SECRET);
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
 
-    // const Admin = await User.findOne({ _id: decode?.id });
+    const Admin = await User.findOne({ _id: decode?.id });
 
-    // if (!Admin || Admin.role !== "admin") {
-    //   return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    // }
+    if (!Admin || Admin.role !== "admin") {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
     if (req.headers.origin !== 'https://quickcart-lake.vercel.app/') {
       return res.status(403).json({ error: 'Forbidden' });

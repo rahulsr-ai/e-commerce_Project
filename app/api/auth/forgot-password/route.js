@@ -52,7 +52,7 @@ export async function POST(req) {
     await user.save();
 
     // Email Content
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetLink = `https://quickcart-lake.vercel.app/reset-password/${resetToken}`;
     const emailContent = `
            <h2>Password Reset Request</h2>
            <p>Click the link below to reset your password:</p>

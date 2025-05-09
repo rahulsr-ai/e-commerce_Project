@@ -13,9 +13,7 @@ async function EmailSignIn(email) {
 
 async function GoogleSignIn() {
   console.log("Google sign-in initiated");
-  await signIn("google", {
-    redirect: "/",
-  });
+  await signIn("google")
 
   return true;
 }

@@ -30,7 +30,7 @@ clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   pages: {
     signIn: "/sign-in", // Displays signin page
     signOut: "/",
-    error: "/", // Error code passed in query string as ?error=
+    // error: "/", // Error code passed in query string as ?error=
   },
 
   callbacks: {
