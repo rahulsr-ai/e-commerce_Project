@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import ProductCard from "@/app/components/useComponents/ProductCard";
 import NewFooter from "@/app/components/NewFooter";
 import { ArrowUp } from "lucide-react";
+import Loader from "@/app/components/useComponents/Loader";
 
 const CategoryPage = () => {
   const { name } = useParams();
@@ -80,12 +81,15 @@ const CategoryPage = () => {
         const { product } = await getProductsByCategory(name);
         setProducts(product);
         setFilteredProducts(product); // Initialize filtered products
-        setLoading(false);
+        
       } catch (error) {
         console.error("Error fetching products:", error);
-        setLoading(false);
+       
       }
+
+      setLoading(false);
     };
+
     fetchData();
 
     const toggleVisibility = () => {
@@ -138,6 +142,7 @@ const CategoryPage = () => {
 
   return (
     <div className="min-h-screen mt-1 bg-[var(--background-color)]-950 text-[var(--primary-text-color)] overflow-x-hidden">
+    
       {/* Hero Section */}
       <div className="relative h-[400px]  overflow-hidden w-full">
         {heroContent && (
@@ -206,6 +211,7 @@ const CategoryPage = () => {
             )}
           </div>
         ) : (
+           loading ? <Loader/> : 
           <div className="flex flex-col items-center justify-center h-96">
             <h2 className="text-2xl font-semibold mt-4">No Products Found</h2>
             <p className="text-gray-200-400 mt-2">

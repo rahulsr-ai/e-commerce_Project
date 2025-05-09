@@ -11,7 +11,7 @@ export const SendForgetPasswordEmail = async (toEmail, subject, htmlContent) => 
     });
 
     const mailOptions = {
-      from: `"StoreX Support" <no-reply@storex.com>`, // Sender email
+      from: `"Quickcart Support" <no-reply@quickcart.com>`, // Sender email
       to: toEmail, // Receiver email
       subject: subject, // Email subject
       html: htmlContent, // Email body (HTML)

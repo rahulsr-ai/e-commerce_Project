@@ -163,7 +163,7 @@ const DesktopMenu = ({
                   setIsFocused(false);
                 }}
                 value={query}
-                onChange={handleSearch}
+                onChange={(e) => handleSearch(e)}
                 onKeyDown={sendSearchValue}
                 type="text"
                 placeholder="Search products..."

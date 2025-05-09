@@ -65,6 +65,7 @@ const ForgotPasswordPage = () => {
               type="email"
               id="email"
               name="email"
+              onFocus={() => seterrorMessage("")}
               onChange={(e) => setEmail(e.target.value)}
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm px-3 py-3 text-black"

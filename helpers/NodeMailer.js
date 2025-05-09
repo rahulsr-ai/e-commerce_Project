@@ -15,7 +15,7 @@ export const sendEmail = async (toEmail, subject, htmlContent) => {
 
   // Mail options
   const mailOptions = {
-    from: 'StoreX no-reply@StoreX.com', // Sender email
+    from: 'Quickcart no-reply@quickcart.com', // Sender email
     to: toEmail, // Receiver email
     subject: subject, // Email subject
     html: htmlContent, // HTML content of the email

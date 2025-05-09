@@ -42,7 +42,7 @@ clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 
         const isUserExits = await User.findOne({ email: user.email });
 
-        if (isUserExits.status === "Blocked") {
+        if (isUserExits?.status === "Blocked") {
           return null;
         }
 
