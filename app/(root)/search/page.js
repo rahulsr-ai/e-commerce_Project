@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { handleSearchProduct } from "@/lib/apiCalls";
 import { ArrowUp } from "lucide-react";
 import NewFooter from "@/app/components/NewFooter";
+import Loader from "@/app/components/useComponents/Loader";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -16,6 +17,7 @@ const SearchPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [whislist, setWhislist] = useState([]);
   const [sortBy, setSortBy] = useState("All");
+  const [loading, setloading] = useState(true)
 
   const scrollToFilter = () => {
     const filterSection = document.getElementById("filter-section");
@@ -36,6 +38,10 @@ const SearchPage = () => {
         console.error("Error fetching products:", error);
         setProducts([]);
       }
+
+       setloading(false)
+
+     
     };
 
     fetchProducts();
@@ -115,7 +121,8 @@ const SearchPage = () => {
                 </div>
               ))}
             </div>
-          ) : (
+          ) : ( 
+             loading ? <Loader/> :
             <div className="flex flex-col items-center justify-center h-96">
               <h2 className="text-2xl font-semibold mt-4">No Products Found</h2>
               <p className="text-gray-200-400 mt-2">Search something else to find more products.</p>
