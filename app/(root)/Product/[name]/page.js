@@ -52,8 +52,10 @@ const ProductPage = () => {
     let updatedWishlist;
     if (wishlist.includes(id)) {
       updatedWishlist = wishlist.filter((itemId) => itemId !== id);
+      toast.success("Remove from wishlist")
     } else {
       updatedWishlist = [...wishlist, id];
+      toast.success("Added to wishlist")
     }
     setWishlist(updatedWishlist);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist)); // Save to LocalStorage

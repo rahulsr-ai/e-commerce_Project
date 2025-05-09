@@ -43,14 +43,16 @@ const ProductPageNew = ({
       return;
     }
 
+
+
     try {
       const response = await handleAddToCart(SingleProduct._id, quantity);
       console.log("response is", response);
-      if (response.success) {
-        
-      }
+      toast.success("Added to cart")
+
     } catch (error) {
       console.log("frontend error while adding to cart", error);
+       toast.error("Failed to add")
       return null;
     }
   };
@@ -58,6 +60,7 @@ const ProductPageNew = ({
   useEffect(() => {
     console.log("SingleProduct", SingleProduct);
   }, [SingleProduct]);
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -141,6 +144,7 @@ const ProductPageNew = ({
             <button
               onClick={() => {
                 handleWishlist(SingleProduct._id);
+               
               }}
               className={`p-3 border border-[var(--primary-text-color)] rounded-lg hover:bg-rose-500  transition-colors
                 ${
