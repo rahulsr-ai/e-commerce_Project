@@ -90,7 +90,7 @@ const SignIn = () => {
     localStorage.setItem("code", "0001");
     const isLogedIn = await GoogleSignIn();
     if (isLogedIn) {
-      router.push("/profile");
+      router.push("/");
     }
   };
 

@@ -14,7 +14,7 @@ async function EmailSignIn(email) {
 async function GoogleSignIn() {
   console.log("Google sign-in initiated");
   await signIn("google", {
-    redirect: "/account",
+    redirect: "/",
   });
 
   return true;
@@ -29,7 +29,6 @@ const GithubSignIn = async () => {
 const handleUserLogout = async (success) => {
   console.log("logout");
   redirect("/sign-in");
-  // return true;
 };
 
 export { GoogleSignIn, GithubSignIn, EmailSignIn, handleUserLogout };
