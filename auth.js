@@ -30,7 +30,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/sign-in", // Displays signin page
     signOut: "/",
-    error: "/error", // Error code passed in query string as ?error=
+    error: "/", // Error code passed in query string as ?error=
   },
 
   callbacks: {
@@ -61,8 +61,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           image: user.image,
         });
 
-        console.log("token is  ------------------");
-        console.log(token);
         return {
           ...token,
           id: user.id,
@@ -72,7 +70,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      console.log("session callbacks", { session, token });
+     
       return {
         ...session,
         user: {
