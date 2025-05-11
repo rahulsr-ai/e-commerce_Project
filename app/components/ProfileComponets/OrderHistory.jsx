@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import { Package, ExternalLink, IndianRupee } from "lucide-react";
 import CustomizeModel from "../CustomizeMode";
+import Loader from "../useComponents/Loader";
 
 const OrderHistory = ({ orders }) => {
-  if (!orders || orders.length === 0) {
+
+
+  if (orders.length === 0) {
+    return <Loader />;
+  }
+
+
+  if (!orders) {
     return (
       <div className="space-y-6">
         <h2 className="text-xl font-semibold mb-4">Order History</h2>
@@ -15,6 +23,8 @@ const OrderHistory = ({ orders }) => {
     );
   }
 
+
+  
   const [isOpen, setOpen] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null); // State to store the selected address
 

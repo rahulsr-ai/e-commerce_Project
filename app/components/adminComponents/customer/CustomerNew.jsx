@@ -54,6 +54,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
       return matchesSearch && matchesStatus;
     });
   }, [UserOrderData, searchQuery, statusFilter]);
+  
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);

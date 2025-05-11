@@ -5,11 +5,13 @@ import { Heart, Trash2, ShoppingCart, IndianRupee } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
 import { handleAddToCart, HandleWishlist } from "@/lib/apiCalls";
+import Loader from "../useComponents/Loader";
 
 const Wishlist = ({ productsData }) => {
   const [wishlistProducts, setWishlistProducts] = useState([]);
   const [render, setRender] = useState(false);
 
+  
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -20,7 +22,9 @@ const Wishlist = ({ productsData }) => {
           data?.wishlist.includes(item._id)
         );
 
+        
         setWishlistProducts(wishlistItems); // ✅ Single state update, better performance
+
       } catch (error) {
         console.error("Error fetching wishlist:", error);
       }
@@ -30,6 +34,8 @@ const Wishlist = ({ productsData }) => {
 
     fetchWishlist();
   }, [render, productsData]);
+
+  
 
   const AddToCart = async (item) => {
     console.log(`Added to cart: ${item._id}`);
@@ -58,6 +64,12 @@ const Wishlist = ({ productsData }) => {
       console.error("Error removing item from wishlist:", error);
     }
   };
+
+  if (!wishlistProducts) {
+    return (
+     <Loader/>
+    );
+  }
 
   if (wishlistProducts.length === 0) {
     return (
