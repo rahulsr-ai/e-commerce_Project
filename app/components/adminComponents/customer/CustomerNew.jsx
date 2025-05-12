@@ -15,8 +15,6 @@ import { OrderDetailsModal, EditStatusModal } from "./OrderModel";
 const ITEMS_PER_PAGE = 5;
 
 function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
-   console.log('useEffect inside', FixrealData)
-   console.log('inside', UserOrderData)
   const { isSidebarOpen } = useSidebar();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");

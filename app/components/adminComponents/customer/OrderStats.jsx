@@ -5,40 +5,45 @@ import { motion } from "framer-motion";
 import { Package, Truck, CheckCircle, XCircle } from "lucide-react";
 
 const OrderStats = ({ orderData }) => {
-  // Stats calculation
-  const orderStats = useMemo(() => {
-    const stats = orderData?.reduce((acc, order) => {
-      acc[order.status] = (acc[order.status] || 0) + 1;
-      return acc;
-    }, {});
 
-    return [
-      {
-        label: "Pending Orders",
-        count: stats["Pending"] || 0,
-        icon: <Package className="w-6 h-6 text-[var(--primary-text-color)]" />,
-        color: "bg-amber-500",
-      },
-      {
-        label: "Dispatched",
-        count: stats["Dispatched"] || 0,
-        icon: <Truck className="w-6 h-6 text-[var(--primary-text-color)]" />,
-        color: "bg-blue-500",
-      },
-      {
-        label: "Delivered",
-        count: stats["Delivered"] || 0,
-        icon: <CheckCircle className="w-6 h-6 text-[var(--primary-text-color)]" />,
-        color: "bg-green-500",
-      },
-      {
-        label: "Cancelled",
-        count: stats["Cancelled"] || 0,
-        icon: <XCircle className="w-6 h-6 text-[var(--primary-text-color)]" />,
-        color: "bg-red-500",
-      },
-    ];
-  }, [orderData]);
+
+  // Stats calculation
+ const orderStats = useMemo(() => {
+  if (!Array.isArray(orderData)) return [];
+
+  const stats = orderData.reduce((acc, order) => {
+    acc[order.status] = (acc[order.status] || 0) + 1;
+    return acc;
+  }, {});
+
+  return [
+    {
+      label: "Pending Orders",
+      count: stats["Pending"] || 0,
+      icon: <Package className="w-6 h-6 text-[var(--primary-text-color)]" />,
+      color: "bg-amber-500",
+    },
+    {
+      label: "Dispatched",
+      count: stats["Dispatched"] || 0,
+      icon: <Truck className="w-6 h-6 text-[var(--primary-text-color)]" />,
+      color: "bg-blue-500",
+    },
+    {
+      label: "Delivered",
+      count: stats["Delivered"] || 0,
+      icon: <CheckCircle className="w-6 h-6 text-[var(--primary-text-color)]" />,
+      color: "bg-green-500",
+    },
+    {
+      label: "Cancelled",
+      count: stats["Cancelled"] || 0,
+      icon: <XCircle className="w-6 h-6 text-[var(--primary-text-color)]" />,
+      color: "bg-red-500",
+    },
+  ];
+}, [orderData]);
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
