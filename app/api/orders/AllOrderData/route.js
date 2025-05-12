@@ -68,6 +68,9 @@ export async function GET(req) {
       })),
     }));
 
+    console.log('here is your finalResult', finalResult);
+    
+
     return NextResponse.json({
       message: "Orders fetched successfully",
       success: true,

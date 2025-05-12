@@ -5,20 +5,14 @@ import {
   User,
   ShoppingBag,
   Heart,
-  MapPin,
-  CreditCard,
   Settings,
-  Edit,
   ShoppingCart,
 } from "lucide-react";
 import ProfileSkeleton from "../../components/ProfileComponets/Skeleton";
 import TabButton from "../../components/ProfileComponets/tabsButton.jsx";
 import ErrorState from "../../components/ProfileComponets/ErrorState";
-import { useAuth } from "@/context/Authcontext";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { getAllProducts, GetUserDetails, getUserOrder } from "@/lib/apiCalls";
-import Image from "next/image";
 
 // Lazy loaded tab contents
 const ProfileOverview = lazy(() =>

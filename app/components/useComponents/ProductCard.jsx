@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Heart, ShoppingCart, Eye, IndianRupee } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Heart, ShoppingCart, Eye, IndianRupee, RefreshCw } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { HandleWishlist } from "@/lib/apiCalls";
-import { useAuth } from "@/context/Authcontext";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -40,6 +39,8 @@ const ProductCard = ({
     }
   };
 
+  const [cartloading, setCartloading] = useState(false);
+
   // Load wishlist from LocalStorage when the component mounts
   useEffect(() => {
     const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -47,6 +48,7 @@ const ProductCard = ({
   }, []);
 
   const AddToCart = async () => {
+    setCartloading(true);
     try {
       const Logincode = localStorage.getItem("code");
 
@@ -63,6 +65,8 @@ const ProductCard = ({
       console.log("frontend error while adding to cart", error);
       return null;
     }
+
+    setCartloading(false);
   };
 
   const handleWishlist = async (id) => {
@@ -91,7 +95,9 @@ const ProductCard = ({
   if (!(imageUrl || title || description || category || price || id || slug)) {
     <div className="flex py-24  justify-center ">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-200-700">No Products Found</h2>
+        <h2 className="text-3xl font-bold text-gray-200-700">
+          No Products Found
+        </h2>
         <p className="mt-4 text-[var(--secondary-text-color)]">
           No products found matching your search criteria.
         </p>
@@ -141,7 +147,9 @@ const ProductCard = ({
           {title.split(" ").slice(-2).join(" ")}
         </h3>
 
-        <p className="mt-2 text-[var(--fade-subtext-color)] text-sm line-clamp-2">{description}</p>
+        <p className="mt-2 text-[var(--fade-subtext-color)] text-sm line-clamp-2">
+          {description}
+        </p>
 
         <div className="mt-4 mb-2 font-bold text-white">
           {isOnDeal ? (
@@ -172,13 +180,16 @@ const ProductCard = ({
             className="flex-1 bg-[var(--primary-color)] text-[var(--primary-text-color)] font-semibold px-4 py-2 lg:px-2 text-wrap text-sm
              rounded-lg font-medium  transition-colors duration-200 flex items-center justify-center gap-2"
           >
-            <ShoppingCart className="w-5 h-5" />
-            Add to Cart
+            {cartloading ? (
+              <RefreshCw className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <ShoppingCart className="w-5 h-5" />
+                Add to Cart
+              </>
+            )}
           </button>
-          <Link 
-          
-          aria-label="View product"
-          href={`/Product/${slug}`}>
+          <Link aria-label="View product" href={`/Product/${slug}`}>
             <button
               aria-label="View product"
               name="view-button"

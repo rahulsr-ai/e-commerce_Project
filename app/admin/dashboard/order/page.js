@@ -14,10 +14,12 @@ const Page = () => {
     // console.log("response", finalResult);
     setUserOrderData(finalResult);
     setFixrealData(finalResult);
+    // console.log('finalResult', finalResult)
   };
 
   useEffect(() => {
     fetchData();
+
   }, []);
 
   return (

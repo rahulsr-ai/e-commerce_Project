@@ -3,19 +3,15 @@
 import React, { useState, useEffect } from "react";
 import {
   Users,
-  Shield,
   Ban,
   CheckCircle,
   Trash2,
   Search,
-  Filter,
   MoreVertical,
-  Bell,
-  User,
-  LogOut,
 } from "lucide-react";
 import { useSidebar } from "@/context/SidebarContext";
-import { HandleUserStatus, getAllUsers } from "@/lib/apiCalls";
+import { HandleUserStatus} from "@/lib/apiCalls";
+import axios from "axios";
 
 const AdminDashboard = ({ user }) => {
   const { isSidebarOpen } = useSidebar();
@@ -40,6 +36,7 @@ const AdminDashboard = ({ user }) => {
     setUsers(user);
   }, [user]);
 
+  
   const filterUsers = () => {
     const filteredUsers = user.filter((user) => {
       const matchesSearch =
@@ -54,6 +51,8 @@ const AdminDashboard = ({ user }) => {
 
     setUsers(filteredUsers);
   };
+
+
 
   // Handle user actions
   const handleUserAction = async (userId, action) => {
@@ -78,6 +77,20 @@ const AdminDashboard = ({ user }) => {
           "Are you sure you want to unblock this user? They will regain access to the platform.",
       });
     } else if (action === "delete") {
+
+       const { data } = await axios.post("/api/auth/delete");
+      console.log(data);
+
+      if (data?.success) {
+        toast.success("Account deleted successfully");
+        
+        setIsModalOpen(false);
+        router.push("/");
+        localStorage.clear();
+        return;
+      }
+
+
       setConfirmationModal({
         isOpen: true,
         userId,
@@ -88,6 +101,7 @@ const AdminDashboard = ({ user }) => {
       });
     }
   };
+
 
   // Confirm user action
   const confirmAction = async () => {

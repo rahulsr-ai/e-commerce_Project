@@ -4,6 +4,7 @@ import User from "@/models/UserSchema";
 import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import Order from "@/models/OrderSchema";
 
 export const POST = async (req) => {
   try {
@@ -22,8 +23,10 @@ export const POST = async (req) => {
     let user;
     if (token) {
       user = await User.findOneAndDelete({ _id: decode?.id });
+        await Order.findOneAndDelete({userId: decode?.id })
     } else {
       user = await User.findOneAndDelete({ email: session.user?.email });
+      await Order.findOneAndDelete({userId: session.user?.id })
     }
 
     if (!user) {

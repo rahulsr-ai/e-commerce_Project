@@ -64,7 +64,7 @@ const SignIn = () => {
        setUser(() => data);
 
       if (data?.code === "2637") {
-        toast.loading("Logging to admin panel")
+        toast.loading("Logging to admin panel", {duration: 4000})
         router.push("/admin/dashboard/Inventory");
         
       } else if (data?.code === "0001") {
