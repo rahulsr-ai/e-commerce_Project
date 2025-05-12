@@ -44,7 +44,7 @@ const OrderTable = ({
           </tr>
         </thead>
         <tbody className="divide-y divide-zinc-800">
-          {orders.map((order, index) => (
+          {orders?.map((order, index) => (
             <motion.tr
               key={index}
               initial={{ opacity: 0, y: 10 }}
