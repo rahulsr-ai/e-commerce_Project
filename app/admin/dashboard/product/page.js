@@ -1,9 +1,7 @@
-"use client";
 
-import React from 'react'
-import dynamic from 'next/dynamic'
-const AddProduct = dynamic(() => import('@/app/components/adminComponents/Product/AddProduct.jsx'), { ssr: false })
-const page = () => {
+import AddProduct from '@/app/components/adminComponents/Product/AddProduct.jsx'
+
+const Page = () => {
   return (
        <div>
         <AddProduct/>
@@ -11,4 +9,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

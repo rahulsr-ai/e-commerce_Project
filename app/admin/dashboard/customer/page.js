@@ -8,7 +8,7 @@ const Customer = dynamic(() => import("@/app/components/adminComponents/order/Or
 
 
 
-const page = () => {
+const Page = () => {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ const page = () => {
   return <Customer user={user} />;
 };
 
-export default page;
+export default Page;

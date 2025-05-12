@@ -3,11 +3,9 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { getAllOrdersData } from "@/lib/apiCalls";
+const CustomerNew = dynamic(() => import("@/app/components/adminComponents/customer/CustomerNew"))
 
-
-import CustomerNew from "@/app/components/adminComponents/customer/CustomerNew.jsx"
-
-const page = () => {
+const Page = () => {
   const [UserOrderData, setUserOrderData] = useState([]);
   const [FixrealData, setFixrealData] = useState();
 
@@ -33,4 +31,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

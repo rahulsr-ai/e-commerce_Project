@@ -1,9 +1,5 @@
-"use client";
-
-import React from "react";
-import dynamic from "next/dynamic";
-const InventoryPage = dynamic(() => import("@/app/components/adminComponents/inventory/inventory.jsx"), { ssr: false });
-const page = () => {
+import InventoryPage from "@/app/components/adminComponents/inventory/inventory.jsx"
+const Page = () => {
  
 
 
@@ -14,4 +10,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
