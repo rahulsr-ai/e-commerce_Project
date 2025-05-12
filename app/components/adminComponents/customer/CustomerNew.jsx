@@ -166,8 +166,8 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
               >
                 <div className="text-xs text-gray-200-400">
                   Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} to{" "}
-                  {Math.min(currentPage * ITEMS_PER_PAGE, filteredOrders.length)} of{" "}
-                  {filteredOrders.length} entries
+                  {Math.min(currentPage * ITEMS_PER_PAGE, filteredOrders?.length)} of{" "}
+                  {filteredOrders?.length} entries
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   <motion.button
@@ -180,7 +180,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                     Previous
                   </motion.button>
 
-                  {[...Array(totalPages)].map((_, index) => (
+                  {[...Array(totalPages)]?.map((_, index) => (
                     <motion.button
                       key={index}
                       onClick={() => setCurrentPage(index + 1)}
