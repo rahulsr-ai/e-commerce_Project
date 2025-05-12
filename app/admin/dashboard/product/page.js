@@ -1,4 +1,4 @@
-
+"use client"
 import AddProduct from '@/app/components/adminComponents/Product/AddProduct.jsx'
 
 const Page = () => {
