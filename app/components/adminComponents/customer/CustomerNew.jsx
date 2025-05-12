@@ -183,7 +183,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
                     Previous
                   </motion.button>
 
-                  {[...Array(totalPages)]?.map((_, index) => (
+                {Array.from({ length: totalPages }, (_, index) => (
                     <motion.button
                       key={index}
                       onClick={() => setCurrentPage(index + 1)}
