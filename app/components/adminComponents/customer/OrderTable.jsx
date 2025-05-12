@@ -56,7 +56,7 @@ const OrderTable = ({
                 # {order.orderId.slice(5, 15)}
               </td>
               <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm text-[var(--primary-text-color)]">
-                {order.userDetails.name}
+                {order.userDetails?.name}
               </td>
 
               <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-200-300">

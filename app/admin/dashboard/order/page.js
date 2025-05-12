@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { getAllOrdersData } from "@/lib/apiCalls";
 
 
-const CustomerNew = dynamic(() => import("@/app/components/adminComponents/customer/CustomerNew.jsx"), { ssr: false })
+import CustomerNew from "@/app/components/adminComponents/customer/CustomerNew.jsx"
 
 const page = () => {
   const [UserOrderData, setUserOrderData] = useState([]);

@@ -87,14 +87,14 @@ export const OrderDetailsModal = ({
                           order.status
                         )} text-[var(--primary-text-color)] mt-1`}
                       >
-                        {order.status}
+                        {order?.status}
                       </span>
                     </div>
                     <div>
                       <p className="text-gray-200-400 text-sm">Total</p>
                       <p className="text-[var(--primary-text-color)] font-medium">
                         <IndianRupee className="inline size-4" />{" "}
-                        {order.totalAmount}
+                        {order?.totalAmount}
                       </p>
                     </div>
                   </div>
@@ -110,7 +110,7 @@ export const OrderDetailsModal = ({
                       <div>
                         <p className="text-gray-200-400 text-sm">Name</p>
                         <p className="text-[var(--primary-text-color)] font-medium">
-                          {order.userDetails.name}
+                          {order?.userDetails?.name}
                         </p>
                       </div>
                       <div className="flex gap-2">
@@ -121,7 +121,7 @@ export const OrderDetailsModal = ({
                           onClick={() =>
                             handleContactCustomer(
                               "email",
-                              order.userDetails.email
+                              order?.userDetails?.email
                             )
                           }
                           className="p-2 bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors"
@@ -134,18 +134,18 @@ export const OrderDetailsModal = ({
                     <div>
                       <p className="text-gray-200-400 text-sm">Email</p>
                       <p className="text-[var(--primary-text-color)] font-medium">
-                        {order.userDetails.email}
+                        {order?.userDetails?.email}
                       </p>
                     </div>
 
                     <div>
                       <p className="text-gray-200-400 text-sm">Address</p>
                       <p className="text-[var(--primary-text-color)] font-medium">
-                        {order.shippingAddress.country},{" "}
-                        {order.shippingAddress.city},{" "}
-                        {order.shippingAddress.state},{" "}
-                        {order.shippingAddress.postalCode},{" "}
-                        {order.shippingAddress.street}
+                        {order?.shippingAddress?.country},{" "}
+                        {order?.shippingAddress?.city},{" "}
+                        {order?.shippingAddress?.state},{" "}
+                        {order?.shippingAddress?.postalCode},{" "}
+                        {order?.shippingAddress?.street}
                       </p>
                     </div>
                   </div>
