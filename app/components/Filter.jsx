@@ -57,7 +57,7 @@ export function Filter({
         ${
           hasActiveFilters
             ? "bg-[var(--primary-color)] text-[var(--primary-text-color)] shadow-lg shadow-[var(--primary-color)]"
-            : "dark:bg-[var(--background-color)] dark:text-gray-300 bg-gray-300 text-black hover:bg-[var(--background-color)]"
+            : "dark:bg-[var(--background-color)] dark:text-gray-300 bg-gray-300 text-black "
         }`}
           >
             <FilterIcon
@@ -74,7 +74,7 @@ export function Filter({
                 sethasActiveFilters(false);
               }}
               className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-black dark:bg-[var(--background-color)]
-               dark:text-gray-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
+               dark:text-gray-300 rounded-lg  transition-colors"
             >
               <X size={20} />
               <span>Clear</span>
@@ -96,7 +96,7 @@ export function Filter({
                 <h2 className="text-xl font-semibold text-black dark:text-white">Filters</h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 hover:bg-[var(--background-color)] rounded-lg transition-colors text-black dark:text-white"
+                  className="p-2 rounded-lg transition-colors text-black dark:text-white"
                 >
                   <X size={20} />
                 </button>
@@ -117,7 +117,7 @@ export function Filter({
                           ${
                             filters.category === category._id
                               ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]"
-                              : "bg-[var(--background-color)] bg-stone-100 text-black hover:bg-[var(--background-color)]"
+                              : "bg-[var(--background-color)] bg-stone-100 text-black "
                           }`}
                         >
                           {/* <input type="checkbox" className="sr-only" /> */}
