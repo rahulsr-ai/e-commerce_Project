@@ -139,7 +139,7 @@ const AdminDashboard = ({ user }) => {
 
   return (
     <div
-      className={`min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)] ${
+      className={`min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)] border ${
         isSidebarOpen ? "w-full" : "ml-20"
       }`}
     >

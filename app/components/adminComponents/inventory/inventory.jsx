@@ -165,7 +165,7 @@ const InventoryManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)]">
+    <div className="min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)] border">
       <main className={`p-4 md:p-6 ${isSidebarOpen ? "w-full" : "ml-20"}`}>
         {/* Page Title */}
         <div className="mb-6">

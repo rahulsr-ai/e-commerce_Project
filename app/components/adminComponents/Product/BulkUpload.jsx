@@ -25,7 +25,7 @@ const BulkUpload = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 border">
       <div className="max-w-3xl mx-auto">
         <div className="bg-[var(--background-color)] border-r border-violet-800/20 p-6 rounded-lg border border-gray-200">
           <div className="text-center mb-6">

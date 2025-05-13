@@ -47,7 +47,7 @@ function AddProduct() {
 
   return (
     <div
-      className={`min-h-screen bg-[var(--background-color)] border-r border-violet-800/20 ${
+      className={`min-h-screen bg-[var(--background-color)] border${
         issidebarOpen ? "ml-0" : "ml-14"
       }`}
     >
@@ -61,7 +61,7 @@ function AddProduct() {
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "single"
                     ? "border-b-2 border-violet-800 text-violet-600"
-                    : "text-gray-200-500 hover:text-[var(--primary-text-color)]"
+                    : "text-gray-200 hover:text-[var(--primary-text-color)]"
                 }`}
               >
                 Single Product Upload
@@ -72,7 +72,7 @@ function AddProduct() {
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "bulk"
                     ? "border-b-2 border-violet-800 text-violet-600"
-                    : "text-gray-200-500 hover:text-[var(--primary-text-color)]"
+                    : "text-gray-200 hover:text-[var(--primary-text-color)]"
                 }`}
               >
                 Bulk Upload
@@ -83,7 +83,7 @@ function AddProduct() {
                 className={`px-6 py-4 text-sm font-medium ${
                   activeTab === "createCategory"
                     ? "border-b-2 border-violet-800 text-violet-600"
-                    : "text-gray-200-500 hover:text-[var(--primary-text-color)]"
+                    : "text-gray-200 hover:text-[var(--primary-text-color)]"
                 }`}
               >
                 Create Category

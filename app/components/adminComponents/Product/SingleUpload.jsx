@@ -111,7 +111,7 @@ const SingleProductUpload = ({ RealCategory, RealsubCategory }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 border">
       {/* Form Section */}
       <div>
         <form onSubmit={handleSubmit} className="space-y-6">

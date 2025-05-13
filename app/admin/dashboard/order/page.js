@@ -23,7 +23,7 @@ const Page = () => {
   }, []);
 
   return (
-    <div>
+    <div className="">
       <CustomerNew
        UserOrderData={UserOrderData}
        setUserOrderData={setUserOrderData}

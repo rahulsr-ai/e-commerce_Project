@@ -94,10 +94,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                   }} // Update active state on click
                   className={`flex items-center ${
                     isOpen ? "px-4" : "justify-center px-2"
-                  } py-3 text-sm rounded-lg transition-all duration-200 ${
+                  } py-3 text-sm rounded-lg transition-all duration-200  ${
                     pathname === item?.link
                       ? "bg-violet-600/50 text-violet-100 font-medium"
-                      : "text-gray-200-400 hover:bg-violet-100/5 hover:text-violet-200"
+                      : "text-gray-400 hover:bg-violet-100/5 hover:text-violet-200"
                   }`}
                   title={!isOpen ? item.label : undefined}
                 >
