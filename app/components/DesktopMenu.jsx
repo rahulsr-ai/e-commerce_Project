@@ -43,8 +43,8 @@ const DesktopMenu = ({
           <Link
             aria-label="Home"
             href="/"
-            className={` hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
-                 ${pathname === "/" ? "underline  " : "text-[var(--primary-text-color)"} `}
+            className={`hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
+                 ${pathname === "/" ? "underline text-white " : "text-white "} `}
           >
             <span className="mr-4">Home</span>
           </Link>
@@ -52,8 +52,8 @@ const DesktopMenu = ({
           <Link
             aria-label="Deals"
             href="/deals"
-            className={` transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
-              ${pathname === "/deals" ? "underline  " : "text-[var(--primary-text-color)"}  `}
+            className={`hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-3 group underline-offset-4 hover:underline
+              ${pathname === "/deals" ? "underline text-white  " : "text-white"}  `}
           >
             <span className="mr-4 ">Deals</span>
           </Link>
@@ -64,11 +64,11 @@ const DesktopMenu = ({
               aria-label="Categories"
               onMouseEnter={() => setCategoryOpen(true)}
               onMouseLeave={() => setCategoryOpen(false)}
-              className={`hover:text-[var(---text-color)] transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
+              className={` transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
                 ${
                   pathname.startsWith("/category")
-                    ? "underline "
-                    : "text-[var(--primary-text-color)"
+                    ? "underline text-white"
+                    : "text-white"
                 }  `}
             >
               <span>Categories</span>
@@ -118,8 +118,8 @@ const DesktopMenu = ({
               className={`text-[var(--primary-text-color) hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-1 underline-offset-4 hover:underline
                 ${
                   pathname.startsWith("/Explore")
-                    ? "underline  "
-                    : "text-[var(--primary-text-color)"
+                    ? "underline text-white "
+                    : "text-white"
                 } `}
             >
               <span>Explore</span>
@@ -213,7 +213,7 @@ const DesktopMenu = ({
                 ${
                   pathname.startsWith("/Account")
                     ? "underline "
-                    : "text-[var(--primary-text-color)"
+                    : "text-white"
                 }
                 `}
               >
@@ -233,7 +233,7 @@ const DesktopMenu = ({
               <Link aria-label="Sign in" href="/sign-in">
                 <button
                   aria-label="Sign in"
-                  className="text-[var(--primary-text-color) hover:text-[var(--primary-text-color)] transition-all duration-200 flex items-center space-x-2 group"
+                  className="text-white  transition-all duration-200 flex items-center space-x-2 group"
                 >
                   <User
                     size={18}
