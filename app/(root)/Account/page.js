@@ -189,7 +189,7 @@ const Profile = () => {
             </div>
 
             {/* Tab Content */}
-            <div className="bg-[var(--background-color)]-950 rounded-lg p-4 md:p-6">
+            <div className="dark:bg-[var(--background-color)] bg-neutral-100 rounded-lg p-4 md:p-6">
               <Suspense fallback={<ProfileSkeleton />}>
                 {activeTab === "edit" ? (
                   <div className="flex flex-col items-center justify-center"></div>

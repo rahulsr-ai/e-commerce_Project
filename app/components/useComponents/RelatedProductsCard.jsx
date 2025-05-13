@@ -18,7 +18,7 @@ const RelatedProductsCard = ({
   handleWishlist,
 }) => {
   return (
-    <div className="group relative bg-neutral-900 p-4 rounded-lg shadow-lg ">
+    <div className="group relative dark:bg-neutral-900  bg-neutral-100 p-4 rounded-lg shadow-lg ">
       {/* Product Image */}
       <div className="aspect-square rounded-lg overflow-hidden mb-4 bg-white relative">
         <img
@@ -54,8 +54,8 @@ const RelatedProductsCard = ({
 
       {/* Product Info */}
       <h3 className="font-medium text-violet-400 mb-2"> {name} </h3>
-      <p className="text-gray-200-400 line-clamp-3 text-sm">{description}</p>
-      <p className="text-[var(--primary-text-color)] mt-3 font-bold text-lg">
+      <p className="text-gray-400 line-clamp-3 text-sm">{description}</p>
+      <p className="text-[var(--primary-color)] mt-3 font-bold text-lg">
         {" "}
         <IndianRupee className="inline size-4" /> {price}{" "}
       </p>

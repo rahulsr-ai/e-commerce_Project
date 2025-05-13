@@ -98,19 +98,19 @@ const SignIn = () => {
      
         <div className=" flex flex-col justify-center min-h-[calc(100vh-64px)]">
           <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
-            <div className="bg-[var(--background-color)] py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">
+            <div className="bg-neutral-100 dark:bg-[var(--background-color)] py-8 px-4 shadow-2xl rounded-2xl sm:px-10 border border-white/10">
               <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-[var(--primary-text-color)]">
+                <h2 className="text-2xl font-bold  dark:text-[var(--primary-text-color)]">
                   Welcome Back
                 </h2>
-                <p className="mt-1 text-sm text-[var(--primary-text-color)]/60">
+                <p className="mt-1 text-sm dark:text-[var(--primary-text-color)]/60">
                   Sign in to your account
                 </p>
               </div>
 
               {/* Overlay for Loading */}
               {isProcessing && (
-                <div className="absolute inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50">
+                <div className="absolute inset-0 bg-neutral-100 dark:bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50">
                   <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
                 </div>
               )}
@@ -137,7 +137,7 @@ const SignIn = () => {
                       type="email"
                       autoComplete="email"
                       required
-                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-[var(--background-color)] border border-white/20 rounded-lg text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-3 py-2.5 dark:bg-[var(--background-color)] border border-black/20 dark:border-white/20 rounded-lg dark:text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -161,7 +161,7 @@ const SignIn = () => {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="appearance-none block w-full pl-10 pr-3 py-2.5 bg-[var(--background-color)] border border-white/20 rounded-lg text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
+                      className="appearance-none block w-full pl-10 pr-3 py-2.5 dark:bg-[var(--background-color)] border border-black/20 dark:border-white/20 rounded-lg dark:text-[var(--primary-text-color)] placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-all duration-200"
                       placeholder="••••••••"
                     />
                   </div>
@@ -176,7 +176,7 @@ const SignIn = () => {
                       id="remember-me"
                       name="remember-me"
                       type="checkbox"
-                      className="h-4 w-4 text-[var(--primary-color)] focus:ring-[var(--primary-color)] border-white/20 rounded bg-[var(--background-color)]"
+                      className="h-4 w-4 dark:text-[var(--primary-color)] focus:ring-[var(--primary-color)] border-white/20 rounded bg-[var(--background-color)]"
                     />
                     <label
                       htmlFor="remember-me"
@@ -212,7 +212,7 @@ const SignIn = () => {
                     <div className="w-full border-t border-white/10"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-[var(--background-color)] text-[var(--primary-text-color)]/60 mb-2 ">
+                    <span className="px-2 dark:bg-[var(--background-color)] dark:text-[var(--primary-text-color)]/60 mb-2 ">
                       Or continue with
                     </span>
                   </div>

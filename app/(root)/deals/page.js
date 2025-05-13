@@ -125,7 +125,7 @@ const DealsPage = () => {
   return (
    
       <div className="min-h-screen mt-1">
-        <div className="min-h-screen bg-[var(--background-color)] text-[var(--primary-text-color)]">
+        <div className="min-h-screen bg-neutral-100 dark:bg-[var(--background-color)] dark:text-[var(--primary-text-color)]">
           <DealsHeroSection
             slides={slides}
             activeSlide={activeSlide}
@@ -135,7 +135,7 @@ const DealsPage = () => {
           <div className="max-w-7xl mx-auto px-2 py-4">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
               <div id="filter-section" className="flex items-center gap-2">
-                <SlidersHorizontal size={24} className="text-[var(--primary-text-color)]" />
+                <SlidersHorizontal size={24} className="dark:text-[var(--primary-text-color)] text-black" />
 
                 <select
                   value={selectedCategory}

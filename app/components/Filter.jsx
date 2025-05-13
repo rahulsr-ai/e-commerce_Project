@@ -48,7 +48,7 @@ export function Filter({
   console.log(filters);
 
   return (
-    <div className=" py-2 flex items-center   md:flex-row flex-col mx-auto md:px-12">
+    <div className=" py-2 flex items-center  md:flex-row flex-col mx-auto md:px-12 ">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
         <div className="flex items-center gap-3 md:gap-4">
           <button
@@ -57,7 +57,7 @@ export function Filter({
         ${
           hasActiveFilters
             ? "bg-[var(--primary-color)] text-[var(--primary-text-color)] shadow-lg shadow-[var(--primary-color)]"
-            : "bg-[var(--background-color)] text-gray-200-300 hover:bg-[var(--background-color)]"
+            : "dark:bg-[var(--background-color)] dark:text-gray-300 bg-gray-300 text-black hover:bg-[var(--background-color)]"
         }`}
           >
             <FilterIcon
@@ -73,7 +73,8 @@ export function Filter({
                 clearFilters();
                 sethasActiveFilters(false);
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-[var(--background-color)]-800 text-gray-200-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-gray-200 text-black dark:bg-[var(--background-color)]
+               dark:text-gray-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
             >
               <X size={20} />
               <span>Clear</span>
@@ -81,7 +82,7 @@ export function Filter({
           )}
         </div>
 
-        <div className="text-sm text-gray-200-400 md:ml-auto ">
+        <div className="text-sm text-gray-400 md:ml-auto ">
           Showing {productCount} {productCount === 1 ? "product" : "products"}
         </div>
       </div>
@@ -89,13 +90,13 @@ export function Filter({
       {/* Filter Modal */}
       {isModalOpen && (
         <div className="fixed inset-0  z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 rounded-xl shadow-xl w-full max-w-lg">
+          <div className="dark:bg-zinc-900 rounded-xl shadow-xl w-full max-w-lg bg-neutral-100">
             <div className="p-6 space-y-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Filters</h2>
+                <h2 className="text-xl font-semibold text-black dark:text-white">Filters</h2>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-2 hover:bg-[var(--background-color)] rounded-lg transition-colors"
+                  className="p-2 hover:bg-[var(--background-color)] rounded-lg transition-colors text-black dark:text-white"
                 >
                   <X size={20} />
                 </button>
@@ -103,7 +104,7 @@ export function Filter({
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-medium mb-4">Categories</h3>
+                  <h3 className="text-sm font-medium mb-4 text-black dark:text-white">Categories</h3>
                   {SubCategory.length > 0 && (
                     <div className="grid grid-cols-2 gap-3">
                       {SubCategory.map((category) => (
@@ -116,7 +117,7 @@ export function Filter({
                           ${
                             filters.category === category._id
                               ? "bg-[var(--primary-color)] text-[var(--primary-text-color)]"
-                              : "bg-[var(--background-color)]-800 text-gray-200-300 hover:bg-[var(--background-color)]-700"
+                              : "bg-[var(--background-color)] bg-stone-100 text-black hover:bg-[var(--background-color)]"
                           }`}
                         >
                           {/* <input type="checkbox" className="sr-only" /> */}
@@ -130,10 +131,10 @@ export function Filter({
                   )}
                 </div>
 
-                <div className="h-px bg-[var(--background-color)]" />
+                <div className="h-px dark:bg-[var(--background-color)] bg-neutral-50" />
 
                 <div className="text-center">
-                  <h3 className="text-sm font-medium mb-4">Price Range</h3>
+                  <h3 className="text-sm font-medium mb-4 dark:text-white text-black">Price Range</h3>
                   <div className="flex items-center justify-center space-x-4">
                     <input
                       type="number"
@@ -188,7 +189,7 @@ export function Filter({
                       sethasActiveFilters(false);
                       setIsModalOpen(false);
                     }}
-                    className="px-4 py-2 bg-[var(--background-color)]-800 text-gray-200-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
+                    className="px-4 py-2 bg-neutral-50 text-black dark:bg-[var(--background-color)] dark:text-gray-300 rounded-lg hover:bg-[var(--background-color)]-700 transition-colors"
                   >
                     Clear All
                   </button>

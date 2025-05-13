@@ -141,7 +141,7 @@ const CategoryPage = () => {
   }, [filters]);
 
   return (
-    <div className="min-h-screen mt-1 bg-[var(--background-color)]-950 text-[var(--primary-text-color)] overflow-x-hidden">
+    <div className="min-h-screen mt-1 bg-neutral-100  dark:bg-[var(--background-color)] text-[var(--primary-text-color)] overflow-x-hidden">
     
       {/* Hero Section */}
       <div className="relative h-[400px]  overflow-hidden w-full">
@@ -213,8 +213,8 @@ const CategoryPage = () => {
         ) : (
            loading ? <Loader/> : 
           <div className="flex flex-col items-center justify-center h-96">
-            <h2 className="text-2xl font-semibold mt-4">No Products Found</h2>
-            <p className="text-gray-200-400 mt-2">
+            <h2 className="text-2xl font-semibold mt-4 text-black dark:text-white">No Products Found</h2>
+            <p className="text-gray-200-400 mt-2 dark:text-white text-gray-800">
               Try adjusting your filters to find more products.
             </p>
             <button

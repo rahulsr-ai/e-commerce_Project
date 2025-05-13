@@ -81,7 +81,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <div className="bg-neutral-900 p-4  rounded-lg shadow-lg ">
+      <div className="bg-neutral-100 p-4  rounded-lg shadow-lg ">
         <h3 className="text-base text-center font-medium">
           {" "}
           Verification code has sent to
@@ -119,7 +119,7 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
           </div>
           <button
             type="submit"
-            className="mt-4 w-full p-2 bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-violet-500 transition-all duration-200 rounded-md"
+            className="mt-4 w-full p-2 bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-violet-500 transition-all duration-200 rounded-md text-white font-medium"
             disabled={message === "Code sent to your email!"}
           >
             {message === "Code sent to your email!"

@@ -58,7 +58,7 @@ const MinFilter = ({
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 ">
         <div id="filter-section" className="flex items-center gap-2">
-          <SlidersHorizontal size={24} className="text-[var(--primary-text-color)]" />
+          <SlidersHorizontal size={24} className="dark:text-[var(--primary-text-color)] text-black" />
 
           <select
            aria-label="Filter by category"

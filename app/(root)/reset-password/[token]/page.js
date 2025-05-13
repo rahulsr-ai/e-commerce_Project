@@ -37,7 +37,7 @@ const ResetpasswordPage = () => {
 
   return (
     <div className="min-h-screen bg-[var(--background-color)]-900 text-[var(--primary-text-color)] flex items-center">
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 rounded-lg bg-[var(--background-color)]-950">
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 rounded-lg dark:bg-[var(--background-color)] bg-neutral-100 ">
         {loading && (
           <div className="absolute inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50">
             <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div>

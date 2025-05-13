@@ -261,7 +261,7 @@ const DesktopMenu = ({
            name="mobile-menu-button"
             aria-label="Mobile menu"
             onClick={() => setIsOpen(!isOpen)}
-            className="text-[var(--primary-text-color) hover:text-[var(--primary-text-color)] p-2 transition-colors duration-200"
+            className="dark:text-[var(--primary-text-color) text-white dark:hover:text-[var(--primary-text-color)] p-2 transition-colors duration-200"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

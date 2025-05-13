@@ -95,10 +95,10 @@ const ProductCard = ({
   if (!(imageUrl || title || description || category || price || id || slug)) {
     <div className="flex py-24  justify-center ">
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-gray-200-700">
+        <h2 className="text-3xl font-bold dark:text-gray-700 text-black">
           No Products Found
         </h2>
-        <p className="mt-4 text-[var(--secondary-text-color)]">
+        <p className="mt-4 dark:text-[var(--secondary-text-color)] dark:text-gray-300 text-gray-800">
           No products found matching your search criteria.
         </p>
       </div>
@@ -110,7 +110,7 @@ const ProductCard = ({
       className="max-w-sm
       place-content-center
     
-    bg-[var(--background-color)] rounded-lg shadow-lg hover:shadow-[inset_0_0_20px_rgba(139,92,246,0.5)] 
+    dark:bg-[var(--background-color)] bg-neutral-100 border dark:border-gray-700 rounded-lg shadow-lg hover:shadow-[inset_0_0_20px_rgba(139,92,246,0.5)] 
     overflow-hidden transition-transform duration-300 hover:-translate-y-1 w-full"
     >
       <div className="relative">
@@ -143,7 +143,7 @@ const ProductCard = ({
           <span className="text-sm text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)] font-medium uppercase tracking-wide"></span>
         </div>
 
-        <h3 className="mt-2 text-xl font-semibold text-white">
+        <h3 className="mt-2 text-xl font-semibold dark:text-white text-black ">
           {title.split(" ").slice(-2).join(" ")}
         </h3>
 
@@ -158,12 +158,14 @@ const ProductCard = ({
               <span className="text-base uppercase tracking-wide text-[var(--secondary-text-color)] line-through ml-1">
                 {price + 200}
               </span>
-              <span className="ml-2 text-md uppercase tracking-wide text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)]">
+              <span className="ml-2 text-md uppercase tracking-wide dark:text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)]
+              ">
                 {price}
               </span>
             </div>
           ) : (
-            <span className="uppercase text-xl font-medium tracking-wide text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)]">
+            <span className="uppercase text-xl font-medium tracking-wide dark:text-gradient-[var(--secondary-text-color)]-[var(--secondary-text-color)]
+            text-black dark:text-white">
               <IndianRupee className="inline text-xs text-[var(--secondary-text-color)]" />
               {price}
             </span>

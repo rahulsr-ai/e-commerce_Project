@@ -74,10 +74,10 @@ const Wishlist = ({ productsData }) => {
   if (wishlistProducts.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-6 text-[var(--primary-text-color)]">My Wishlist</h2>
-        <div className="flex flex-col items-center justify-center bg-neutral-950 rounded-lg p-8 border-2 border-gray-700">
+        <h2 className="text-2xl font-bold mb-6 text-[var(--primary-color)]">My Wishlist</h2>
+        <div className="flex flex-col items-center justify-center dark:bg-neutral-950 bg-neutral-100 rounded-lg p-8 border-2 border-gray-700">
           <Heart className="w-16 h-16 text-rose-500 mb-4" />
-          <p className="text-gray-200-400 text-lg">Your wishlist is empty</p>
+          <p className="dark:text-gray-400 text-black text-lg">Your wishlist is empty</p>
           {/* <p className="text-gray-200-500 mt-2">Add items that you like to your wishlist</p> */}
         </div>
       </div>
@@ -85,14 +85,14 @@ const Wishlist = ({ productsData }) => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 text-[var(--primary-text-color)]">My Wishlist</h2>
+    <div className=" px-4 py-8">
+      <h2 className="text-2xl font-bold mb-6 text-[var(--primary-color)]">My Wishlist</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {wishlistProducts.map((item) => (
           <div
             key={item._id}
-            className="bg-neutral-900 rounded-lg overflow-hidden border border-gray-700 hover:border-violet-500 transition-all duration-300"
+            className="dark:bg-neutral-900  bg-neutral-100 rounded-lg overflow-hidden border border-gray-700 hover:border-violet-500 transition-all duration-300"
           >
             <div className="relative h-48 w-full">
               <Image
@@ -111,7 +111,7 @@ const Wishlist = ({ productsData }) => {
 
             <div className="p-4">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-lg font-semibold text-[var(--primary-text-color)]">
+                <h3 className="text-lg font-semibold text-[var(--primary-color)]">
                   {item.name}
                 </h3>
                 <span className="text-violet-400 font-bold">

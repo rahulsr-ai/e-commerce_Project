@@ -45,7 +45,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--background-color)]-900 flex items-center justify-center">
+    <div className="min-h-screen dark:bg-[var(--background-color)] bg-neutral-100 flex items-center justify-center">
       <div className="pt-10 pb-20 px-6 sm:px-10 lg:px-8 lg:pt-16 rounded-lg bg-[var(--background-color)]-950 mx-4">
         {loading && (
           <div className="absolute inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50">
@@ -58,7 +58,7 @@ const ForgotPasswordPage = () => {
         </p>
         <div className="mt-6 flex flex-col gap-4">
           <form className="flex w-full flex-col gap-4" onSubmit={handleform}>
-            <label htmlFor="email" className="text-sm font-medium text-[var(--primary-text-color)]">
+            <label htmlFor="email" className="text-sm font-medium dark:text-[var(--primary-text-color)]">
               Email address
             </label>
             <input
@@ -68,7 +68,8 @@ const ForgotPasswordPage = () => {
               onFocus={() => seterrorMessage("")}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm px-3 py-3 text-black"
+              className="mt-1 block w-full rounded-md dark:border-gray-300 border-black border shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm px-3 py-3
+               text-black "
             />
             <p className="text-sm text-red-500 ml-2">{errorMessage}</p>
             <button

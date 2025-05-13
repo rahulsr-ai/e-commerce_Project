@@ -119,6 +119,7 @@ const Landing = () => {
     
 
       {/* Brands Marquee */}
+      
       <BrandsMarquee />
 
       <div>

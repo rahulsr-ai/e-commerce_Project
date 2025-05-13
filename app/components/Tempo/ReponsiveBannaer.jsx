@@ -20,7 +20,7 @@ const ResponsiveBanner = ({
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] to-[#8B5CF6] opacity-90" />
+        <div className="absolute inset-0 bg-white dark:bg-gradient-to-r dark:from-[#0A0A0A] dark:to-[#8B5CF6] opacity-90" />
       </div>
 
       {/* Content container */}
@@ -30,7 +30,7 @@ const ResponsiveBanner = ({
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--primary-text-color)]"
+            className="text-2xl md:text-3xl lg:text-4xl font-bold dark:text-[var(--primary-text-color)]"
           >
             {title}
           </motion.h2>
@@ -38,7 +38,7 @@ const ResponsiveBanner = ({
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-sm md:text-base lg:text-lg text-gray-200"
+            className="text-sm md:text-base lg:text-lg dark:text-gray-200 text-gray-700"
           >
             {description}
           </motion.p>
@@ -52,7 +52,7 @@ const ResponsiveBanner = ({
           transition={{ delay: 0.4 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="hidden md:block px-6 py-3 bg-[#8B5CF6] text-[var(--primary-text-color)] rounded-lg font-medium
+          className="hidden md:block px-6 py-3 bg-[#8B5CF6] dark:text-[var(--primary-text-color)] rounded-lg font-medium
             shadow-lg hover:shadow-[#8B5CF6]/50 transition-all duration-300"
         >
           Shop Now
@@ -64,8 +64,8 @@ const ResponsiveBanner = ({
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
-        className="absolute bottom-4 left-4 right-4 md:hidden px-6 py-3  
-          text-[var(--primary-text-color)] rounded-lg font-medium shadow-lg hover:shadow-[#8B5CF6]/50 
+        className="absolute bottom-4 left-4 right-4 md:hidden px-6 py-3  bg-[#8B5CF6]
+          text-[var(--primary-text-color)]  rounded-lg font-medium shadow-lg hover:shadow-[#8B5CF6]/50 
           transition-all duration-300 text-center"
       >
         Shop Now

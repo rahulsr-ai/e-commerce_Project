@@ -163,7 +163,7 @@ const TrendingPage = () => {
            md:px-20"
           >
             <div id="filter-section" className="flex items-center gap-2">
-              <SlidersHorizontal size={24} className="text-[var(--primary-text-color)]" />
+              <SlidersHorizontal size={24} className="dark:text-[var(--primary-text-color)] text-black" />
 
               <select
                 value={selectedCategory}

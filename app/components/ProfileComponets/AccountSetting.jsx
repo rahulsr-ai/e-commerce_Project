@@ -51,13 +51,13 @@ const AccountSettings = () => {
 
       {isModalOpen && (
         <motion.div
-          className="fixed inset-0 bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 dark:bg-[var(--background-color)] bg-white bg-opacity-50 flex items-center justify-center z-50"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="bg-[var(--background-color)]-800 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
+            className="dark:bg-[var(--background-color)] bg-neutral-50 rounded-lg border border-zinc-700 p-6 w-full max-w-md"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.8 }}
@@ -75,7 +75,7 @@ const AccountSettings = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500"
+                className="px-4 py-2 rounded-md bg-red-600 hover:bg-red-500 text-white"
                 onClick={handleDeleteAccount}
               >
                 Confirm

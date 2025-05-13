@@ -26,7 +26,7 @@ const ProfileOverview = ({ user }) => {
   });
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
+    <div className="p-6">
       <div className="bg-white dark:bg-neutral-900 rounded-xl shadow-lg overflow-hidden">
         <div className="p-6">
           <h2 className="text-2xl font-bold text-center text-gray-200-800 dark:text-[var(--primary-text-color)] mb-6">

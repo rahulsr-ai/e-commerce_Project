@@ -25,7 +25,7 @@ const SamplePage = ({
 
   if (cartProducts?.length === 0) {
     return (
-      <div className="space-y-6 bg-[var(--background-color)] text-[var(--primary-text-color)] min-h-screen p-6">
+      <div className="space-y-6 bg-neutral-100 dark:bg-[var(--background-color)] text-[var(--primary-color)] min-h-screen p-6">
         <h2 className="text-xl font-semibold mb-4 text-violet-500">
           Cart Products
         </h2>
@@ -76,9 +76,9 @@ const SamplePage = ({
   };
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-[var(--background-color)] text-[var(--primary-text-color)]">
+    <div className="flex flex-col lg:flex-row min-h-screen dark:bg-[var(--background-color)] text-[var(--primary-color)]">
       {/* Cart Summary - Fixed on desktop, top on mobile */}
-      <div className="w-full lg:w-1/3 xl:w-1/4 bg-[var(--background-color)] p-4 sm:p-6 lg:h-screen lg:sticky lg:top-32">
+      <div className="w-full lg:w-1/3 xl:w-1/4 bg-neutral-50 dark:bg-[var(--background-color)] p-4 sm:p-6 lg:h-screen lg:sticky lg:top-32">
         <h3 className="text-xl sm:text-2xl font-bold mb-6 text-violet-500">
           Cart Summary
         </h3>
@@ -90,7 +90,7 @@ const SamplePage = ({
                 className="flex justify-between py-2 border-b border-gray-700"
               >
                 <div className="flex flex-col">
-                  <span className="font-medium text-[var(--primary-text-color)]">{product?.name}</span>
+                  <span className="font-medium dark:text-[var(--primary-text-color)] text-black">{product?.name}</span>
                   <span className="text-sm text-gray-200-400">
                     Qty: {product?.quantity}
                   </span>
@@ -104,7 +104,7 @@ const SamplePage = ({
           </div>
           <div className="pt-4 mt-4 border-t-2 border-gray-700">
             <div className="flex justify-between font-bold text-lg">
-              <span>Total</span>
+              <span className="text-black dark:text-white">Total</span>
               <span className="">
                 <IndianRupee className="size-6   inline" />
                 {calculateTotal()}
@@ -140,7 +140,7 @@ const SamplePage = ({
           {cartProducts?.map((product, i) => (
             <div
               key={i}
-              className="bg-[var(--background-color)] rounded-xl shadow-lg overflow-hidden hover:shadow-violet-600/10 transition-all"
+              className="dark:bg-[var(--background-color)] bg-neutral-50 rounded-xl shadow-lg overflow-hidden hover:shadow-violet-600/10 transition-all"
             >
               <div className="flex flex-col md:flex-row">
                 <div className="relative h-64 sm:h-72 md:h-auto md:w-1/2">
@@ -163,26 +163,26 @@ const SamplePage = ({
                     {product?.name}
                   </h3>
 
-                  <p className="text-gray-200-400 mt-2 line-clamp-2">
+                  <p className="text-black dark:text-white mt-2 line-clamp-2">
                     {product?.description}
                   </p>
 
                   <div className="mt-4 space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-200-400">Quantity:</span>
-                      <span className="font-medium text-[var(--primary-text-color)]">
+                      <span className="dark:text-white text-black">Quantity:</span>
+                      <span className="font-medium text-[var(--primary-color)] dark:text-[var(--primary-text-color)]">
                         {product?.quantity}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-200-400">Unit Price:</span>
-                      <span className="font-medium text-[var(--primary-text-color)]">
+                      <span className="dark:text-white text-black">Unit Price:</span>
+                      <span className="font-medium text-[var(--primary-color)] dark:text-[var(--primary-text-color)]">
                         <IndianRupee className="inline size-6 " />
                         {product?.price}
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-lg font-semibold">
-                      <span className="text-gray-200-400">Subtotal:</span>
+                      <span className="dark:text-white text-black">Subtotal:</span>
                       <span className="">
                         <IndianRupee className="inline size-6 " />
                         {product?.priceAtTimeOfAdding * product?.quantity}

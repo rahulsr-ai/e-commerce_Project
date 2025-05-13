@@ -12,7 +12,7 @@ const brands = [
 
 const BrandsMarquee = () => {
   return (
-    <div className="overflow-hidden py-8 mx-10">
+    <div className="overflow-hidden py-8 mx-10 hidden dark:block ">
       <div className="relative flex gap-4 sm:gap-10 animate-marquee">
         {[...brands, ...brands].map((brand, index) => (
           <div
@@ -24,7 +24,7 @@ const BrandsMarquee = () => {
               alt={brand.name}
               width={200}
               height={100}
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full "
             />
           </div>
         ))}
