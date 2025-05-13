@@ -7,10 +7,10 @@ import { dbConnect } from "../../../../lib/db.js";
 
 /// Sign in the User
 export async function POST(req) {
+  await dbConnect(); // Connect to database
   try {
     const { email, password } = await req.json(); // Get email & password from request
 
-    await dbConnect(); // Connect to database
 
     // Find the user by email
     const user = await User.findOne({ email });

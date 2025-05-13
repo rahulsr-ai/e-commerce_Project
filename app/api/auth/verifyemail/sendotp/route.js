@@ -5,6 +5,7 @@ import TemporaryUser from "@/models/TemporaryScema";
 import User from "@/models/UserSchema";
 
 export async function POST(req) {
+   await dbConnect();
   try {
     const { email, name } = await req.json();
     const verificationCode = Math.floor(100000 + Math.random() * 900000); // 6-digit code
@@ -22,7 +23,7 @@ export async function POST(req) {
       <p>This code is valid for 3 minutes.</p>
     `;
 
-    await dbConnect();
+   
 
     // Check if user already exists (case-insensitive check)
     const isUserInUserCollection = await User.findOne({ email: normalizedEmail });

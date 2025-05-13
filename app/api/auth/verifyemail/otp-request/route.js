@@ -5,10 +5,10 @@ import TemporaryUser from "@/models/TemporaryScema";
 
 
 export async function POST(req) {
+  await dbConnect();
   try {
     const { email } = await req.json();
 
-    await dbConnect();
 
     // Find the user in the TemporaryUser collection
     const existingUser = await TemporaryUser.findOne({ email });

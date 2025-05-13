@@ -6,6 +6,7 @@ import TemporaryUser from "@/models/TemporaryScema";
 import { AdminsEmails } from "@/app/data/AdminsEmails";
 
 export async function POST(request) {
+   await dbConnect()
   try {
     // Step 1: Parse incoming request data
     const { verifyOtp, password, name, email } = await request.json();
@@ -18,7 +19,7 @@ export async function POST(request) {
     }
 
 
-    await dbConnect(); // Connect to the database
+   ; // Connect to the database
 
     // Step 2: Check if the user has an entry in the TemporaryUser collection
     const existingTempUser = await TemporaryUser.findOne({ email });
