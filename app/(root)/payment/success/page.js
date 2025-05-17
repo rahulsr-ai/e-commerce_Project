@@ -44,24 +44,24 @@ const SuccessPage = () => {
   return (
    
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="max-w-md w-full bg-[var(--background-color)] rounded-lg shadow-lg p-8 text-center">
+      <div className="max-w-md w-full bg-stone-50 dark:bg-[var(--background-color)] rounded-lg shadow-lg p-8 text-center">
         <div className="mb-6">
           <CheckCircle 
           aria-label="Success"
           className="w-20 h-20 text-green-500 mx-auto" />
         </div>
 
-        <h1 className="text-3xl font-bold text-[var(--primary-text-color)] mb-4">
+        <h1 className="text-3xl font-bold dark:text-[var(--primary-text-color)] mb-4">
           Payment Successful!
         </h1>
 
-        <p className="text-[var(--primary-text-color)] mb-8">
+        <p className="dark:text-[var(--primary-text-color)] mb-8">
           Thank you for your payment. Your transaction has been completed
           successfully.
         </p>
 
         {/* ✅ Shipping Address Section */}
-        <div className="text-[var(--primary-text-color)]">
+        <div className="dark:text-[var(--primary-text-color)]">
           {shippingAddress ? (
             <div className="mt-4">
               <p>
@@ -74,7 +74,7 @@ const SuccessPage = () => {
           )}
         </div>
 
-        <div className="border-t text-[var(--primary-text-color)] pt-6">
+        <div className="border-t dark:text-[var(--primary-text-color)] pt-6">
           <Link
            aria-label="Return to homepage"
           href="/"

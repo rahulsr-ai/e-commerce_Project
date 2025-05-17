@@ -9,6 +9,7 @@ import ProductCard from "./components/useComponents/ProductCard";
 import Loader from "./components/useComponents/Loader";
 import MinFilter from "./components/useComponents/minimalFilter";
 
+import { getSession } from "next-auth/react";
 
 import ResponsiveBanner from "./components/Tempo/ReponsiveBannaer";
 import BrandsMarquee from "./components/brandsMaruqee";
@@ -16,26 +17,24 @@ import FAQSection from "./components/FAQSection";
 import NewFooter from "./components/NewFooter";
 const LazyFeatured = React.lazy(() => import("./components/Featured"));
 
-import HerocCarousel from "./components/HeroCarousel.jsx"
-
+import HerocCarousel from "./components/HeroCarousel.jsx";
 
 const Landing = () => {
-  
   const router = useRouter();
 
   const { user, setUser } = useAuth();
   const [isVisible, setIsVisible] = useState(false);
 
-  
   const [Products, setProducts] = useState([]);
   const [loading, setloading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [whislist, setWhislist] = useState([]);
   const [UnFilterData, setUnFilterData] = useState([]);
 
-  
-
   const GetProductData = async () => {
+    const session = await getSession();
+    console.log('here is your session' , session); // If logged in, contains user info
+
     try {
       const { data } = await axios.get("/api/product/getallproduct");
 
@@ -71,117 +70,111 @@ const Landing = () => {
   useEffect(() => {
     const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
     if (!fs) return;
-  
-    fs(window.TEMPORARY, 100, () => {
-      console.log("Not in incognito mode");
-    }, () => {
-      alert("For best experience, please open this site in Incognito mode.");
-    });
-  }, []);
 
-  
-  
+    fs(
+      window.TEMPORARY,
+      100,
+      () => {
+        console.log("Not in incognito mode");
+      },
+      () => {
+        alert("For best experience, please open this site in Incognito mode.");
+      }
+    );
+  }, []);
 
   useEffect(() => {
-   try {
-    const role = localStorage.getItem("code");
-    if (role === "2637") {
-      router.push("/admin/dashboard/Inventory");
-      return;
+    try {
+      const role = localStorage.getItem("code");
+      if (role === "2637") {
+        router.push("/admin/dashboard/Inventory");
+        return;
+      }
+
+      fetchCategories();
+      GetProductData();
+      setloading(false);
+
+      const toggleVisibility = () => {
+        setIsVisible(window.scrollY > 300);
+      };
+
+      window.addEventListener("scroll", toggleVisibility);
+      return () => window.removeEventListener("scroll", toggleVisibility);
+    } catch (error) {
+      console.log("error", error);
     }
-
-    fetchCategories();
-    GetProductData();
-    setloading(false);
-
-    const toggleVisibility = () => {
-      setIsVisible(window.scrollY > 300);
-    };
-
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
-   } catch (error) {
-     console.log("error", error);
-     
-   }
   }, []);
 
- 
-  
-  
-
   return (
-    !loading &&
-    <div className=" min-h-screen min-w-full">
-      {/* <HeroCarousel /> */}
-   
+    !loading && (
+      <div className=" min-h-screen min-w-full">
+        {/* <HeroCarousel /> */}
+
         <HerocCarousel />
-    
 
-      {/* Brands Marquee */}
-      
-      <BrandsMarquee />
+        {/* Brands Marquee */}
 
-      <div>
-        <Suspense fallback={<div></div>}>
-          <LazyFeatured />
-        </Suspense>
-      </div>
+        <BrandsMarquee />
 
-      {/* Special Offer Banner */}
-      <div>
-        <ResponsiveBanner />
-      </div>
-
-      <div className="py-12 md:px-16" id="filter-section">
-        <MinFilter
-          products={Products}
-          setproducts={setProducts}
-          UnFilterData={UnFilterData}
-        />
-      </div>
-
-      {/* Product Grid */}
-      {Products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 md:px-12 place-items-center">
-          {Products?.map((product) => (
-            <ProductCard
-              whislist={whislist}
-              setWhislist={setWhislist}
-              key={product._id}
-              imageUrl={product.images[0]}
-              category={product.category}
-              title={product.name}
-              description={product.description}
-              price={product.price}
-              id={product._id}
-              slug={product.slug}
-            />
-          ))}
-          {isVisible && (
-            <button
-              onClick={scrollToFilter}
-              className="fixed bottom-6 right-6 bg-[var(--primary-color)]  text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
-            >
-              <ArrowUp className="w-6 h-6" />
-            </button>
-          )}
+        <div>
+          <Suspense fallback={<div></div>}>
+            <LazyFeatured />
+          </Suspense>
         </div>
-      ) : (
-        <Loader />
-      )}
 
+        {/* Special Offer Banner */}
+        <div>
+          <ResponsiveBanner />
+        </div>
 
+        <div className="py-12 md:px-16" id="filter-section">
+          <MinFilter
+            products={Products}
+            setproducts={setProducts}
+            UnFilterData={UnFilterData}
+          />
+        </div>
 
-      <div>
-        <FAQSection />
+        {/* Product Grid */}
+        {Products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 md:px-12 place-items-center">
+            {Products?.map((product) => (
+              <ProductCard
+                whislist={whislist}
+                setWhislist={setWhislist}
+                key={product._id}
+                imageUrl={product.images[0]}
+                category={product.category}
+                title={product.name}
+                description={product.description}
+                price={product.price}
+                id={product._id}
+                slug={product.slug}
+              />
+            ))}
+            {isVisible && (
+              <button
+                onClick={scrollToFilter}
+                className="fixed bottom-6 right-6 bg-[var(--primary-color)]  text-[var(--primary-text-color)] p-3 rounded-full shadow-lg transition-all duration-300"
+              >
+                <ArrowUp className="w-6 h-6" />
+              </button>
+            )}
+          </div>
+        ) : (
+          <Loader />
+        )}
+
+        <div>
+          <FAQSection />
+        </div>
+
+        <div>
+          <NewFooter />
+        </div>
       </div>
-
-
-      <div>
-        <NewFooter />
-      </div>
-    </div>
+    )
   );
 };
 

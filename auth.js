@@ -12,16 +12,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   providers: [
     Google({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      allowDangerousEmailAccountLinking: true,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      // allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {
           access_type: "offline",
-          prompt: "consent",
+          prompt: "select_accoun",
           response_type: "code",
-          scope:
-            "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile", // Add profile scope
+          scope: "openid email profile",
         },
       },
     }),
@@ -51,14 +50,13 @@ clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         }
 
         const newUser = await User.create({
-          name: user.name,
-          email: user.email,
-          password: user.password,
+          name: user?.name,
+          email: user?.email,
           role: "user",
           isVerified: true,
           authProvider: "google",
-          authProviderId: user.id,
-          image: user.image,
+          authProviderId: user?.id,
+          image: user?.image,
         });
 
         return {
@@ -70,7 +68,6 @@ clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     },
 
     async session({ session, token }) {
-     
       return {
         ...session,
         user: {
