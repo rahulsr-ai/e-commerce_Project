@@ -14,11 +14,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      // allowDangerousEmailAccountLinking: true,
+      allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {
           access_type: "offline",
-          prompt: "select_accoun",
+          prompt: "select_account",
           response_type: "code",
           scope: "openid email profile",
         },
