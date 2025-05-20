@@ -30,13 +30,13 @@ export const OrderDetailsModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[var(--background-color)] bg-opacity-80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 backdrop-blur-md bg-opacity-80 flex items-center justify-center p-4"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-[var(--background-color)]-900 scrollbar-hide rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-zinc-700 shadow-xl"
+            className="bg-[var(--background-color)] scrollbar-hide rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-zinc-700 shadow-xl"
           >
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
@@ -228,13 +228,13 @@ export const EditStatusModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[var(--background-color)] bg-opacity-80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 backdrop-blur-md bg-opacity-80 flex items-center justify-center p-4"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-[var(--background-color)]-900 rounded-lg p-6 max-w-md w-full border border-zinc-700 shadow-xl"
+            className="bg-[var(--background-color)] rounded-lg p-6 max-w-md w-full border border-zinc-700 shadow-xl"
           >
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-[var(--primary-text-color)]">

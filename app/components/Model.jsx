@@ -77,11 +77,11 @@ const Model = ({ isOpen, setmodel, password, email, username }) => {
 
   return (
     <div
-      className={`fixed  top-0 left-0 w-full h-full bg-[var(--background-color)] bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
+      className={`fixed  top-0 left-0 w-full h-full backdrop-blur-md bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      <div className="bg-neutral-100 p-4  rounded-lg shadow-lg ">
+      <div className="dark:bg-black p-4 border rounded-lg shadow-lg ">
         <h3 className="text-base text-center font-medium">
           {" "}
           Verification code has sent to

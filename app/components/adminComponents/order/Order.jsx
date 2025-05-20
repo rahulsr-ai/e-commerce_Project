@@ -10,8 +10,9 @@ import {
   MoreVertical,
 } from "lucide-react";
 import { useSidebar } from "@/context/SidebarContext";
-import { HandleUserStatus} from "@/lib/apiCalls";
+import { HandleUserStatus } from "@/lib/apiCalls";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const AdminDashboard = ({ user }) => {
   const { isSidebarOpen } = useSidebar();
@@ -36,7 +37,6 @@ const AdminDashboard = ({ user }) => {
     setUsers(user);
   }, [user]);
 
-  
   const filterUsers = () => {
     const filteredUsers = user.filter((user) => {
       const matchesSearch =
@@ -51,8 +51,6 @@ const AdminDashboard = ({ user }) => {
 
     setUsers(filteredUsers);
   };
-
-
 
   // Handle user actions
   const handleUserAction = async (userId, action) => {
@@ -78,20 +76,7 @@ const AdminDashboard = ({ user }) => {
       });
     } else if (action === "delete") {
 
-       const { data } = await axios.post("/api/auth/delete");
-      console.log(data);
-
-      if (data?.success) {
-        toast.success("Account deleted successfully");
-        
-        setIsModalOpen(false);
-        router.push("/");
-        localStorage.clear();
-        return;
-      }
-
-
-      setConfirmationModal({
+       setConfirmationModal({
         isOpen: true,
         userId,
         action,
@@ -99,18 +84,21 @@ const AdminDashboard = ({ user }) => {
         message:
           "Are you sure you want to delete this user? This action cannot be undone.",
       });
+
+      
+     
+      
     }
   };
-
 
   // Confirm user action
   const confirmAction = async () => {
     const { userId, action } = confirmationModal;
 
     const response = await HandleUserStatus(userId, action);
-   
 
-    if (response.success) {
+    if (response?.success) {
+
       if (action === "block") {
         setUsers(
           users.map((user) =>
@@ -126,7 +114,15 @@ const AdminDashboard = ({ user }) => {
       } else if (action === "delete") {
         setUsers(users.filter((user) => user._id !== userId));
       }
+
     }
+
+
+
+    
+        toast.success("Action Completed Successfully");
+      
+
 
     setConfirmationModal({
       isOpen: false,
@@ -147,14 +143,16 @@ const AdminDashboard = ({ user }) => {
         {/* Page Title */}
         <div className="mb-6">
           <h2 className="text-2xl font-bold">User Management</h2>
-          <p className="text-gray-200-400">Manage user accounts and permissions</p>
+          <p className="text-gray-200-400">
+            Manage user accounts and permissions
+          </p>
         </div>
 
         {/* Filters and Search */}
         <div className="mb-6 flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
           <div className="flex space-x-2">
             <button
-             aria-label="Filter by all users"
+              aria-label="Filter by all users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "All"
                   ? "bg-violet-500 text-[var(--primary-text-color)]"
@@ -166,7 +164,7 @@ const AdminDashboard = ({ user }) => {
               <span>All</span>
             </button>
             <button
-             aria-label="Filter by active users"
+              aria-label="Filter by active users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Active"
                   ? "bg-violet-500 text-[var(--primary-text-color)]"
@@ -178,7 +176,7 @@ const AdminDashboard = ({ user }) => {
               <span>Active</span>
             </button>
             <button
-             aria-label="Filter by blocked users"
+              aria-label="Filter by blocked users"
               className={`px-3 py-1.5 rounded-md flex items-center space-x-1 ${
                 selectedFilter === "Blocked"
                   ? "bg-violet-500 text-[var(--primary-text-color)]"
@@ -252,7 +250,10 @@ const AdminDashboard = ({ user }) => {
               <tbody className="divide-y divide-zinc-700">
                 {users.length > 0 ? (
                   users.map((user) => (
-                    <tr key={user._id} className="hover:bg-[var(--background-color)]-750">
+                    <tr
+                      key={user._id}
+                      className="hover:bg-[var(--background-color)]-750"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10">
@@ -324,7 +325,7 @@ const AdminDashboard = ({ user }) => {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="relative">
                           <button
-                           aria-label="Open user actions menu"
+                            aria-label="Open user actions menu"
                             className="text-gray-200-400 hover:text-[var(--primary-text-color)] p-1 rounded-full hover:bg-[var(--background-color)]-700"
                             onClick={() =>
                               setActionMenuOpen(
@@ -339,7 +340,7 @@ const AdminDashboard = ({ user }) => {
                             <div className="absolute right-7 top-0 mt-2 w-48 bg-[var(--background-color)]-800 border border-zinc-700 rounded-md shadow-lg z-10">
                               {user.status === "Blocked" ? (
                                 <button
-                                 aria-label="Unblock user"
+                                  aria-label="Unblock user"
                                   className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--background-color)]-700 flex items-center space-x-2"
                                   onClick={() =>
                                     handleUserAction(user._id, "unblock")
@@ -350,7 +351,7 @@ const AdminDashboard = ({ user }) => {
                                 </button>
                               ) : (
                                 <button
-                                 aria-label="Block user"
+                                  aria-label="Block user"
                                   className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--background-color)]-700 flex items-center space-x-2"
                                   onClick={() =>
                                     handleUserAction(user._id, "block")
@@ -361,7 +362,7 @@ const AdminDashboard = ({ user }) => {
                                 </button>
                               )}
                               <button
-                               aria-label="Delete user"
+                                aria-label="Delete user"
                                 className="w-full text-left px-4 py-2 text-sm hover:bg-[var(--background-color)]-700 flex items-center space-x-2"
                                 onClick={() =>
                                   handleUserAction(user._id, "delete")
@@ -399,14 +400,16 @@ const AdminDashboard = ({ user }) => {
           </div>
 
           <div className="flex space-x-2">
-            <button 
-             aria-label="Previous page"
-            className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button
+              aria-label="Previous page"
+              className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               Previous
             </button>
-            <button 
-            aria-label="Next page"
-            className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button
+              aria-label="Next page"
+              className="px-3 py-1 rounded-md bg-[var(--background-color)]-800 hover:bg-[var(--background-color)]-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               Next
             </button>
           </div>
@@ -420,10 +423,12 @@ const AdminDashboard = ({ user }) => {
             <h3 className="text-lg font-medium mb-2">
               {confirmationModal.title}
             </h3>
-            <p className="text-gray-200-400 mb-4">{confirmationModal.message}</p>
+            <p className="text-gray-200-400 mb-4">
+              {confirmationModal.message}
+            </p>
             <div className="flex justify-end space-x-3">
               <button
-               aria-label="Cancel confirmation"
+                aria-label="Cancel confirmation"
                 className="px-4 py-2 rounded-md bg-[var(--background-color)]-700 hover:bg-[var(--background-color)]-600"
                 onClick={() =>
                   setConfirmationModal({ ...confirmationModal, isOpen: false })
@@ -432,7 +437,7 @@ const AdminDashboard = ({ user }) => {
                 Cancel
               </button>
               <button
-               aria-label="Confirm action"
+                aria-label="Confirm action"
                 className="px-4 py-2 rounded-md bg-violet-600 hover:bg-violet-500"
                 onClick={confirmAction}
               >

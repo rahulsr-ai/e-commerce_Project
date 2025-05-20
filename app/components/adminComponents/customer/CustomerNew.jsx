@@ -106,7 +106,7 @@ function Customer({ UserOrderData, setUserOrderData, FixrealData }) {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background-color)] text-[var(--primary-text-color)] border">
+    <div className="min-h-screen backdrop-blur-md text-[var(--primary-text-color)] border">
       <main className={`transition-all duration-300 ${isSidebarOpen ? "" : "ml-16"}`}>
         <div className="border-zinc-800 border rounded-lg m-4">
           <div className="w-full pt-5">

@@ -1,4 +1,5 @@
 import { dbConnect } from "@/lib/db";
+import Order from "@/models/OrderSchema";
 import User from "@/models/UserSchema";
 import { NextResponse } from "next/server";
 
@@ -22,7 +23,6 @@ export const POST = async (req) => {
 
     await dbConnect();
 
-    const user = await User.findById(id);
 
 
 
@@ -33,6 +33,7 @@ export const POST = async (req) => {
       await User.updateOne({ _id: id }, { $set: { status: "Active" } });
     } else if (status === "delete") {
       await User.deleteOne({ _id: id });
+          await Order.findOneAndDelete({userId: id })
     }
 
     return NextResponse.json(
