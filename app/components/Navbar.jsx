@@ -29,7 +29,6 @@ const Navbar = () => {
 
   const [role, setrole] = useState(null);
   const [categoryName, setcategoryName] = useState([]);
-  
 
   const [Loading, setLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,7 +72,6 @@ const Navbar = () => {
 
     getAllCategory();
 
-    
     window.addEventListener("scroll", handleScroll);
     setLoading(true);
     clearTimeout(timeoutIdRef.current);
@@ -84,9 +82,6 @@ const Navbar = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [user]);
-
-
-
 
   const brands = [
     {
@@ -140,23 +135,23 @@ const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    const handler = setTimeout(async () => {
+      if (value.trim().length >= 3) {
+        const productData = await findUserSearch(value.trim());
+        setDebouncedQuery(productData);
+      }
+    }, 500);
 
-  
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [query]);
 
   const handleSearch = async (e) => {
-    const value = e.target.value
-
-    if(value.trim().length >= 3 ) { 
-     const productData = await findUserSearch(value.trim())
-     setDebouncedQuery(productData)
-    
-    }
-      
+    const value = e.target.value;
     SetQuery(value);
-
   };
-
-  
 
 
 
@@ -202,7 +197,6 @@ const Navbar = () => {
         handleSearch={handleSearch}
         role={role}
         setrole={setrole}
-        
       />
 
       {/* Mobile menu */}
