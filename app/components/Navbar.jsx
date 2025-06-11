@@ -135,25 +135,18 @@ const Navbar = () => {
     }
   };
 
-  useEffect(() => {
-    const handler = setTimeout(async () => {
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+
+    setTimeout(async () => {
       if (value.trim().length >= 3) {
         const productData = await findUserSearch(value.trim());
         setDebouncedQuery(productData);
       }
     }, 500);
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [query]);
-
-  const handleSearch = async (e) => {
-    const value = e.target.value;
     SetQuery(value);
   };
-
-
 
   const sendSearchValue = (e) => {
     if (query.trim().length < 3) {
