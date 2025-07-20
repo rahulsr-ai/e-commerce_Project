@@ -45,7 +45,7 @@ const MobileMenu = ({
               onBlur={(e) => {
                 setIsFocused(false);
               }}
-              placeholder="Search products..."
+              placeholder="Search posters..."
               value={query}
               onChange={(e) => {
                 handleSearch(e);

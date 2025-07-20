@@ -166,7 +166,7 @@ const DesktopMenu = ({
                 onChange={(e) => handleSearch(e)}
                 onKeyDown={sendSearchValue}
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search poster.... "
                 className="w-full bg-white/10 text-[var(--primary-text-color)] placeholder-white/60 px-4 py-1.5 pr-8 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-200"
               />
               <Search
