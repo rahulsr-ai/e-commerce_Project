@@ -13,14 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
-  title: "QuickCart",
-  icons: {
-    icon: "/shopping-bag 01.png",
-  },
-  description: "Online Store for all your needs",
-  themeColor: "#7C3AED"
-};
 
 
 

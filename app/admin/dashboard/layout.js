@@ -4,14 +4,6 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useSidebar } from "@/context/SidebarContext" 
 
-export const metadata = {
-  title: "QuickCart",
-  icons: {
-    icon: "/shopping-bag 01.png",
-  },
-  description: "Online Store for all your needs",
-  themeColor: "#7C3AED"
-};
 
 
 export default function RootLayout({ children }) {
