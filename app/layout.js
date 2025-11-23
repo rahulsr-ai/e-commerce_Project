@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import { AuthProvider } from "../context/Authcontext";
 import { Toaster } from "react-hot-toast";
 import { Suspense } from "react";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,12 +22,15 @@ export const metadata = {
     icon: "/shopping-bag 01.png",
   },
   description: "Online Store for all your needs",
-  themeColor: "#7C3AED"
+  // themeColor: "#7C3AED"
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <Head>
+        <meta name="theme-color" content="#7C3AED" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-[var(--background-color)] bg-white`}
       >
