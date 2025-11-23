@@ -17,11 +17,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "QuickCart By Rahul",
+  title: "QuickCart",
   icons: {
     icon: "/shopping-bag 01.png",
   },
   description: "Online Store for all your needs",
+  themeColor: "#7C3AED"
 };
 
 export default function RootLayout({ children }) {
